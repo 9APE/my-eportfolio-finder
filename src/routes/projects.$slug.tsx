@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
+import { Reveal } from "@/components/Reveal";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
@@ -103,15 +104,18 @@ function ProjectPage() {
         )}
 
         {/* What — inline, long-form, spans the full width of the images below */}
-        <div className="mt-6" id="section-what">
-          <div className={sectionHeading}>
-            <span className="text-chart-3">01</span> What
+        <Reveal className="mt-6">
+          <div id="section-what">
+            <div className={sectionHeading}>
+              <span className="text-chart-3">01</span> What
+            </div>
+            <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
           </div>
-          <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
-        </div>
+        </Reveal>
 
         {/* Images — thumbnail rail (hover to preview, height-matched to the main image) + main image */}
-        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
+        <Reveal className="mt-6" delay={100}>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
           <div className="flex gap-3 overflow-x-auto lg:h-full lg:flex-col lg:overflow-hidden">
             {fullGallery.map((img, i) => (
               <button
@@ -160,6 +164,7 @@ function ProjectPage() {
         </div>
 
         {/* How / Result + a separate Technical Specification box, tight under the images */}
+        <Reveal delay={150}>
         <div ref={sectionsRef} className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
           <div className="grid grid-cols-1 border border-border sm:grid-cols-2">
             <div className="border-b border-border p-4 sm:border-b-0 sm:border-r" id="section-how">
