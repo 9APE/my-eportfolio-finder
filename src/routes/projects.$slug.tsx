@@ -133,7 +133,9 @@ function ProjectPage() {
             <div className={sectionHeading}>
               <span className="text-chart-3">01</span> What
             </div>
-            <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
+            <p className="mt-2 text-lg leading-relaxed">
+              <RichText text={project.what} />
+            </p>
           </div>
         </Reveal>
 
