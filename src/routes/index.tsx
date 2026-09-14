@@ -103,7 +103,13 @@ function Hero() {
             Final-year Mechanical Engineering student working across the full design-analysis-validation
             cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
             structures through FEA in Altair HyperMesh, and take parts from first-principles requirements
-            through to manufactured carbon-fibre hardware. Currently building GD&amp;T and CATIA
+            through to <strong className="font-semibold text-foreground">manufactured</strong>{" "}
+            carbon-fibre hardware — <strong className="font-semibold text-foreground">taking ownership</strong>{" "}
+            of a subsystem end to end and{" "}
+            <strong className="font-semibold text-foreground">learning by doing</strong>, from{" "}
+            <strong className="font-semibold text-foreground">prototyping</strong> and{" "}
+            <strong className="font-semibold text-foreground">testing</strong> to the shop floor. Ready for a
+            hands-on internship where I can own real hardware. Currently building GD&amp;T and CATIA
             proficiency.
           </p>
 
