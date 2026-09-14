@@ -73,21 +73,46 @@ function ProjectPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
-        <div className="flex items-start gap-4">
-          <Link
-            to="/"
-            aria-label="Back to index"
-            title="Back to index"
-            className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-border text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-          <div className="min-w-0">
-            <span className={label}>
-              Ref. {project.ref} · {project.category}
-            </span>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{project.title}</h1>
-            <span className={`${label} mt-1 block`}>{project.team}</span>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-start gap-4">
+            <Link
+              to="/"
+              aria-label="Back to index"
+              title="Back to index"
+              className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-border text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            <div className="min-w-0">
+              <span className={label}>
+                Ref. {project.ref} · {project.category}
+              </span>
+              <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{project.title}</h1>
+              <span className={`${label} mt-1 block`}>{project.team}</span>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 flex-col gap-1.5 text-sm sm:items-end">
+            <a
+              href="mailto:ariimoanapons@gmail.com"
+              className="flex items-center gap-2 text-foreground hover:underline"
+            >
+              <Mail className="h-3.5 w-3.5 shrink-0 text-chart-3" />
+              ariimoanapons@gmail.com
+            </a>
+            <a href="tel:+4915233570697" className="flex items-center gap-2 text-foreground hover:underline">
+              <Phone className="h-3.5 w-3.5 shrink-0 text-chart-3" />
+              +49 152 33570697
+            </a>
+            <a
+              href="https://linkedin.com/in/aurelienpons2004"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 text-foreground hover:underline"
+            >
+              <Linkedin className="h-3.5 w-3.5 shrink-0 text-chart-3" />
+              linkedin.com/in/aurelienpons2004
+            </a>
           </div>
         </div>
 
