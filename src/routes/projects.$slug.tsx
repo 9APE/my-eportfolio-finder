@@ -4,12 +4,13 @@ import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText, Linkedin, Mail, Pho
 import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
+import { RichText, stripMarks } from "@/components/RichText";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
     const project = getProject(params.slug);
     if (!project) throw notFound();
-    return { title: project.title, what: project.what };
+    return { title: project.title, what: stripMarks(project.what) };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -132,7 +133,9 @@ function ProjectPage() {
             <div className={sectionHeading}>
               <span className="text-chart-3">01</span> What
             </div>
-            <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
+            <p className="mt-2 text-lg leading-relaxed">
+              <RichText text={project.what} />
+            </p>
           </div>
         </Reveal>
 
@@ -199,7 +202,7 @@ function ProjectPage() {
                 {project.how.map((h, i) => (
                   <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
                     <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
-                    <span>{h}</span>
+                    <span><RichText text={h} /></span>
                   </li>
                 ))}
               </ol>
@@ -212,7 +215,7 @@ function ProjectPage() {
                 {project.result.map((r) => (
                   <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
                     <span className="text-chart-3">—</span>
-                    <span>{r}</span>
+                    <span><RichText text={r} /></span>
                   </li>
                 ))}
               </ul>

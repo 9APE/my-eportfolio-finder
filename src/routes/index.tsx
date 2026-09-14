@@ -17,6 +17,7 @@ import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
+import { stripMarks } from "@/components/RichText";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 
@@ -102,7 +103,13 @@ function Hero() {
             Final-year Mechanical Engineering student working across the full design-analysis-validation
             cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
             structures through FEA in Altair HyperMesh, and take parts from first-principles requirements
-            through to manufactured carbon-fibre hardware. Currently building GD&amp;T and CATIA
+            through to <strong className="font-semibold text-foreground">manufactured</strong>{" "}
+            carbon-fibre hardware — <strong className="font-semibold text-foreground">taking ownership</strong>{" "}
+            of a subsystem end to end and{" "}
+            <strong className="font-semibold text-foreground">learning by doing</strong>, from{" "}
+            <strong className="font-semibold text-foreground">prototyping</strong> and{" "}
+            <strong className="font-semibold text-foreground">testing</strong> to the shop floor. Ready for a
+            hands-on internship where I can own real hardware. Currently building GD&amp;T and CATIA
             proficiency.
           </p>
 
@@ -131,7 +138,10 @@ function Hero() {
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             Motivated engineer eager to tackle real-world technical challenges within established
-            teams. Focused on continuous learning, active feedback integration, and delivering
+            teams. Focused on continuous{" "}
+            <strong className="font-semibold text-foreground">learning</strong>,{" "}
+            <strong className="font-semibold text-foreground">growing</strong> by staying{" "}
+            <strong className="font-semibold text-foreground">open to feedback</strong>, and delivering
             impactful results.
           </p>
 
@@ -583,7 +593,7 @@ function ProjectCard({
         <span className={`${label} mt-1`}>{p.team}</span>
 
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-          {truncate(p.what, 100)}
+          {truncate(stripMarks(p.what), 100)}
         </p>
 
         <Link

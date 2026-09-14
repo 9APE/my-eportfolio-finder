@@ -52,7 +52,7 @@ export const projects: Project[] = [
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: monoFeaHero,
     gallery: [monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
-    what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I derived a torsional stiffness target from lap-time simulation and suspension/driver input, then validated the new design against it through FEA.",
+    what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
       "A 0.8% mechanical-balance tolerance set the minimum target at 7,000 Nm/°.",
@@ -119,7 +119,7 @@ export const projects: Project[] = [
     tags: ["Fibersim", "Drapability", "Ply Book"],
     image: manuHero,
     gallery: [manu1, manu2, manu3, manu4, manu5],
-    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched.",
+    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched. Hands-on **manufacturing** work on the shop floor, **learning by doing** alongside the people laying up the parts.",
     how: [
       "Defined ply zones and drop-offs on the monocoque surface in Siemens NX / Fibersim.",
       "Ran drapability simulation to verify fibre orientation, then nested plies to reduce waste and exported flat patterns for cutting.",
@@ -218,7 +218,7 @@ export const projects: Project[] = [
     tags: ["Siemens NX", "Tooling", "DFM"],
     image: ureToolHero,
     gallery: [ureTool1, ureTool2, ureTool3, ureTool4],
-    what: "Designed the monocoque moulds to their own requirements, so the cured part demoulds cleanly and the chassis builds to the correct geometry.",
+    what: "Designed the monocoque moulds to their own requirements, so the cured part demoulds cleanly and the chassis builds to the correct geometry. Design driven by **manufacturing** reality, working directly with the team machining the plugs and **open to feedback** at every review.",
     how: [
       "Designed tooling in Siemens NX with a minimum 3° draft angle on every face for clean demoulding.",
       "Matched split-line and alignment features so mould halves, and the resulting chassis, locate correctly.",
@@ -251,9 +251,10 @@ export const projects: Project[] = [
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
     image: mdfsHero,
     gallery: [mdfs1, mdfs2, mdfs3, mdfs4],
-    what: "Designed and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia.",
+    what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
     how: [
       "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
+      "Built a physical **prototype** of the drive and gripper in 3D-printed PLA, then developed it through successive revisions based on what the **testing** showed.",
       "Iterated the CAD through five revisions (REV A–E), detailing 3D-printed PLA parts with slide-fit vs. interference-fit tolerances.",
       "Produced a full engineering drawing pack, assembly and component-level.",
     ],
