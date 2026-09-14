@@ -167,7 +167,11 @@ function Hero() {
             className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
             style={{ animation: "hero-progress 7s linear forwards" }}
           />
-          <span className={`${label} absolute right-6 top-6`}>Drawn by: A. Pons</span>
+          <span className={`${label} absolute right-6 top-6`}>
+            {active + 1} / {projects.length} Projects
+          </span>
+
+
 
           <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
             {projects.map((p, i) => (
@@ -203,7 +207,7 @@ function Hero() {
           </button>
 
           <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
-            {project.ref} — {project.title.toUpperCase()}
+            {project.title.toUpperCase()}
           </span>
 
           <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
@@ -224,9 +228,13 @@ function Hero() {
           <button
             type="button"
             onClick={scrollToProjects}
-            className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+            className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 border border-foreground/70 bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-foreground hover:text-background"
           >
-            Scroll to see {projects.length} Engineering Projects <ArrowDown className="h-3.5 w-3.5" />
+            Scroll to see all {projects.length} projects
+            <ArrowDown
+              className="cue-pulse h-3.5 w-3.5"
+              style={{ animation: "cue-pulse 1.4s ease-in-out infinite" }}
+            />
           </button>
         </div>
       </div>
