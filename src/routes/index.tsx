@@ -17,6 +17,7 @@ import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
+import { stripMarks } from "@/components/RichText";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 
