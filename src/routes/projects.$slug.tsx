@@ -52,6 +52,7 @@ function ProjectPage() {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return;
         // rootMargin pulls the trigger line up to 60% of the viewport, so a stray
         // sliver at the bottom edge doesn't count as "the reader got there".
         const triggerLine = entry.rootBounds?.bottom ?? window.innerHeight;

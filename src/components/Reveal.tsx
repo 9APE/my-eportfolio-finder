@@ -22,7 +22,7 @@ export function Reveal({ children, className = "", delay = 0 }: Props) {
     }
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setVisible(true);
           obs.disconnect();
         }
