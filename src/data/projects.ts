@@ -251,9 +251,10 @@ export const projects: Project[] = [
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
     image: mdfsHero,
     gallery: [mdfs1, mdfs2, mdfs3, mdfs4],
-    what: "Designed and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia.",
+    what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
     how: [
       "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
+      "Built a physical **prototype** of the drive and gripper in 3D-printed PLA, then developed it through successive revisions based on what the **testing** showed.",
       "Iterated the CAD through five revisions (REV A–E), detailing 3D-printed PLA parts with slide-fit vs. interference-fit tolerances.",
       "Produced a full engineering drawing pack, assembly and component-level.",
     ],
