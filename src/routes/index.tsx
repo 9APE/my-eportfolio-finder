@@ -6,6 +6,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ArrowUp,
   Expand,
   Mail,
   MapPin,
@@ -428,12 +429,15 @@ function truncate(text: string, maxLength: number) {
 
 function ProjectCard({
   p,
+  index,
   onExpand,
 }: {
   p: Project;
+  index: number;
   onExpand: (images: string[], index: number) => void;
 }) {
   const navigate = useNavigate();
+  const { ref: cardRef, inView } = useInView<HTMLElement>(0.25);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hovering, setHovering] = useState(false);
 
