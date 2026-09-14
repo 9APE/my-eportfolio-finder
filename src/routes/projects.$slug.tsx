@@ -4,6 +4,7 @@ import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText, Linkedin, Mail, Pho
 import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
+import { RichText, stripMarks } from "@/components/RichText";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
