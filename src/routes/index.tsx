@@ -233,7 +233,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <span className={label}>{projects.length} Entries</span>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-2">
+      <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
           <ProjectCard key={p.slug} p={p} onExpand={onExpand} />
         ))}
@@ -243,6 +243,11 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
 }
 
 const HOVER_AUTO_OPEN_MS = 5000;
+
+function truncate(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trimEnd()}…`;
+}
 
 function ProjectCard({
   p,
@@ -338,41 +343,16 @@ function ProjectCard({
         </h3>
         <span className={`${label} mt-1`}>{p.team}</span>
 
-        <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
-          <div>
-            <div className={label}>What</div>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.what}</p>
-          </div>
-          <div>
-            <div className={label}>How</div>
-            <ul className="mt-2 space-y-2">
-              {p.how.map((h) => (
-                <li key={h} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
-                  <span className="text-chart-3">•</span>
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <div className={`${label} text-chart-3`}>Result</div>
-            <ul className="mt-2 space-y-2">
-              {p.result.map((r) => (
-                <li key={r} className="flex gap-2 text-sm font-medium leading-relaxed">
-                  <span className="text-chart-3">—</span>
-                  <span>{r}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+          {truncate(p.what, 100)}
+        </p>
 
         <Link
           to="/projects/$slug"
           params={{ slug: p.slug }}
-          className={`${label} mt-8 inline-flex items-center gap-2 transition-colors hover:text-foreground`}
+          className={`${label} mt-4 inline-flex items-center gap-2 text-chart-3 transition-colors hover:text-foreground`}
         >
-          more details <ArrowRight className="h-3.5 w-3.5" />
+          Click for more details <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </article>

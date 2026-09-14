@@ -152,56 +152,61 @@ function ProjectPage() {
           </button>
         </div>
 
-        {/* How / Result / Technical Specification — aligned side by side, tight under the images */}
-        <div className="mt-2 grid grid-cols-1 border border-border lg:grid-cols-3">
-          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r" id="section-how">
-            <div className={sectionHeading}>
-              <span className="text-chart-3">02</span> How
+        {/* How / Result + a separate Technical Specification box, tight under the images */}
+        <div className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
+          <div className="grid grid-cols-1 border border-border sm:grid-cols-2">
+            <div className="border-b border-border p-4 sm:border-b-0 sm:border-r" id="section-how">
+              <div className={sectionHeading}>
+                <span className="text-chart-3">02</span> How
+              </div>
+              <ol className="mt-2 space-y-2">
+                {project.how.map((h, i) => (
+                  <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
+                    <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
-            <ol className="mt-2 space-y-2">
-              {project.how.map((h, i) => (
-                <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
-                  <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r" id="section-result">
-            <div className={sectionHeading}>
-              <span className="text-chart-3">03</span> Result
-            </div>
-            <ul className="mt-2 space-y-2">
-              {project.result.map((r) => (
-                <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
-                  <span className="text-chart-3">—</span>
-                  <span>{r}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="p-4 lg:sticky lg:top-6 lg:self-start" id="section-spec">
-            <div className={sectionHeading}>Technical Specification</div>
-            <div className="mt-2 space-y-1.5">
-              {project.spec.map((s) => (
-                <div key={s.label} className="flex items-start justify-between gap-3 text-sm">
-                  <span className="text-muted-foreground">{s.label}</span>
-                  <span className="text-right font-mono text-xs">{s.value}</span>
-                </div>
-              ))}
-            </div>
-            <div className={`${label} mt-4`}>Skills</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {project.skills.map((s) => (
-                <span
-                  key={s}
-                  className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
-                >
-                  {s}
-                </span>
-              ))}
+            <div className="p-4" id="section-result">
+              <div className={sectionHeading}>
+                <span className="text-chart-3">03</span> Result
+              </div>
+              <ul className="mt-2 space-y-2">
+                {project.result.map((r) => (
+                  <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
+                    <span className="text-chart-3">—</span>
+                    <span>{r}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
+
+          <aside className="h-fit border border-border lg:sticky lg:top-6" id="section-spec">
+            <div className="border-b border-border px-4 py-3">
+              <span className={sectionHeading}>Technical Specification</span>
+            </div>
+            {project.spec.map((s) => (
+              <div key={s.label} className="flex items-start justify-between gap-3 border-b border-border px-4 py-3">
+                <span className={label}>{s.label}</span>
+                <span className="text-right font-mono text-xs">{s.value}</span>
+              </div>
+            ))}
+            <div className="px-4 py-3">
+              <span className={label}>Skills</span>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {project.skills.map((s) => (
+                  <span
+                    key={s}
+                    className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
 
