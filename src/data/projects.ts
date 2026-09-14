@@ -35,6 +35,8 @@ import mdfs1 from "@/assets/mdfs-1.jpg";
 import mdfs2 from "@/assets/mdfs-2.jpg";
 import mdfs3 from "@/assets/mdfs-3.jpg";
 import mdfs4 from "@/assets/mdfs-4.jpg";
+import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
+import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
 
 export type Project = {
   slug: string; category: string; title: string; team: string;
@@ -250,7 +252,7 @@ export const projects: Project[] = [
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
     image: mdfsHero,
-    gallery: [mdfs1, mdfs2, mdfs3, mdfs4],
+    gallery: [warmanPrototypeFront.url, warmanPrototypeSide.url, mdfs1, mdfs2, mdfs3, mdfs4],
     what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
     how: [
       "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
