@@ -52,7 +52,7 @@ export const projects: Project[] = [
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: monoFeaHero,
     gallery: [monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
-    what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I derived a torsional stiffness target from lap-time simulation and suspension/driver input, then validated the new design against it through FEA.",
+    what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
       "A 0.8% mechanical-balance tolerance set the minimum target at 7,000 Nm/°.",
