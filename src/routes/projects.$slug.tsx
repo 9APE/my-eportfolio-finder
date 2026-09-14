@@ -84,9 +84,7 @@ function ProjectPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div className="min-w-0">
-              <span className={label}>
-                Ref. {project.ref} · {project.category}
-              </span>
+              <span className={label}>{project.category}</span>
               <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{project.title}</h1>
               <span className={`${label} mt-1 block`}>{project.team}</span>
             </div>
@@ -254,8 +252,7 @@ function ProjectPage() {
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
           <div className="flex items-end justify-between">
             <div>
-              <span className={label}>Ref. AP-NEXT / Other Projects</span>
-              <h2 className="mt-2 text-2xl font-bold tracking-tight">More Engineering Projects</h2>
+              <h2 className="text-2xl font-bold tracking-tight">More Engineering Projects</h2>
             </div>
             <span className={`${label} hidden sm:inline-flex items-center gap-2`}>
               Scroll <ArrowRight className="h-3.5 w-3.5" />
@@ -271,9 +268,6 @@ function ProjectPage() {
                 className="group block w-60 shrink-0 border border-border bg-background"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-muted/60">
-                  <span className={`${label} absolute left-2 top-2 z-10 border border-border bg-background px-1.5 py-0.5`}>
-                    {p.ref}
-                  </span>
                   <img
                     src={p.image}
                     alt={p.title}
