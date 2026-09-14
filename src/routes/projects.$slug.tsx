@@ -37,6 +37,7 @@ function ProjectPage() {
   const { slug } = Route.useParams();
   const project = getProject(slug)!;
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [activeImage, setActiveImage] = useState(0);
 
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
   const otherProjects = projects.filter((p) => p.slug !== slug);
@@ -69,16 +70,26 @@ function ProjectPage() {
           </a>
         )}
 
-        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[88px_1fr_300px]">
-          {/* Thumbnail strip — small, to the left of the main image; click to open fullscreen */}
+        {/* What — inline, long-form, directly under the heading */}
+        <div className="mt-6 max-w-3xl">
+          <div className={label}>What</div>
+          <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
+        </div>
+
+        {/* Images — thumbnail rail (hover to preview) + main image */}
+        <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
           <div className="flex gap-3 overflow-x-auto lg:flex-col lg:overflow-visible">
             {fullGallery.map((img, i) => (
               <button
                 key={img}
                 type="button"
+                onMouseEnter={() => setActiveImage(i)}
+                onFocus={() => setActiveImage(i)}
                 onClick={() => setLightbox(i)}
-                aria-label={`Expand image ${i + 1}`}
-                className="relative aspect-square w-16 shrink-0 overflow-hidden border border-border bg-muted/60 transition-colors hover:border-chart-3/60 lg:w-full"
+                aria-label={`Preview image ${i + 1}`}
+                className={`relative aspect-square w-16 shrink-0 overflow-hidden border bg-muted/60 transition-colors lg:w-full ${
+                  i === activeImage ? "border-chart-3" : "border-border hover:border-chart-3/60"
+                }`}
               >
                 <img
                   src={img}
@@ -92,84 +103,74 @@ function ProjectPage() {
             ))}
           </div>
 
-          <div>
-            {/* Main image */}
-            <button
-              type="button"
-              onClick={() => setLightbox(0)}
-              aria-label="Expand main image"
-              className="group relative block aspect-[16/7] w-full overflow-hidden border border-border bg-muted/60"
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                width={1408}
-                height={1104}
-                loading="eager"
-                className="h-full w-full object-contain p-4"
-              />
-              <span className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/90">
-                  <Expand className="h-4 w-4" />
-                </span>
+          <button
+            type="button"
+            onClick={() => setLightbox(activeImage)}
+            aria-label="Expand main image"
+            className="group relative block aspect-[16/7] w-full overflow-hidden border border-border bg-muted/60"
+          >
+            <img
+              src={fullGallery[activeImage]}
+              alt={project.title}
+              width={1408}
+              height={1104}
+              loading="eager"
+              className="h-full w-full object-contain p-4"
+            />
+            <span className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/90">
+                <Expand className="h-4 w-4" />
               </span>
-            </button>
+            </span>
+          </button>
+        </div>
 
-            {/* What / How / Result — side by side, clearly demarcated, directly under the main image */}
-            <div className="mt-6 grid grid-cols-1 border border-border sm:grid-cols-3">
-              <div className="border-b border-border p-4 sm:border-b-0 sm:border-r">
-                <div className={label}>What</div>
-                <p className="mt-2 text-[15px] leading-snug">{project.what}</p>
-              </div>
-              <div className="border-b border-border p-4 sm:border-b-0 sm:border-r">
-                <div className={label}>How</div>
-                <ol className="mt-2 space-y-2">
-                  {project.how.map((h, i) => (
-                    <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
-                      <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-              <div className="p-4">
-                <div className={`${label} text-chart-3`}>Result</div>
-                <ul className="mt-2 space-y-2">
-                  {project.result.map((r) => (
-                    <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
-                      <span className="text-chart-3">—</span>
-                      <span>{r}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        {/* How / Result / Technical Specification — aligned side by side, under the images */}
+        <div className="mt-8 grid grid-cols-1 border border-border lg:grid-cols-3">
+          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
+            <div className={label}>How</div>
+            <ol className="mt-2 space-y-2">
+              {project.how.map((h, i) => (
+                <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
+                  <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
+            <div className={`${label} text-chart-3`}>Result</div>
+            <ul className="mt-2 space-y-2">
+              {project.result.map((r) => (
+                <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
+                  <span className="text-chart-3">—</span>
+                  <span>{r}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-4">
+            <div className={label}>Technical Specification</div>
+            <div className="mt-2 space-y-1.5">
+              {project.spec.map((s) => (
+                <div key={s.label} className="flex items-start justify-between gap-3 text-sm">
+                  <span className="text-muted-foreground">{s.label}</span>
+                  <span className="text-right font-mono text-xs">{s.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className={`${label} mt-4`}>Skills</div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {project.skills.map((s) => (
+                <span
+                  key={s}
+                  className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
+                >
+                  {s}
+                </span>
+              ))}
             </div>
           </div>
-
-          <aside className="h-fit border border-border">
-            <div className="border-b border-border px-4 py-3">
-              <span className={label}>Technical Specification</span>
-            </div>
-            {project.spec.map((s) => (
-              <div key={s.label} className="flex items-start justify-between gap-3 border-b border-border px-4 py-3">
-                <span className={label}>{s.label}</span>
-                <span className="text-right font-mono text-xs">{s.value}</span>
-              </div>
-            ))}
-            <div className="px-4 py-3">
-              <span className={label}>Skills</span>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {project.skills.map((s) => (
-                  <span
-                    key={s}
-                    className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
 
