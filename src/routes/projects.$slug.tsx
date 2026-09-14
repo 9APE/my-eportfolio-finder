@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Expand } from "lucide-react";
+import { ArrowLeft, Expand, FileText } from "lucide-react";
 import { getProject } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 
@@ -38,6 +38,8 @@ function ProjectPage() {
   const project = getProject(slug)!;
   const [lightbox, setLightbox] = useState<number | null>(null);
 
+  const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border">
@@ -54,18 +56,36 @@ function ProjectPage() {
         <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">{project.title}</h1>
         <span className={`${label} mt-2 block`}>{project.team}</span>
 
+        {project.slug === "warman-challenge-robot" && (
+          <a
+            href="/warman-engineering-process.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex items-center gap-2 border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/60"
+          >
+            <FileText className="h-4 w-4 text-chart-3" />
+            View full engineering process (PDF)
+          </a>
+        )}
+
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_320px]">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {project.gallery.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setLightbox(i)}
+            {fullGallery.map((img, i) => (
+              <div
+                key={img}
                 className="group relative aspect-[4/3] overflow-hidden border border-border bg-muted/60"
-                aria-label={`Expand image ${i + 1}`}
               >
                 <span className={`${label} absolute left-3 top-3 z-10 bg-background/80 px-2 py-1`}>
                   IMG {String(i + 1).padStart(2, "0")}
                 </span>
+                <button
+                  type="button"
+                  aria-label={`Expand image ${i + 1}`}
+                  onClick={() => setLightbox(i)}
+                  className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
+                >
+                  <Expand className="h-4 w-4" />
+                </button>
                 <img
                   src={img}
                   alt={`${project.title} view ${i + 1}`}
@@ -74,12 +94,7 @@ function ProjectPage() {
                   loading="lazy"
                   className="h-full w-full object-contain p-5"
                 />
-                <span className="absolute inset-0 flex items-center justify-center bg-foreground/10 opacity-0 transition-opacity group-hover:opacity-100">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-background/90">
-                    <Expand className="h-5 w-5" />
-                  </span>
-                </span>
-              </button>
+              </div>
             ))}
           </div>
 
@@ -137,7 +152,7 @@ function ProjectPage() {
 
       {lightbox !== null && (
         <Lightbox
-          images={project.gallery}
+          images={fullGallery}
           index={lightbox}
           onClose={() => setLightbox(null)}
           onIndexChange={setLightbox}

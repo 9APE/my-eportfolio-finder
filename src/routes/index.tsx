@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Expand, Mail, MapPin, Phone, Linkedin } from "lucide-react";
 import { projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
+import { TiltWrapper } from "@/components/TiltWrapper";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,22 +71,23 @@ function Hero() {
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:py-24">
           <span className={label}>Ref. AP-00 / Assembly View</span>
-          <p className={`${label} mt-14 text-foreground/70`}>Mechanical Engineering — Portfolio</p>
-          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons</h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Final-year mechanical engineering student across the full design, analysis, prototyping
-            and validation cycle in Formula Student. I design and package chassis in Siemens NX,
-            validate structures with FEA in HyperMesh, and take parts from first-principles
-            requirements to manufactured carbon-fibre hardware. Currently deepening GD&amp;T and
-            CATIA to production standard.
+          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons — Portfolio</h1>
+          <p className="mt-3 max-w-xl text-lg text-muted-foreground">
+            Final-year mechanical engineering student across the full design, analysis, prototyping and
+            validation cycle.
+          </p>
+          <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
+            Final-year mechanical engineering student working across the full design, analysis,
+            prototyping and validation cycle in Formula Student. I design and package chassis in Siemens
+            NX and validate structures with FEA in HyperMesh, taking parts from first-principles
+            requirements to manufactured carbon-fibre hardware. Currently learning GD&amp;T and CATIA.
           </p>
 
-          <div className="mt-10 grid max-w-2xl grid-cols-2 border border-border sm:grid-cols-4">
+          <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
             {[
-              { n: "7,020", t: "Nm/° validated" },
-              { n: "~75%", t: "Torsional rigidity" },
+              { n: "75%", t: "Torsional rigidity increase" },
               { n: "−11%", t: "Rear-wing weight" },
-              { n: "100%", t: "Warman process docs" },
+              { n: "100%", t: "Engineering documentation grade" },
             ].map((s) => (
               <div key={s.t} className="border-r border-border p-5 last:border-r-0">
                 <div className="text-2xl font-bold">{s.n}</div>
@@ -135,19 +137,21 @@ function Hero() {
         >
           <span className={`${label} absolute right-6 top-6`}>Drawn by: A. Pons</span>
 
-          {projects.map((p, i) => (
-            <img
-              key={p.slug}
-              src={p.image}
-              alt={p.title}
-              width={1408}
-              height={1104}
-              loading={i === 0 ? "eager" : "lazy"}
-              className={`absolute max-h-[62%] max-w-[76%] bg-background object-contain shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] transition-opacity duration-1000 ${
-                i === active ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+          <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
+            {projects.map((p, i) => (
+              <img
+                key={p.slug}
+                src={p.image}
+                alt={p.title}
+                width={1408}
+                height={1104}
+                loading={i === 0 ? "eager" : "lazy"}
+                className={`absolute max-h-[62%] max-w-[76%] bg-background object-contain shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] transition-opacity duration-1000 ${
+                  i === active ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </TiltWrapper>
 
           <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
             {project.ref} — {project.title.toUpperCase()}
@@ -169,7 +173,7 @@ function Hero() {
           </span>
 
           <span className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
-            Scroll to BOM grid <ArrowDown className="h-3.5 w-3.5" />
+            Scroll for more details <ArrowDown className="h-3.5 w-3.5" />
           </span>
         </button>
       </div>
@@ -189,28 +193,38 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
       <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-2">
         {projects.map((p) => (
           <article key={p.slug} className="flex flex-col border border-border">
-            <button
-              onClick={() => onExpand(p.gallery, 0)}
-              className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
-              aria-label={`Expand image for ${p.title}`}
-            >
+            <div className="group relative aspect-[4/3] overflow-hidden bg-muted/60">
               <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
                 {p.ref}
               </span>
-              <img
-                src={p.image}
-                alt={p.title}
-                width={1408}
-                height={1104}
-                loading="lazy"
-                className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
-              />
-              <span className="absolute inset-0 flex items-center justify-center bg-foreground/10 opacity-0 transition-opacity group-hover:opacity-100">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-background/90">
-                  <Expand className="h-5 w-5" />
-                </span>
-              </span>
-            </button>
+
+              <button
+                type="button"
+                aria-label={`Expand image for ${p.title}`}
+                onClick={() => onExpand([p.image, ...p.gallery], 0)}
+                className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
+              >
+                <Expand className="h-4 w-4" />
+              </button>
+
+              <Link
+                to="/projects/$slug"
+                params={{ slug: p.slug }}
+                aria-label={`View ${p.title} details`}
+                className="absolute inset-0 z-0"
+              >
+                <TiltWrapper className="h-full w-full" maxTilt={6}>
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    width={1408}
+                    height={1104}
+                    loading="lazy"
+                    className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </TiltWrapper>
+              </Link>
+            </div>
 
             <div className="flex items-center justify-between border-y border-border px-5 py-3">
               <span className={label}>{p.category}</span>
@@ -227,7 +241,15 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
             </div>
 
             <div className="flex flex-1 flex-col px-5 pb-5">
-              <h3 className="mt-5 text-xl font-bold tracking-tight">{p.title}</h3>
+              <h3 className="mt-5">
+                <Link
+                  to="/projects/$slug"
+                  params={{ slug: p.slug }}
+                  className="text-xl font-bold tracking-tight underline-offset-4 hover:underline"
+                >
+                  {p.title}
+                </Link>
+              </h3>
               <span className={`${label} mt-1`}>{p.team}</span>
 
               <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
