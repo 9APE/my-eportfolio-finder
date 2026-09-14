@@ -69,6 +69,13 @@ function Hero() {
 
   const project = projects[active]!;
 
+  // Auto-cycle the showcase every 7s; any slide change (manual or auto) restarts the timer.
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const t = setTimeout(() => setActive((i) => (i + 1) % projects.length), 7000);
+    return () => clearTimeout(t);
+  }, [active]);
+
   const goPrev = (e: MouseEvent) => {
     e.stopPropagation();
     setActive((i) => (i - 1 + projects.length) % projects.length);
@@ -101,14 +108,11 @@ function Hero() {
 
           <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
             {[
-              { n: "+75%", t: "Torsional rigidity increase" },
-              { n: "−11%", t: "Rear-wing weight" },
-              { n: "100%", t: "Engineering documentation grade" },
+              { value: 75, prefix: "+", suffix: "%", t: "Torsional rigidity increase" },
+              { value: 11, prefix: "−", suffix: "%", t: "Rear-wing weight" },
+              { value: 100, prefix: "", suffix: "%", t: "Engineering documentation grade" },
             ].map((s) => (
-              <div key={s.t} className="border-r border-border p-5 last:border-r-0">
-                <div className="text-2xl font-bold">{s.n}</div>
-                <div className={`${label} mt-2 leading-snug`}>{s.t}</div>
-              </div>
+              <StatCell key={s.t} {...s} />
             ))}
           </div>
 
@@ -156,6 +160,13 @@ function Hero() {
             backgroundSize: "120px 120px",
           }}
         >
+          {/* Auto-cycle progress bar — restarts on every slide change */}
+          <span
+            key={active}
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
+            style={{ animation: "hero-progress 7s linear forwards" }}
+          />
           <span className={`${label} absolute right-6 top-6`}>Drawn by: A. Pons</span>
 
           <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
@@ -224,6 +235,10 @@ function Hero() {
 }
 
 function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
+  const [hoverSkill, setHoverSkill] = useState<string | null>(null);
+  const [pinnedSkill, setPinnedSkill] = useState<string | null>(null);
+  const activeSkill = hoverSkill ?? pinnedSkill;
+
   return (
     <section id="projects" className="mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
       <span className={label}>Ref. AP-BOM / Project Index</span>
@@ -236,12 +251,66 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <span className={label}>{projects.length} Entries</span>
       </div>
 
+      <Reveal>
+        <SkillExplorer
+          active={activeSkill}
+          onHover={setHoverSkill}
+          onToggle={(s) => setPinnedSkill((cur) => (cur === s ? null : s))}
+        />
+        {pinnedSkill && (
+          <p className={`${label} mt-2`}>
+            Pinned: {pinnedSkill} — click it again to clear
+          </p>
+        )}
+      </Reveal>
+
       <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
-        {projects.map((p) => (
-          <ProjectCard key={p.slug} p={p} onExpand={onExpand} />
+        {projects.map((p, i) => (
+          <Reveal key={p.slug} className="h-full" delay={(i % 3) * 100}>
+            <ProjectCard
+              p={p}
+              onExpand={onExpand}
+              dimmed={activeSkill !== null && !projectUsesSkill(p, activeSkill)}
+            />
+          </Reveal>
         ))}
       </div>
     </section>
+  );
+}
+
+function StatCell({ value, prefix, suffix, t }: { value: number; prefix: string; suffix: string; t: string }) {
+  const { ref, inView } = useInView<HTMLDivElement>(0.4);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (prefersReducedMotion()) {
+      setDisplay(value);
+      return;
+    }
+    const start = performance.now();
+    const duration = 1200;
+    let raf = 0;
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(Math.round(eased * value));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, value]);
+
+  return (
+    <div ref={ref} className="border-r border-border p-5 last:border-r-0">
+      <div className="text-2xl font-bold tabular-nums">
+        {prefix}
+        {display}
+        {suffix}
+      </div>
+      <div className={`${label} mt-2 leading-snug`}>{t}</div>
+    </div>
   );
 }
 
@@ -255,9 +324,11 @@ function truncate(text: string, maxLength: number) {
 function ProjectCard({
   p,
   onExpand,
+  dimmed = false,
 }: {
   p: Project;
   onExpand: (images: string[], index: number) => void;
+  dimmed?: boolean;
 }) {
   const navigate = useNavigate();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -277,7 +348,11 @@ function ProjectCard({
   useEffect(() => cancelAutoOpen, []);
 
   return (
-    <article className="flex flex-col border border-border">
+    <article
+      className={`flex h-full flex-col border border-border transition-all duration-300 ${
+        dimmed ? "opacity-30 grayscale" : "opacity-100"
+      }`}
+    >
       <div
         className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
         onMouseEnter={startAutoOpen}
