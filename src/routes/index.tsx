@@ -106,11 +106,12 @@ function Hero() {
             proficiency.
           </p>
 
-          <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
+          <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
               { value: 75, prefix: "+", suffix: "%", t: "Torsional rigidity increase" },
               { value: 11, prefix: "−", suffix: "%", t: "Rear-wing weight" },
-              { value: 100, prefix: "", suffix: "%", t: "Engineering documentation grade" },
+              { value: 2, prefix: "", suffix: "nd", t: "Formula Student World Rankings 2026" },
+              { value: 2, prefix: "", suffix: "nd", t: "Formula Student Germany 2026" },
             ].map((s) => (
               <StatCell key={s.t} {...s} />
             ))}
