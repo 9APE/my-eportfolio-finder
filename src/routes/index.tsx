@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, Expand, Mail, MapPin, Phone, Linkedin } from "lucide-react";
+import { ArrowDown, ArrowRight, Expand, Mail, MapPin, Phone, Linkedin, Sparkles } from "lucide-react";
 import { projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
@@ -91,10 +91,16 @@ function Hero() {
               </div>
             ))}
           </div>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Driven and motivated to learn — three years of chasing every opportunity to build, test and
-            improve. A fast learner who values every chance to pick up new tools and methods.
-          </p>
+          <div className="mt-4 flex max-w-2xl items-start gap-3 border border-chart-3/40 bg-chart-3/5 p-4">
+            <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-chart-3" />
+            <p className="text-sm leading-relaxed">
+              <span className="font-semibold text-foreground">Driven and motivated to learn.</span>{" "}
+              <span className="text-muted-foreground">
+                Three years of chasing every opportunity to build, test and improve — a fast learner who
+                values every chance to pick up new tools and methods.
+              </span>
+            </p>
+          </div>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a
