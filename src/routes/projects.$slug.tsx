@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, ArrowRight, Expand, FileText } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 
@@ -42,21 +42,52 @@ function ProjectPage() {
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
   const otherProjects = projects.filter((p) => p.slug !== slug);
 
+  // The bottom bar previews How / Result / Spec while they are still below the fold,
+  // then gets out of the way once the reader actually reaches them.
+  const sectionsRef = useRef<HTMLDivElement>(null);
+  const [showPeekBar, setShowPeekBar] = useState(true);
+
+  useEffect(() => {
+    const el = sectionsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // rootMargin pulls the trigger line up to 60% of the viewport, so a stray
+        // sliver at the bottom edge doesn't count as "the reader got there".
+        const triggerLine = entry.rootBounds?.bottom ?? window.innerHeight;
+        const isBelowFold = entry.boundingClientRect.top > triggerLine;
+        setShowPeekBar(!entry.isIntersecting && isBelowFold);
+      },
+      { threshold: 0, rootMargin: "0px 0px -40% 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [slug]);
+
+  const jumpTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-border">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-3 sm:px-10">
-          <Link to="/" className={`${label} inline-flex items-center gap-2 hover:text-foreground`}>
-            <ArrowLeft className="h-3.5 w-3.5" /> Back to index
+      <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
+        <div className="flex items-start gap-4">
+          <Link
+            to="/"
+            aria-label="Back to index"
+            title="Back to index"
+            className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-border text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
+          >
+            <ArrowLeft className="h-4 w-4" />
           </Link>
-          <span className={label}>{project.category}</span>
+          <div className="min-w-0">
+            <span className={label}>
+              Ref. {project.ref} · {project.category}
+            </span>
+            <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{project.title}</h1>
+            <span className={`${label} mt-1 block`}>{project.team}</span>
+          </div>
         </div>
-      </div>
-
-      <div className="mx-auto max-w-[1400px] px-6 py-8 sm:px-10">
-        <span className={label}>Ref. {project.ref}</span>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{project.title}</h1>
-        <span className={`${label} mt-1 block`}>{project.team}</span>
 
         {project.slug === "warman-challenge-robot" && (
           <a
@@ -128,7 +159,7 @@ function ProjectPage() {
         </div>
 
         {/* How / Result + a separate Technical Specification box, tight under the images */}
-        <div className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
+        <div ref={sectionsRef} className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
           <div className="grid grid-cols-1 border border-border sm:grid-cols-2">
             <div className="border-b border-border p-4 sm:border-b-0 sm:border-r" id="section-how">
               <div className={sectionHeading}>
@@ -230,6 +261,34 @@ function ProjectPage() {
           </div>
         </div>
       </section>
+
+      {/* Peek bar — previews the sections below the fold, then slides away once they're reached */}
+      <nav
+        aria-hidden={!showPeekBar}
+        className={`fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-sm transition-transform duration-300 ease-out ${
+          showPeekBar ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="mx-auto grid max-w-[1400px] grid-cols-3">
+          {[
+            { id: "section-how", n: "02", title: "How" },
+            { id: "section-result", n: "03", title: "Result" },
+            { id: "section-spec", n: null, title: "Technical Specification" },
+          ].map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              tabIndex={showPeekBar ? 0 : -1}
+              onClick={() => jumpTo(s.id)}
+              className="group flex items-center justify-center gap-2 border-r border-border py-3 font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors last:border-r-0 hover:bg-muted/60"
+            >
+              {s.n && <span className="text-chart-3">{s.n}</span>}
+              <span>{s.title}</span>
+              <ArrowDown className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-y-0.5 group-hover:text-chart-3" />
+            </button>
+          ))}
+        </div>
+      </nav>
 
       {lightbox !== null && (
         <Lightbox
