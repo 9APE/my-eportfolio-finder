@@ -11,13 +11,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Mechanical engineering portfolio of Aurélien Pons: CAD in Siemens NX, FEA in HyperMesh, GD&T and structural validation projects.",
+          "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a Warman Challenge robot.",
       },
       { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
       {
         property: "og:description",
         content:
-          "CAD, FEA and GD&T projects — Formula Student wheel upright, Warman mechanism, topology optimization and gearbox design.",
+          "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive Warman Challenge robot.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -73,50 +73,50 @@ function Hero() {
           <p className={`${label} mt-14 text-foreground/70`}>Mechanical Engineering — Portfolio</p>
           <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Mechanical engineering student focused on the bridge between design intent and validated
-            hardware. I build CAD models in Siemens NX, run structural validation through HyperMesh
-            and FEA, and apply GD&amp;T to ensure parts assemble in the real world the way they do on
-            screen — within tolerance, first time.
+            Final-year mechanical engineering student working across the full design, analysis,
+            prototyping and validation cycle in Formula Student. I build CAD in Siemens NX, validate
+            structures through FEA in HyperMesh, and take parts from first-principles requirements to
+            manufactured hardware. Currently deepening GD&amp;T and CATIA to production standard.
           </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
-              { n: "5+", t: "Years in CAD" },
-              { n: "20+", t: "FEA studies" },
-              { n: "15", t: "Tolerance stack-ups" },
+              { n: "7,020", t: "Nm/° validated" },
+              { n: "+200%", t: "Torsional rigidity" },
+              { n: "< 23 kg", t: "Frame mass" },
+              { n: "100%", t: "Warman process docs" },
             ].map((s) => (
               <div key={s.t} className="border-r border-border p-5 last:border-r-0">
                 <div className="text-2xl font-bold">{s.n}</div>
                 <div className={`${label} mt-2 leading-snug`}>{s.t}</div>
               </div>
             ))}
-            <div className="hidden bg-muted sm:block" />
           </div>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a
-              href="mailto:aurelien.pons@engineering-portfolio.dev"
+              href="mailto:ariimoanapons@gmail.com"
               className="flex items-start gap-3 text-foreground hover:underline"
             >
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              aurelien.pons@engineering-portfolio.dev
+              ariimoanapons@gmail.com
+            </a>
+            <a href="tel:+4915233570697" className="flex items-start gap-3 text-foreground hover:underline">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+              +49 152 33570697
             </a>
             <span className="flex items-start gap-3 text-foreground">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              +33 6 00 00 00 00
-            </span>
-            <span className="flex items-start gap-3 text-foreground">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              France / Remote
+              Aachen, Germany
             </span>
             <a
-              href="https://linkedin.com/in/aurelienpons"
+              href="https://linkedin.com/in/aurelienpons2004"
               target="_blank"
               rel="noreferrer"
               className="flex items-start gap-3 text-foreground hover:underline"
             >
               <Linkedin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              linkedin.com/in/aurelienpons
+              linkedin.com/in/aurelienpons2004
             </a>
           </div>
         </div>
@@ -277,8 +277,8 @@ function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-10">
         <span className={label}>Aurélien Pons — Mechanical Engineering</span>
-        <a href="mailto:aurelien.pons@engineering-portfolio.dev" className={`${label} hover:text-foreground`}>
-          aurelien.pons@engineering-portfolio.dev
+        <a href="mailto:ariimoanapons@gmail.com" className={`${label} hover:text-foreground`}>
+          ariimoanapons@gmail.com
         </a>
       </div>
     </footer>

@@ -1,7 +1,16 @@
-import upright from "@/assets/upright.jpg";
-import mechanism from "@/assets/mechanism.jpg";
-import feaBracket from "@/assets/fea-bracket.jpg";
-import gearbox from "@/assets/gearbox.jpg";
+import monocoque from "@/assets/monocoque.jpg";
+import monocoqueZones from "@/assets/monocoque-zones.jpg";
+import monocoqueHardpoints from "@/assets/monocoque-hardpoints.jpg";
+import monocoqueSection from "@/assets/monocoque-section.jpg";
+import feaChart from "@/assets/fea-chart.jpg";
+import feaContour from "@/assets/fea-contour.jpg";
+import feaSetup from "@/assets/fea-setup.jpg";
+import mfgDrape from "@/assets/mfg-drape.jpg";
+import mfgNesting from "@/assets/mfg-nesting.jpg";
+import mfgCutting from "@/assets/mfg-cutting.jpg";
+import warmanRobot from "@/assets/warman-robot.jpg";
+import warmanHv from "@/assets/warman-hv.jpg";
+import warmanIdp from "@/assets/warman-idp.jpg";
 
 export type Project = {
   slug: string;
@@ -20,112 +29,116 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "wheel-upright",
+    slug: "monocoque-integration",
     ref: "AP-01",
     category: "Structural Design",
-    title: "Formula Student — Wheel Upright",
-    tags: ["FEA", "GD&T", "NX"],
-    image: upright,
-    gallery: [upright, feaBracket, gearbox],
+    title: "Monocoque Design & Vehicle Integration",
+    tags: ["Siemens NX", "Packaging", "Composites"],
+    image: monocoque,
+    gallery: [monocoqueZones, monocoqueHardpoints, monocoqueSection],
     what:
-      "Designed and validated the rear wheel upright for a Formula Student race car — the single component carrying vertical, lateral and braking loads from the tyre contact patch into the suspension and drivetrain.",
+      "Designed the mechanical geometry of a carbon-fibre monocoque from scratch, packaging every subsystem — suspension hardpoints, driver cell and structural inserts — into a single load-bearing surface for Écurie Aix, RWTH Aachen's Formula Student team.",
     how: [
-      "Modelled the full upright assembly in Siemens NX, integrating bearing housings, caliper mount and five suspension pickup points within a 1.5 mm packaging envelope.",
-      "Ran linear static FEA in HyperMesh to peak von Mises stress under combined cornering + braking load cases, targeting a 2.0 safety factor against 7075-T6 yield.",
-      "Applied a full GD&T scheme on the 2D drawing — true position on bearing bores (Ø0.02), perpendicularity on pickup faces.",
+      "Modelled the full monocoque geometry in Siemens NX, the team's primary 3D CAD tool.",
+      "Packaged suspension pickup points, cockpit and inserts, resolving clearance conflicts with surrounding components.",
+      "Produced detailed engineering drawings for manufacture and handed them to the composites sub-team.",
     ],
     result: [
-      "Mass reduced 18% versus the team's previous generation while maintaining a 2.3× yield safety factor.",
-      "Zero bearing-fit failures across a full endurance season; part machined from a single billet on a 3-axis CNC.",
+      "One integrated chassis surface carrying all load paths and mounting interfaces.",
+      "Frame mass kept under 23 kg.",
+      "Design released to manufacturing with drawings and tolerances.",
     ],
     spec: [
-      { label: "Material", value: "Aluminium 7075-T6" },
-      { label: "Safety factor", value: "2.3 × yield" },
-      { label: "Mass", value: "612 g (−18%)" },
-      { label: "Tolerance", value: "Ø0.02 true position" },
+      { label: "Structure", value: "Carbon-fibre monocoque" },
+      { label: "Primary CAD", value: "Siemens NX" },
+      { label: "Frame mass", value: "< 23 kg" },
+      { label: "Scope", value: "Geometry + packaging" },
     ],
-    software: ["Siemens NX", "Altair HyperMesh", "ANSYS"],
+    software: ["Siemens NX", "Fibersim"],
   },
   {
-    slug: "delivery-mechanism",
+    slug: "fea-torsional-stiffness",
     ref: "AP-02",
-    category: "Mechanism Design",
-    title: "Warman Challenge — Delivery Mechanism",
-    tags: ["Kinematics", "Mech", "SolidWorks"],
-    image: mechanism,
-    gallery: [mechanism, upright],
-    what:
-      "A spring-loaded linkage mechanism for the national Warman Design & Build Challenge, engineered to collect, transport and deposit a payload across a constrained course within a single actuation stroke.",
-    how: [
-      "Iterated four-bar and cam-driven concepts in SolidWorks, optimising transmission angle to avoid toggle dead-points through the full motion range.",
-      "Validated kinematics in MATLAB to map torque demand against the available spring energy budget, then sized the trigger release for a repeatable 0.4 s cycle.",
-      "Rapid-prototyped the full linkage in laser-cut acrylic and 3D-printed PLA, tuning clearances from measured backlash on the bench.",
-    ],
-    result: [
-      "Placed top-three in the regional final on payload delivered per cycle.",
-      "Mechanism completed 40+ test cycles with no linkage failure or spring set.",
-    ],
-    spec: [
-      { label: "Type", value: "Four-bar linkage" },
-      { label: "Cycle time", value: "0.4 s" },
-      { label: "Test cycles", value: "40+ no failure" },
-      { label: "Prototype", value: "Acrylic / PLA" },
-    ],
-    software: ["SolidWorks", "MATLAB"],
-  },
-  {
-    slug: "topology-bracket",
-    ref: "AP-03",
     category: "Structural Validation",
-    title: "Structural Bracket — Topology Optimization",
-    tags: ["FEA", "Topology", "HyperMesh"],
-    image: feaBracket,
-    gallery: [feaBracket, upright],
+    title: "FEA & Torsional Stiffness",
+    tags: ["HyperMesh", "FEA", "First Principles"],
+    image: feaContour,
+    gallery: [feaChart, feaContour, feaSetup],
     what:
-      "Topology-optimised a mounting bracket to strip every gram that wasn't carrying load, then revalidated the organic result as a machinable part.",
+      "Set a chassis torsional-stiffness target from first principles so that chassis flex could not corrupt the intended mechanical balance, then verified the monocoque met it through FEA.",
     how: [
-      "Defined design and non-design spaces in HyperMesh, then ran an OptiStruct topology study under a 12 kN pull-off load with a 35% volume fraction target.",
-      "Smoothed the lattice-like result back into a manufacturable solid, adding machined flanges and bolt bosses the optimizer couldn't see.",
-      "Ran a final linear-static FEA pass and a bolt-preload study to confirm the optimized geometry still cleared the 2.5× safety factor.",
+      "Treated the chassis as a torsional spring in series between the front and rear suspension.",
+      "Allowed only 0.8% mechanical-balance deviation, which set a minimum stiffness target of 7,000 Nm/°.",
+      "Built the monocoque FE model in Altair HyperMesh, applied the torsion load case and extracted deflection to derive stiffness.",
     ],
     result: [
-      "Mass cut by 41% against the original machined bracket at equal stiffness.",
-      "Part passed the full validation load case on the first physical test.",
+      "Torsional stiffness raised from ~2,000 to 7,020 Nm/° (+200%).",
+      "FEA correlated to within 150 Nm/° of the team's physical test bench.",
+      "Requirement met without over-building mass.",
     ],
     spec: [
-      { label: "Load case", value: "12 kN pull-off" },
-      { label: "Volume fraction", value: "35% target" },
-      { label: "Mass", value: "−41%" },
-      { label: "Safety factor", value: "2.5 ×" },
+      { label: "Target", value: "7,000 Nm/° min" },
+      { label: "Achieved", value: "7,020 Nm/°" },
+      { label: "Correlation", value: "±150 Nm/° to test" },
+      { label: "Gain", value: "+200% rigidity" },
     ],
     software: ["Altair HyperMesh", "OptiStruct"],
   },
   {
-    slug: "two-stage-gearbox",
-    ref: "AP-04",
-    category: "Detailed Design",
-    title: "Two-Stage Gearbox — Assembly & GD&T",
-    tags: ["GD&T", "Assembly", "NX"],
-    image: gearbox,
-    gallery: [gearbox, upright],
+    slug: "composite-manufacturing",
+    ref: "AP-03",
+    category: "Manufacturing / DFM",
+    title: "Composite Manufacturing & DFM",
+    tags: ["Fibersim", "DFM", "Ply Book"],
+    image: mfgNesting,
+    gallery: [mfgDrape, mfgNesting, mfgCutting],
     what:
-      "Detailed a two-stage reduction gearbox from the housing out, with a GD&T scheme designed so the shafts, bearings and gearset assemble without fit-up rework.",
+      "Made the monocoque manufacturable and material- and cost-efficient, translating the CAD surface into a repeatable composite layup.",
     how: [
-      "Built the full BOM and assembly tree in Siemens NX, modelling shafts, bearings, gearset and housing as a single constrained assembly.",
-      "Ran a tolerance stack-up across the two shaft centre distances to keep backlash inside the 0.08–0.15 mm window across worst-case manufacturing.",
-      "Drew a full GD&T scheme — true position on bores, runout on shaft seats — and produced a complete set of 2D detail drawings for fabrication.",
+      "Ran drapability simulations in Siemens Fibersim to verify fibre orientation and manufacturability.",
+      "Nested plies to minimise material waste and exported flat patterns as DXF for CNC cutting.",
+      "Built a ply book to standardise the layup process for the manufacturing team.",
     ],
     result: [
-      "First physical prototype assembled with zero fit-up issues; backlash measured 0.11 mm, mid-window.",
-      "Drawing pack adopted as the team's template for follow-on gearbox projects.",
+      "Reduced material waste and layup errors.",
+      "Faster, more repeatable manufacturing.",
+      "Minimal fibre-orientation deviation in the cured part.",
     ],
     spec: [
-      { label: "Stages", value: "Two-stage reduction" },
-      { label: "Backlash", value: "0.11 mm measured" },
-      { label: "Window", value: "0.08 – 0.15 mm" },
-      { label: "Deliverable", value: "Full 2D drawing pack" },
+      { label: "Process", value: "Prepreg layup" },
+      { label: "Output", value: "DXF flat patterns" },
+      { label: "Cutting", value: "CNC ply cutter" },
+      { label: "Docs", value: "Ply book" },
     ],
-    software: ["Siemens NX", "GD&T (ASME Y14.5)"],
+    software: ["Siemens Fibersim", "Siemens NX"],
+  },
+  {
+    slug: "warman-robot",
+    ref: "AP-04",
+    category: "Mechatronics / 3D Print",
+    title: "Warman Challenge Robot",
+    tags: ["SolidWorks", "Mechatronics", "3D Print"],
+    image: warmanRobot,
+    gallery: [warmanRobot, warmanHv, warmanIdp],
+    what:
+      "Designed a mobile robot to retrieve and transport payloads across a constrained course for the national Warman Design & Build Challenge at the University of Technology Sydney.",
+    how: [
+      "Designed a stepper-motor-driven linear actuation mechanism on a mecanum-wheel base with a rotating turret arm and gripper.",
+      "Detailed 3D-printed PLA parts with distinct slide-fit and interference-fit tolerances, iterating the Height Variation Mount to REV G.",
+      "Integrated drive, actuation and end-effector into one machine and documented the full engineering process.",
+    ],
+    result: [
+      "Achieved 100% on engineering process documentation.",
+      "Iterated to REV G, applying DFM for additive manufacturing.",
+      "Fully integrated drive, actuation and end-effector in a single build.",
+    ],
+    spec: [
+      { label: "Drive", value: "Mecanum wheels" },
+      { label: "Actuation", value: "Stepper linear" },
+      { label: "Parts", value: "3D-printed PLA" },
+      { label: "Process docs", value: "100%" },
+    ],
+    software: ["SolidWorks", "3D Printing (PLA)"],
   },
 ];
 
