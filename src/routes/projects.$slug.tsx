@@ -162,6 +162,7 @@ function ProjectPage() {
             </span>
           </button>
         </div>
+        </Reveal>
 
         {/* How / Result + a separate Technical Specification box, tight under the images */}
         <Reveal delay={150}>
@@ -220,6 +221,7 @@ function ProjectPage() {
             </div>
           </aside>
         </div>
+        </Reveal>
       </div>
 
       {/* Other Projects — horizontal scroll strip */}
