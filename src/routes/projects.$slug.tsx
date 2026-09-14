@@ -46,8 +46,12 @@ function ProjectPage() {
   const visibleThumbs = fullGallery.slice(0, MAX_VISIBLE_THUMBS);
   const hiddenThumbCount = fullGallery.length - MAX_VISIBLE_THUMBS;
 
+  const jumpTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background pb-14 text-foreground">
       <div className="border-b border-border">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-3 sm:px-10">
           <Link to="/" className={`${label} inline-flex items-center gap-2 hover:text-foreground`}>
@@ -75,8 +79,10 @@ function ProjectPage() {
         )}
 
         {/* What — inline, long-form, spans the full width of the images below */}
-        <div className="mt-6">
-          <div className={label}>What</div>
+        <div className="mt-6" id="section-what">
+          <div className={sectionHeading}>
+            <span className="text-chart-3">01</span> What
+          </div>
           <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
         </div>
 
@@ -152,8 +158,10 @@ function ProjectPage() {
 
         {/* How / Result / Technical Specification — aligned side by side, tight under the images */}
         <div className="mt-2 grid grid-cols-1 border border-border lg:grid-cols-3">
-          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
-            <div className={sectionHeading}>How</div>
+          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r" id="section-how">
+            <div className={sectionHeading}>
+              <span className="text-chart-3">02</span> How
+            </div>
             <ol className="mt-2 space-y-2">
               {project.how.map((h, i) => (
                 <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
@@ -163,8 +171,10 @@ function ProjectPage() {
               ))}
             </ol>
           </div>
-          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
-            <div className={`${sectionHeading} text-chart-3`}>Result</div>
+          <div className="border-b border-border p-4 lg:border-b-0 lg:border-r" id="section-result">
+            <div className={sectionHeading}>
+              <span className="text-chart-3">03</span> Result
+            </div>
             <ul className="mt-2 space-y-2">
               {project.result.map((r) => (
                 <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
@@ -174,8 +184,10 @@ function ProjectPage() {
               ))}
             </ul>
           </div>
-          <div className="p-4">
-            <div className={sectionHeading}>Technical Specification</div>
+          <div className="p-4" id="section-spec">
+            <div className={sectionHeading}>
+              <span className="text-chart-3">04</span> Technical Specification
+            </div>
             <div className="mt-2 space-y-1.5">
               {project.spec.map((s) => (
                 <div key={s.label} className="flex items-start justify-between gap-3 text-sm">
@@ -244,6 +256,33 @@ function ProjectPage() {
           </div>
         </div>
       </section>
+
+      {/* Sticky quick-nav — always visible; jumps straight to each section */}
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-sm">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-3 px-6 sm:px-10">
+          <button
+            type="button"
+            onClick={() => jumpTo("section-how")}
+            className="border-r border-border py-3 text-center font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-muted/60"
+          >
+            <span className="text-chart-3">02</span> How
+          </button>
+          <button
+            type="button"
+            onClick={() => jumpTo("section-result")}
+            className="border-r border-border py-3 text-center font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-muted/60"
+          >
+            <span className="text-chart-3">03</span> Result
+          </button>
+          <button
+            type="button"
+            onClick={() => jumpTo("section-spec")}
+            className="py-3 text-center font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-muted/60"
+          >
+            <span className="text-chart-3">04</span> Technical Specification
+          </button>
+        </div>
+      </nav>
 
       {lightbox !== null && (
         <Lightbox
