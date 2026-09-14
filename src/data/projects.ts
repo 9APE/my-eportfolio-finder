@@ -218,7 +218,7 @@ export const projects: Project[] = [
     tags: ["Siemens NX", "Tooling", "DFM"],
     image: ureToolHero,
     gallery: [ureTool1, ureTool2, ureTool3, ureTool4],
-    what: "Designed the monocoque moulds to their own requirements, so the cured part demoulds cleanly and the chassis builds to the correct geometry.",
+    what: "Designed the monocoque moulds to their own requirements, so the cured part demoulds cleanly and the chassis builds to the correct geometry. Design driven by **manufacturing** reality, working directly with the team machining the plugs and **open to feedback** at every review.",
     how: [
       "Designed tooling in Siemens NX with a minimum 3° draft angle on every face for clean demoulding.",
       "Matched split-line and alignment features so mould halves, and the resulting chassis, locate correctly.",
