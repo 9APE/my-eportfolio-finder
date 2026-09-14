@@ -119,7 +119,7 @@ export const projects: Project[] = [
     tags: ["Fibersim", "Drapability", "Ply Book"],
     image: manuHero,
     gallery: [manu1, manu2, manu3, manu4, manu5],
-    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched.",
+    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched. Hands-on **manufacturing** work on the shop floor, **learning by doing** alongside the people laying up the parts.",
     how: [
       "Defined ply zones and drop-offs on the monocoque surface in Siemens NX / Fibersim.",
       "Ran drapability simulation to verify fibre orientation, then nested plies to reduce waste and exported flat patterns for cutting.",
