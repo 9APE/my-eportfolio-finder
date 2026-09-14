@@ -6,6 +6,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ArrowUp,
   Expand,
   Mail,
   MapPin,
@@ -96,8 +97,7 @@ function Hero() {
     <section className="relative border-b border-border">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <span className={label}>Ref. AP-00 / Assembly View</span>
-          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
+          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
             Final-year Mechanical Engineering student working across the full design-analysis-validation
             cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
@@ -106,11 +106,12 @@ function Hero() {
             proficiency.
           </p>
 
-          <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
+          <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
               { value: 75, prefix: "+", suffix: "%", t: "Torsional rigidity increase" },
               { value: 11, prefix: "−", suffix: "%", t: "Rear-wing weight" },
-              { value: 100, prefix: "", suffix: "%", t: "Engineering documentation grade" },
+              { value: 2, prefix: "", suffix: "nd", t: "Formula Student World Rankings 2026" },
+              { value: 2, prefix: "", suffix: "nd", t: "Formula Student Germany 2026" },
             ].map((s) => (
               <StatCell key={s.t} {...s} />
             ))}
@@ -167,7 +168,11 @@ function Hero() {
             className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
             style={{ animation: "hero-progress 7s linear forwards" }}
           />
-          <span className={`${label} absolute right-6 top-6`}>Drawn by: A. Pons</span>
+          <span className={`${label} absolute right-6 top-6`}>
+            {active + 1} / {projects.length} Projects
+          </span>
+
+
 
           <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
             {projects.map((p, i) => (
@@ -203,7 +208,7 @@ function Hero() {
           </button>
 
           <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
-            {project.ref} — {project.title.toUpperCase()}
+            {project.title.toUpperCase()}
           </span>
 
           <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
@@ -224,9 +229,13 @@ function Hero() {
           <button
             type="button"
             onClick={scrollToProjects}
-            className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+            className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 border border-foreground/70 bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-foreground hover:text-background"
           >
-            Scroll to see {projects.length} Engineering Projects <ArrowDown className="h-3.5 w-3.5" />
+            Scroll to see all {projects.length} projects
+            <ArrowDown
+              className="cue-pulse h-3.5 w-3.5"
+              style={{ animation: "cue-pulse 1.4s ease-in-out infinite" }}
+            />
           </button>
         </div>
       </div>
@@ -234,27 +243,145 @@ function Hero() {
   );
 }
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeCard, setActiveCard] = useState(0);
+  const [showBar, setShowBar] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  // Track which project is level with the middle of the viewport, and whether the hero is past.
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const i = cardRefs.current.indexOf(e.target as HTMLDivElement);
+          if (i >= 0) setActiveCard(i);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+    );
+    cardRefs.current.forEach((el) => el && obs.observe(el));
+
+    const onScroll = () => {
+      const top = sectionRef.current?.getBoundingClientRect().top ?? 1;
+      setShowBar(top < 40);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      obs.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const scrollToCard = (i: number) =>
+    cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+
   return (
-    <section id="projects" className="mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
-      <span className={label}>Ref. AP-BOM / Project Index</span>
-      <div className="mt-3 flex items-end justify-between border-b border-foreground/80 pb-4">
-        <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
-          <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
-          Engineering Projects
-          <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
-        </h2>
-        <span className={label}>{projects.length} Entries</span>
+    <>
+      {/* Sticky bar — keeps the project count and contacts one click away once the hero is gone */}
+      <div
+        className={`fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur transition-transform duration-300 ${
+          showBar ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-2.5 sm:px-10">
+          <span className="text-sm font-bold tracking-tight">Aurélien Pons</span>
+          <span className={`${label} tabular-nums`}>
+            Project {pad(activeCard + 1)} / {pad(projects.length)}
+          </span>
+          <span className="flex items-center gap-4">
+            <a
+              href="mailto:ariimoanapons@gmail.com"
+              aria-label="Email Aurélien Pons"
+              className="flex items-center gap-2 text-sm hover:text-chart-3"
+            >
+              <Mail className="h-4 w-4 text-chart-3" />
+              <span className="hidden sm:inline">ariimoanapons@gmail.com</span>
+            </a>
+            <a
+              href="https://linkedin.com/in/aurelienpons2004"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              className="flex items-center gap-2 text-sm hover:text-chart-3"
+            >
+              <Linkedin className="h-4 w-4 text-chart-3" />
+              <span className="hidden sm:inline">LinkedIn</span>
+            </a>
+          </span>
+        </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
-        {projects.map((p, i) => (
-          <Reveal key={p.slug} className="h-full" delay={(i % 3) * 100}>
-            <ProjectCard p={p} onExpand={onExpand} />
-          </Reveal>
-        ))}
-      </div>
-    </section>
+      <section
+        id="projects"
+        ref={sectionRef}
+        className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10"
+      >
+        <div className="flex items-end justify-between border-b border-foreground/80 pb-4">
+          <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
+            <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
+            Engineering Projects
+          </h2>
+          <span className={label}>{projects.length} Entries</span>
+        </div>
+
+        {/* Progress rail — shows how far through the index you are */}
+        <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">
+          {projects.map((p, i) => (
+            <button
+              key={p.slug}
+              type="button"
+              onClick={() => scrollToCard(i)}
+              aria-label={`Go to ${p.title}`}
+              className="pointer-events-auto group/rail flex items-center gap-2"
+            >
+              <span className="whitespace-nowrap border border-border bg-background px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground opacity-0 transition-opacity group-hover/rail:opacity-100">
+                {p.title}
+              </span>
+              <span
+                className={`h-[2px] transition-all duration-300 ${
+                  i === activeCard ? "w-8 bg-chart-3" : "w-4 bg-border group-hover/rail:bg-foreground"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
+          {projects.map((p, i) => (
+            <div
+              key={p.slug}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              className="h-full"
+            >
+              <Reveal className="h-full" delay={(i % 3) * 100}>
+                <ProjectCard p={p} index={i} onExpand={onExpand} />
+              </Reveal>
+            </div>
+          ))}
+        </div>
+
+        {/* End-of-index marker */}
+        <div className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between">
+          <span className={label}>
+            End of index — {projects.length} projects shown
+          </span>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={`${label} inline-flex items-center gap-2 border border-border px-3 py-2 transition-colors hover:border-chart-3 hover:text-foreground`}
+          >
+            Back to top <ArrowUp className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -302,12 +429,15 @@ function truncate(text: string, maxLength: number) {
 
 function ProjectCard({
   p,
+  index,
   onExpand,
 }: {
   p: Project;
+  index: number;
   onExpand: (images: string[], index: number) => void;
 }) {
   const navigate = useNavigate();
+  const { ref: cardRef, inView } = useInView<HTMLElement>(0.25);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hovering, setHovering] = useState(false);
 
@@ -328,7 +458,19 @@ function ProjectCard({
   useEffect(() => cancelAutoOpen, []);
 
   return (
-    <article className="flex h-full flex-col border border-border transition-all duration-300">
+    <article
+      ref={cardRef}
+      className="relative flex h-full flex-col border border-border transition-all duration-300"
+    >
+      {/* Accent line draws across the top as the card enters view */}
+      <span
+        aria-hidden="true"
+        className="accent-draw absolute inset-x-0 -top-px z-20 h-[2px] origin-left bg-chart-3"
+        style={{
+          transform: inView ? undefined : "scaleX(0)",
+          animation: inView ? "accent-draw 700ms ease-out forwards" : "none",
+        }}
+      />
       <div
         className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
         onMouseEnter={startAutoOpen}
@@ -342,8 +484,8 @@ function ProjectCard({
             style={{ animation: `hero-progress ${HOVER_AUTO_OPEN_MS}ms linear forwards` }}
           />
         )}
-        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
-          {p.ref}
+        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1 tabular-nums`}>
+          {pad(index + 1)} / {pad(projects.length)}
         </span>
 
         <button
@@ -414,7 +556,7 @@ function ProjectCard({
           params={{ slug: p.slug }}
           className={`${label} mt-4 inline-flex items-center gap-2 text-chart-3 transition-colors hover:text-foreground`}
         >
-          Click for more details <ArrowRight className="h-3.5 w-3.5" />
+          More details <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </article>
