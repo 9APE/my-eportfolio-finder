@@ -11,13 +11,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a Warman Challenge robot.",
+          "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a mecanum-drive MDFS robot.",
       },
       { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
       {
         property: "og:description",
         content:
-          "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive Warman Challenge robot.",
+          "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive MDFS robot.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -73,18 +73,19 @@ function Hero() {
           <p className={`${label} mt-14 text-foreground/70`}>Mechanical Engineering — Portfolio</p>
           <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Final-year mechanical engineering student working across the full design, analysis,
-            prototyping and validation cycle in Formula Student. I build CAD in Siemens NX, validate
-            structures through FEA in HyperMesh, and take parts from first-principles requirements to
-            manufactured hardware. Currently deepening GD&amp;T and CATIA to production standard.
+            Final-year mechanical engineering student across the full design, analysis, prototyping
+            and validation cycle in Formula Student. I design and package chassis in Siemens NX,
+            validate structures with FEA in HyperMesh, and take parts from first-principles
+            requirements to manufactured carbon-fibre hardware. Currently deepening GD&amp;T and
+            CATIA to production standard.
           </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
               { n: "7,020", t: "Nm/° validated" },
-              { n: "+200%", t: "Torsional rigidity" },
-              { n: "< 23 kg", t: "Frame mass" },
-              { n: "100%", t: "Warman process docs" },
+              { n: "~75%", t: "Torsional rigidity" },
+              { n: "−11%", t: "Rear-wing weight" },
+              { n: "100%", t: "MDFS process docs" },
             ].map((s) => (
               <div key={s.t} className="border-r border-border p-5 last:border-r-0">
                 <div className="text-2xl font-bold">{s.n}</div>
@@ -227,6 +228,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
 
             <div className="flex flex-1 flex-col px-5 pb-5">
               <h3 className="mt-5 text-xl font-bold tracking-tight">{p.title}</h3>
+              <span className={`${label} mt-1`}>{p.team}</span>
 
               <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
                 <div>

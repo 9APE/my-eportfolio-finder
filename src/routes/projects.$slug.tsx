@@ -52,6 +52,7 @@ function ProjectPage() {
       <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
         <span className={label}>Ref. {project.ref}</span>
         <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">{project.title}</h1>
+        <span className={`${label} mt-2 block`}>{project.team}</span>
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_320px]">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
