@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Expand, FileText, Linkedin, Mail, Phone } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
