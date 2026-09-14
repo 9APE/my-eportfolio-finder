@@ -32,6 +32,8 @@ export const Route = createFileRoute("/projects/$slug")({
 });
 
 const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
+const sectionHeading = "font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground";
+const MAX_VISIBLE_THUMBS = 3;
 
 function ProjectPage() {
   const { slug } = Route.useParams();
@@ -41,6 +43,8 @@ function ProjectPage() {
 
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
   const otherProjects = projects.filter((p) => p.slug !== slug);
+  const visibleThumbs = fullGallery.slice(0, MAX_VISIBLE_THUMBS);
+  const hiddenThumbCount = fullGallery.length - MAX_VISIBLE_THUMBS;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -70,16 +74,16 @@ function ProjectPage() {
           </a>
         )}
 
-        {/* What — inline, long-form, directly under the heading */}
-        <div className="mt-6 max-w-3xl">
+        {/* What — inline, long-form, spans the full width of the images below */}
+        <div className="mt-6">
           <div className={label}>What</div>
           <p className="mt-2 text-lg leading-relaxed">{project.what}</p>
         </div>
 
-        {/* Images — thumbnail rail (hover to preview) + main image */}
-        <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
-          <div className="flex gap-3 overflow-x-auto lg:flex-col lg:overflow-visible">
-            {fullGallery.map((img, i) => (
+        {/* Images — thumbnail rail (hover to preview, height-matched to the main image) + main image */}
+        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
+          <div className="flex gap-3 overflow-x-auto lg:h-full lg:flex-col lg:overflow-hidden">
+            {visibleThumbs.map((img, i) => (
               <button
                 key={img}
                 type="button"
@@ -87,7 +91,7 @@ function ProjectPage() {
                 onFocus={() => setActiveImage(i)}
                 onClick={() => setLightbox(i)}
                 aria-label={`Preview image ${i + 1}`}
-                className={`relative aspect-square w-16 shrink-0 overflow-hidden border bg-muted/60 transition-colors lg:w-full ${
+                className={`relative aspect-square w-16 shrink-0 overflow-hidden border bg-muted/60 transition-colors lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
                   i === activeImage ? "border-chart-3" : "border-border hover:border-chart-3/60"
                 }`}
               >
@@ -101,6 +105,27 @@ function ProjectPage() {
                 />
               </button>
             ))}
+            {hiddenThumbCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setLightbox(MAX_VISIBLE_THUMBS)}
+                aria-label={`See ${hiddenThumbCount} more images`}
+                className="relative aspect-square w-16 shrink-0 overflow-hidden border border-border bg-muted/60 transition-colors hover:border-chart-3/60 lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1"
+              >
+                <img
+                  src={fullGallery[MAX_VISIBLE_THUMBS]}
+                  alt=""
+                  aria-hidden="true"
+                  width={200}
+                  height={200}
+                  loading="lazy"
+                  className="h-full w-full object-cover opacity-40"
+                />
+                <span className="absolute inset-0 flex items-center justify-center bg-foreground/50 font-mono text-[11px] font-bold text-background">
+                  +{hiddenThumbCount} More
+                </span>
+              </button>
+            )}
           </div>
 
           <button
@@ -125,10 +150,10 @@ function ProjectPage() {
           </button>
         </div>
 
-        {/* How / Result / Technical Specification — aligned side by side, under the images */}
-        <div className="mt-8 grid grid-cols-1 border border-border lg:grid-cols-3">
+        {/* How / Result / Technical Specification — aligned side by side, tight under the images */}
+        <div className="mt-2 grid grid-cols-1 border border-border lg:grid-cols-3">
           <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
-            <div className={label}>How</div>
+            <div className={sectionHeading}>How</div>
             <ol className="mt-2 space-y-2">
               {project.how.map((h, i) => (
                 <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
@@ -139,7 +164,7 @@ function ProjectPage() {
             </ol>
           </div>
           <div className="border-b border-border p-4 lg:border-b-0 lg:border-r">
-            <div className={`${label} text-chart-3`}>Result</div>
+            <div className={`${sectionHeading} text-chart-3`}>Result</div>
             <ul className="mt-2 space-y-2">
               {project.result.map((r) => (
                 <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
@@ -150,7 +175,7 @@ function ProjectPage() {
             </ul>
           </div>
           <div className="p-4">
-            <div className={label}>Technical Specification</div>
+            <div className={sectionHeading}>Technical Specification</div>
             <div className="mt-2 space-y-1.5">
               {project.spec.map((s) => (
                 <div key={s.label} className="flex items-start justify-between gap-3 text-sm">

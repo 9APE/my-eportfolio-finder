@@ -1,7 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, Expand, Mail, MapPin, Phone, Linkedin } from "lucide-react";
-import { projects } from "@/data/projects";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Expand,
+  Mail,
+  MapPin,
+  Phone,
+  Linkedin,
+} from "lucide-react";
+import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 
@@ -51,20 +62,25 @@ const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-fore
 
 function Hero() {
   const [active, setActive] = useState(0);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    timer.current = setInterval(() => setActive((i) => (i + 1) % projects.length), 7000);
-    return () => {
-      if (timer.current) clearInterval(timer.current);
-    };
-  }, []);
-
-  const scrollToProjects = () => {
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const navigate = useNavigate();
 
   const project = projects[active]!;
+
+  const goPrev = (e: MouseEvent) => {
+    e.stopPropagation();
+    setActive((i) => (i - 1 + projects.length) % projects.length);
+  };
+  const goNext = (e: MouseEvent) => {
+    e.stopPropagation();
+    setActive((i) => (i + 1) % projects.length);
+  };
+  const openProject = () => {
+    navigate({ to: "/projects/$slug", params: { slug: project.slug } });
+  };
+  const scrollToProjects = (e: MouseEvent) => {
+    e.stopPropagation();
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section className="relative border-b border-border">
@@ -121,11 +137,16 @@ function Hero() {
           </div>
         </div>
 
-        {/* Rotating project showcase */}
-        <button
-          onClick={scrollToProjects}
+        {/* Project showcase — click the image to open that project; arrows browse without navigating */}
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={openProject}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") openProject();
+          }}
           aria-label={`View project ${project.title}`}
-          className="group relative flex min-h-[420px] items-center justify-center overflow-hidden bg-muted/60 p-8 text-left lg:min-h-full"
+          className="group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden bg-muted/60 p-8 text-left lg:min-h-full"
           style={{
             backgroundImage:
               "linear-gradient(to right, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px)",
@@ -150,6 +171,23 @@ function Hero() {
             ))}
           </TiltWrapper>
 
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label="Previous project"
+            className="absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label="Next project"
+            className="absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
           <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
             {project.ref} — {project.title.toUpperCase()}
           </span>
@@ -169,10 +207,14 @@ function Hero() {
             ))}
           </span>
 
-          <span className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
+          <button
+            type="button"
+            onClick={scrollToProjects}
+            className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+          >
             Scroll for more details <ArrowDown className="h-3.5 w-3.5" />
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -183,113 +225,157 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
     <section id="projects" className="mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
       <span className={label}>Ref. AP-BOM / Project Index</span>
       <div className="mt-3 flex items-end justify-between border-b border-foreground/80 pb-4">
-        <h2 className="text-3xl font-bold tracking-tight">Engineering Projects</h2>
+        <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
+          <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
+          Engineering Projects
+          <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
+        </h2>
         <span className={label}>{projects.length} Entries</span>
       </div>
 
       <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-2">
         {projects.map((p) => (
-          <article key={p.slug} className="flex flex-col border border-border">
-            <div className="group relative aspect-[4/3] overflow-hidden bg-muted/60">
-              <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
-                {p.ref}
-              </span>
-
-              <button
-                type="button"
-                aria-label={`Expand image for ${p.title}`}
-                onClick={() => onExpand([p.image, ...p.gallery], 0)}
-                className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
-              >
-                <Expand className="h-4 w-4" />
-              </button>
-
-              <Link
-                to="/projects/$slug"
-                params={{ slug: p.slug }}
-                aria-label={`View ${p.title} details`}
-                className="absolute inset-0 z-0"
-              >
-                <TiltWrapper className="h-full w-full" maxTilt={6}>
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    width={1408}
-                    height={1104}
-                    loading="lazy"
-                    className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                </TiltWrapper>
-              </Link>
-            </div>
-
-            <div className="flex items-center justify-between border-y border-border px-5 py-3">
-              <span className={label}>{p.category}</span>
-              <span className="flex gap-2">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="border border-chart-3/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-chart-3"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </span>
-            </div>
-
-            <div className="flex flex-1 flex-col px-5 pb-5">
-              <h3 className="mt-5">
-                <Link
-                  to="/projects/$slug"
-                  params={{ slug: p.slug }}
-                  className="text-xl font-bold tracking-tight underline-offset-4 hover:underline"
-                >
-                  {p.title}
-                </Link>
-              </h3>
-              <span className={`${label} mt-1`}>{p.team}</span>
-
-              <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
-                <div>
-                  <div className={label}>What</div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.what}</p>
-                </div>
-                <div>
-                  <div className={label}>How</div>
-                  <ul className="mt-2 space-y-2">
-                    {p.how.map((h) => (
-                      <li key={h} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
-                        <span className="text-chart-3">•</span>
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className={`${label} text-chart-3`}>Result</div>
-                  <ul className="mt-2 space-y-2">
-                    {p.result.map((r) => (
-                      <li key={r} className="flex gap-2 text-sm font-medium leading-relaxed">
-                        <span className="text-chart-3">—</span>
-                        <span>{r}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <Link
-                to="/projects/$slug"
-                params={{ slug: p.slug }}
-                className={`${label} mt-8 inline-flex items-center gap-2 transition-colors hover:text-foreground`}
-              >
-                more details <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-          </article>
+          <ProjectCard key={p.slug} p={p} onExpand={onExpand} />
         ))}
       </div>
     </section>
+  );
+}
+
+const HOVER_AUTO_OPEN_MS = 5000;
+
+function ProjectCard({
+  p,
+  onExpand,
+}: {
+  p: Project;
+  onExpand: (images: string[], index: number) => void;
+}) {
+  const navigate = useNavigate();
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openProject = () => navigate({ to: "/projects/$slug", params: { slug: p.slug } });
+
+  const startAutoOpen = () => {
+    hoverTimer.current = setTimeout(openProject, HOVER_AUTO_OPEN_MS);
+  };
+  const cancelAutoOpen = () => {
+    if (hoverTimer.current) {
+      clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
+  };
+
+  useEffect(() => cancelAutoOpen, []);
+
+  return (
+    <article className="flex flex-col border border-border">
+      <div
+        className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
+        onMouseEnter={startAutoOpen}
+        onMouseLeave={cancelAutoOpen}
+      >
+        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
+          {p.ref}
+        </span>
+
+        <button
+          type="button"
+          aria-label={`Expand image for ${p.title}`}
+          onClick={() => onExpand([p.image, ...p.gallery], 0)}
+          className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
+        >
+          <Expand className="h-4 w-4" />
+        </button>
+
+        <Link
+          to="/projects/$slug"
+          params={{ slug: p.slug }}
+          aria-label={`View ${p.title} details`}
+          className="absolute inset-0 z-0"
+        >
+          <TiltWrapper className="h-full w-full" maxTilt={6}>
+            <img
+              src={p.image}
+              alt={p.title}
+              width={1408}
+              height={1104}
+              loading="lazy"
+              className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          </TiltWrapper>
+        </Link>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-foreground/70 px-4 py-2.5 text-background opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
+          <span className="font-mono text-xs uppercase tracking-[0.15em]">More details</span>
+          <ArrowRight className="h-4 w-4" />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between border-y border-border px-5 py-3">
+        <span className={label}>{p.category}</span>
+        <span className="flex gap-2">
+          {p.tags.map((t) => (
+            <span
+              key={t}
+              className="border border-chart-3/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-chart-3"
+            >
+              {t}
+            </span>
+          ))}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col px-5 pb-5">
+        <h3 className="mt-5">
+          <Link
+            to="/projects/$slug"
+            params={{ slug: p.slug }}
+            className="text-xl font-bold tracking-tight underline-offset-4 hover:underline"
+          >
+            {p.title}
+          </Link>
+        </h3>
+        <span className={`${label} mt-1`}>{p.team}</span>
+
+        <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
+          <div>
+            <div className={label}>What</div>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.what}</p>
+          </div>
+          <div>
+            <div className={label}>How</div>
+            <ul className="mt-2 space-y-2">
+              {p.how.map((h) => (
+                <li key={h} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
+                  <span className="text-chart-3">•</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className={`${label} text-chart-3`}>Result</div>
+            <ul className="mt-2 space-y-2">
+              {p.result.map((r) => (
+                <li key={r} className="flex gap-2 text-sm font-medium leading-relaxed">
+                  <span className="text-chart-3">—</span>
+                  <span>{r}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <Link
+          to="/projects/$slug"
+          params={{ slug: p.slug }}
+          className={`${label} mt-8 inline-flex items-center gap-2 transition-colors hover:text-foreground`}
+        >
+          more details <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+    </article>
   );
 }
 
