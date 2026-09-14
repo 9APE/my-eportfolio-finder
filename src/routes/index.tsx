@@ -63,7 +63,7 @@ function Hero() {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const project = projects[active];
+  const project = projects[active]!;
 
   return (
     <section className="relative border-b border-border">
