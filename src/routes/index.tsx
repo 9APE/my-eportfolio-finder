@@ -73,10 +73,11 @@ function Hero() {
           <span className={label}>Ref. AP-00 / Assembly View</span>
           <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            Final-year mechanical engineering student working across the full design, analysis,
-            prototyping and validation cycle in Formula Student. I design and package chassis in Siemens
-            NX and validate structures with FEA in HyperMesh, taking parts from first-principles
-            requirements to manufactured carbon-fibre hardware. Currently learning GD&amp;T and CATIA.
+            Final-year Mechanical Engineering student working across the full design-analysis-validation
+            cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
+            structures through FEA in Altair HyperMesh, and take parts from first-principles requirements
+            through to manufactured carbon-fibre hardware. Currently building GD&amp;T and CATIA
+            proficiency.
           </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
@@ -90,15 +91,6 @@ function Hero() {
                 <div className={`${label} mt-2 leading-snug`}>{s.t}</div>
               </div>
             ))}
-          </div>
-          <div className="mt-4 max-w-2xl border border-chart-3/40 bg-chart-3/5 p-4">
-            <p className="text-sm leading-relaxed">
-              <span className="font-semibold text-foreground">Driven and motivated to learn.</span>{" "}
-              <span className="text-muted-foreground">
-                Three years of chasing every opportunity to build, test and improve — a fast learner who
-                values every chance to pick up new tools and methods.
-              </span>
-            </p>
           </div>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">

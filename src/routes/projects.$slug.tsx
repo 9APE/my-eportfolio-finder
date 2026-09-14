@@ -39,6 +39,7 @@ function ProjectPage() {
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
+  const restOfGallery = fullGallery.slice(1);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -69,33 +70,58 @@ function ProjectPage() {
         )}
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_320px]">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {fullGallery.map((img, i) => (
-              <div
-                key={img}
-                className="group relative aspect-[4/3] overflow-hidden border border-border bg-muted/60"
-              >
-                <span className={`${label} absolute left-3 top-3 z-10 bg-background/80 px-2 py-1`}>
-                  IMG {String(i + 1).padStart(2, "0")}
+          <div>
+            {/* Main image — the immediate visual focus */}
+            <button
+              type="button"
+              onClick={() => setLightbox(0)}
+              aria-label="Expand main image"
+              className="group relative block aspect-[16/10] w-full overflow-hidden border border-border bg-muted/60"
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                width={1408}
+                height={1104}
+                loading="eager"
+                className="h-full w-full object-contain p-6"
+              />
+              <span className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-background/90">
+                  <Expand className="h-5 w-5" />
                 </span>
-                <button
-                  type="button"
-                  aria-label={`Expand image ${i + 1}`}
-                  onClick={() => setLightbox(i)}
-                  className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  <Expand className="h-4 w-4" />
-                </button>
-                <img
-                  src={img}
-                  alt={`${project.title} view ${i + 1}`}
-                  width={1408}
-                  height={1104}
-                  loading="lazy"
-                  className="h-full w-full object-contain p-5"
-                />
+              </span>
+            </button>
+
+            {/* What / How / Result — side by side, directly under the main image */}
+            <div className="mt-8 grid grid-cols-1 border border-border sm:grid-cols-3">
+              <div className="border-b border-border p-5 sm:border-b-0 sm:border-r">
+                <div className={label}>What</div>
+                <p className="mt-3 text-sm leading-relaxed">{project.what}</p>
               </div>
-            ))}
+              <div className="border-b border-border p-5 sm:border-b-0 sm:border-r">
+                <div className={label}>How</div>
+                <ol className="mt-3 space-y-3">
+                  {project.how.map((h, i) => (
+                    <li key={h} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
+                      <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="p-5">
+                <div className={`${label} text-chart-3`}>Result</div>
+                <ul className="mt-3 space-y-3">
+                  {project.result.map((r) => (
+                    <li key={r} className="flex gap-2 text-sm font-medium leading-relaxed">
+                      <span className="text-chart-3">—</span>
+                      <span>{r}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
           <aside className="h-fit border border-border">
@@ -103,15 +129,15 @@ function ProjectPage() {
               <span className={label}>Technical Specification</span>
             </div>
             {project.spec.map((s) => (
-              <div key={s.label} className="flex items-center justify-between border-b border-border px-4 py-3">
+              <div key={s.label} className="flex items-start justify-between gap-3 border-b border-border px-4 py-3">
                 <span className={label}>{s.label}</span>
-                <span className="font-mono text-xs">{s.value}</span>
+                <span className="text-right font-mono text-xs">{s.value}</span>
               </div>
             ))}
             <div className="px-4 py-3">
-              <span className={label}>Software</span>
+              <span className={label}>Skills</span>
               <div className="mt-2 flex flex-wrap gap-2">
-                {project.software.map((s) => (
+                {project.skills.map((s) => (
                   <span
                     key={s}
                     className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
@@ -124,30 +150,40 @@ function ProjectPage() {
           </aside>
         </div>
 
-        <section className="mt-14 max-w-3xl">
-          <div className={label}>What</div>
-          <p className="mt-3 text-lg leading-relaxed">{project.what}</p>
-
-          <div className={`${label} mt-12`}>How</div>
-          <ol className="mt-3 space-y-4">
-            {project.how.map((h, i) => (
-              <li key={h} className="flex gap-4">
-                <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
-                <span className="leading-relaxed text-muted-foreground">{h}</span>
-              </li>
-            ))}
-          </ol>
-
-          <div className={`${label} mt-12 text-chart-3`}>Result</div>
-          <ul className="mt-3 space-y-3">
-            {project.result.map((r) => (
-              <li key={r} className="flex gap-3 leading-relaxed">
-                <span className="text-chart-3">—</span>
-                <span>{r}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* Full gallery — below the main image and the What/How/Result summary */}
+        {restOfGallery.length > 0 && (
+          <div className="mt-14">
+            <span className={label}>Gallery</span>
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {restOfGallery.map((img, i) => (
+                <button
+                  key={img}
+                  type="button"
+                  onClick={() => setLightbox(i + 1)}
+                  aria-label={`Expand image ${i + 2}`}
+                  className="group relative aspect-[4/3] overflow-hidden border border-border bg-muted/60"
+                >
+                  <span className={`${label} absolute left-3 top-3 z-10 bg-background/80 px-2 py-1`}>
+                    IMG {String(i + 2).padStart(2, "0")}
+                  </span>
+                  <img
+                    src={img}
+                    alt={`${project.title} view ${i + 2}`}
+                    width={1408}
+                    height={1104}
+                    loading="lazy"
+                    className="h-full w-full object-contain p-5"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-foreground/10 opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-background/90">
+                      <Expand className="h-5 w-5" />
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {lightbox !== null && (
