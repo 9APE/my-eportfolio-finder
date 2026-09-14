@@ -71,11 +71,7 @@ function Hero() {
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:py-24">
           <span className={label}>Ref. AP-00 / Assembly View</span>
-          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons — Portfolio</h1>
-          <p className="mt-3 max-w-xl text-lg text-muted-foreground">
-            Final-year mechanical engineering student across the full design, analysis, prototyping and
-            validation cycle.
-          </p>
+          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
             Final-year mechanical engineering student working across the full design, analysis,
             prototyping and validation cycle in Formula Student. I design and package chassis in Siemens
@@ -85,7 +81,7 @@ function Hero() {
 
           <div className="mt-10 grid max-w-2xl grid-cols-3 border border-border">
             {[
-              { n: "75%", t: "Torsional rigidity increase" },
+              { n: "+75%", t: "Torsional rigidity increase" },
               { n: "−11%", t: "Rear-wing weight" },
               { n: "100%", t: "Engineering documentation grade" },
             ].map((s) => (
@@ -95,6 +91,10 @@ function Hero() {
               </div>
             ))}
           </div>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Driven and motivated to learn — three years of chasing every opportunity to build, test and
+            improve. A fast learner who values every chance to pick up new tools and methods.
+          </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a

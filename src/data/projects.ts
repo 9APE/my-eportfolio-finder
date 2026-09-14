@@ -15,6 +15,7 @@ import manu1 from "@/assets/manu-1.jpg";
 import manu2 from "@/assets/manu-2.jpg";
 import manu3 from "@/assets/manu-3.jpg";
 import manu4 from "@/assets/manu-4.jpg";
+import manu5 from "@/assets/manu-5.jpg";
 import urePkgHero from "@/assets/ure-pkg-hero.jpg";
 import urePkg1 from "@/assets/ure-pkg-1.jpg";
 import urePkg2 from "@/assets/ure-pkg-2.jpg";
@@ -107,7 +108,7 @@ export const projects: Project[] = [
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["Fibersim", "Drapability", "Ply Book"],
     image: manuHero,
-    gallery: [manu1, manu2, manu3, manu4],
+    gallery: [manu1, manu2, manu3, manu4, manu5],
     what: "Turned the monocoque CAD surface into a repeatable, low-waste carbon-fibre part by simulating drapability and planning every ply before the mould was touched.",
     how: [
       "Defined ply zones and drop-offs on the monocoque surface in Siemens NX / Fibersim.",
