@@ -458,7 +458,19 @@ function ProjectCard({
   useEffect(() => cancelAutoOpen, []);
 
   return (
-    <article className="flex h-full flex-col border border-border transition-all duration-300">
+    <article
+      ref={cardRef}
+      className="relative flex h-full flex-col border border-border transition-all duration-300"
+    >
+      {/* Accent line draws across the top as the card enters view */}
+      <span
+        aria-hidden="true"
+        className="accent-draw absolute inset-x-0 -top-px z-20 h-[2px] origin-left bg-chart-3"
+        style={{
+          transform: inView ? undefined : "scaleX(0)",
+          animation: inView ? "accent-draw 700ms ease-out forwards" : "none",
+        }}
+      />
       <div
         className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
         onMouseEnter={startAutoOpen}
@@ -472,8 +484,8 @@ function ProjectCard({
             style={{ animation: `hero-progress ${HOVER_AUTO_OPEN_MS}ms linear forwards` }}
           />
         )}
-        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
-          {p.ref}
+        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1 tabular-nums`}>
+          {pad(index + 1)} / {pad(projects.length)}
         </span>
 
         <button
@@ -544,7 +556,7 @@ function ProjectCard({
           params={{ slug: p.slug }}
           className={`${label} mt-4 inline-flex items-center gap-2 text-chart-3 transition-colors hover:text-foreground`}
         >
-          Click for more details <ArrowRight className="h-3.5 w-3.5" />
+          More details <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </article>
