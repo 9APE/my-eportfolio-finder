@@ -96,8 +96,7 @@ function Hero() {
     <section className="relative border-b border-border">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <span className={label}>Ref. AP-00 / Assembly View</span>
-          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
+          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
             Final-year Mechanical Engineering student working across the full design-analysis-validation
             cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
