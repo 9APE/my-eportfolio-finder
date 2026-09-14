@@ -37,7 +37,7 @@ import mdfs3 from "@/assets/mdfs-3.jpg";
 import mdfs4 from "@/assets/mdfs-4.jpg";
 
 export type Project = {
-  slug: string; ref: string; category: string; title: string; team: string;
+  slug: string; category: string; title: string; team: string;
   tags: string[]; image: string; gallery: string[];
   what: string; how: string[]; result: string[];
   spec: { label: string; value: string }[]; skills: string[];
@@ -46,7 +46,6 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "chassis-torsional-stiffness",
-    ref: "AP-01",
     category: "Structural Simulation",
     title: "Chassis Torsional Stiffness Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
@@ -81,7 +80,6 @@ export const projects: Project[] = [
   },
   {
     slug: "aero-devices-fea",
-    ref: "AP-02",
     category: "Structural Simulation",
     title: "FEA Aerodynamic Devices Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
@@ -115,7 +113,6 @@ export const projects: Project[] = [
   },
   {
     slug: "composite-manufacturing",
-    ref: "AP-03",
     category: "Manufacturing / DFM",
     title: "Composite Manufacturing & Drapability Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
@@ -149,7 +146,6 @@ export const projects: Project[] = [
   },
   {
     slug: "cad-monocoque-design-packaging",
-    ref: "AP-04",
     category: "CAD & Packaging",
     title: "CAD Monocoque Design & Packaging",
     team: "University Racing Eindhoven · Netherlands",
@@ -183,7 +179,6 @@ export const projects: Project[] = [
   },
   {
     slug: "ergonomics-driver-fitment",
-    ref: "AP-05",
     category: "Ergonomics",
     title: "Ergonomics & Driver Fitment",
     team: "University Racing Eindhoven · Netherlands",
@@ -217,7 +212,6 @@ export const projects: Project[] = [
   },
   {
     slug: "cad-tooling-design",
-    ref: "AP-06",
     category: "Tooling Design",
     title: "CAD Tooling Design",
     team: "University Racing Eindhoven · Netherlands",
@@ -251,7 +245,6 @@ export const projects: Project[] = [
   },
   {
     slug: "warman-challenge-robot",
-    ref: "AP-07",
     category: "Mechatronics / 3D Print",
     title: "Warman Challenge Robot",
     team: "University of Technology Sydney",
@@ -265,12 +258,10 @@ export const projects: Project[] = [
       "Produced a full engineering drawing pack, assembly and component-level.",
     ],
     result: [
-      "Scored 100% on engineering process documentation.",
       "Fully integrated drive, actuation, and end-effector in one machine.",
       "Complete, manufacturable drawing set.",
     ],
     spec: [
-      { label: "Documentation score", value: "100%" },
       { label: "CAD iterations", value: "REV A–E" },
       { label: "Tolerancing", value: "Slide-fit / interference-fit" },
       { label: "Output", value: "Full assembly + component drawing pack" },
