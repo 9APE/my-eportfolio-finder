@@ -138,7 +138,10 @@ function Hero() {
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             Motivated engineer eager to tackle real-world technical challenges within established
-            teams. Focused on continuous learning, active feedback integration, and delivering
+            teams. Focused on continuous{" "}
+            <strong className="font-semibold text-foreground">learning</strong>,{" "}
+            <strong className="font-semibold text-foreground">growing</strong> by staying{" "}
+            <strong className="font-semibold text-foreground">open to feedback</strong>, and delivering
             impactful results.
           </p>
 
