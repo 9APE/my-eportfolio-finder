@@ -215,7 +215,7 @@ function ProjectPage() {
                 {project.result.map((r) => (
                   <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
                     <span className="text-chart-3">—</span>
-                    <span>{r}</span>
+                    <span><RichText text={r} /></span>
                   </li>
                 ))}
               </ul>
