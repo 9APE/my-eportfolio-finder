@@ -403,7 +403,19 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
   );
 }
 
-function StatCell({ value, prefix, suffix, t }: { value: number; prefix: string; suffix: string; t: string }) {
+function StatCell({
+  value,
+  prefix,
+  suffix,
+  denominator,
+  t,
+}: {
+  value: number;
+  prefix: string;
+  suffix: string;
+  denominator?: string;
+  t: string;
+}) {
   const { ref, inView } = useInView<HTMLDivElement>(0.4);
   const [display, setDisplay] = useState(0);
 
@@ -432,6 +444,11 @@ function StatCell({ value, prefix, suffix, t }: { value: number; prefix: string;
         {prefix}
         {display}
         {suffix}
+        {denominator && (
+          <span className="ml-0.5 inline-block align-baseline text-base font-bold text-foreground/80">
+            {denominator}
+          </span>
+        )}
       </div>
       <div className={`${label} mt-2 leading-snug`}>{t}</div>
     </div>
