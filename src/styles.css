@@ -143,6 +143,32 @@
   }
 }
 
+@keyframes accent-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes cue-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent-draw,
+  .cue-pulse {
+    animation: none !important;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
