@@ -593,7 +593,7 @@ function ProjectCard({
         <span className={`${label} mt-1`}>{p.team}</span>
 
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-          {truncate(p.what, 100)}
+          {truncate(stripMarks(p.what), 100)}
         </p>
 
         <Link
