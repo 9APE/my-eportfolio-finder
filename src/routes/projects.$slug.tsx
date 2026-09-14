@@ -202,7 +202,7 @@ function ProjectPage() {
                 {project.how.map((h, i) => (
                   <li key={h} className="flex gap-2 text-sm leading-snug text-muted-foreground">
                     <span className="font-mono text-xs text-chart-3">{String(i + 1).padStart(2, "0")}</span>
-                    <span>{h}</span>
+                    <span><RichText text={h} /></span>
                   </li>
                 ))}
               </ol>
