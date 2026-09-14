@@ -235,10 +235,6 @@ function Hero() {
 }
 
 function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
-  const [hoverSkill, setHoverSkill] = useState<string | null>(null);
-  const [pinnedSkill, setPinnedSkill] = useState<string | null>(null);
-  const activeSkill = hoverSkill ?? pinnedSkill;
-
   return (
     <section id="projects" className="mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
       <span className={label}>Ref. AP-BOM / Project Index</span>
