@@ -10,7 +10,7 @@ export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
     const project = getProject(params.slug);
     if (!project) throw notFound();
-    return { title: project.title, what: project.what };
+    return { title: project.title, what: stripMarks(project.what) };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
