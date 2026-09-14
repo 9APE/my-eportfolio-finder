@@ -33,8 +33,6 @@ export const Route = createFileRoute("/projects/$slug")({
 
 const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
 const sectionHeading = "font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground";
-const MAX_VISIBLE_THUMBS = 3;
-
 function ProjectPage() {
   const { slug } = Route.useParams();
   const project = getProject(slug)!;
@@ -43,8 +41,6 @@ function ProjectPage() {
 
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
   const otherProjects = projects.filter((p) => p.slug !== slug);
-  const visibleThumbs = fullGallery.slice(0, MAX_VISIBLE_THUMBS);
-  const hiddenThumbCount = fullGallery.length - MAX_VISIBLE_THUMBS;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -85,7 +81,7 @@ function ProjectPage() {
         {/* Images — thumbnail rail (hover to preview, height-matched to the main image) + main image */}
         <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
           <div className="flex gap-3 overflow-x-auto lg:h-full lg:flex-col lg:overflow-hidden">
-            {visibleThumbs.map((img, i) => (
+            {fullGallery.map((img, i) => (
               <button
                 key={img}
                 type="button"
@@ -107,27 +103,6 @@ function ProjectPage() {
                 />
               </button>
             ))}
-            {hiddenThumbCount > 0 && (
-              <button
-                type="button"
-                onClick={() => setLightbox(MAX_VISIBLE_THUMBS)}
-                aria-label={`See ${hiddenThumbCount} more images`}
-                className="relative aspect-square w-16 shrink-0 overflow-hidden border border-border bg-muted/60 transition-colors hover:border-chart-3/60 lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1"
-              >
-                <img
-                  src={fullGallery[MAX_VISIBLE_THUMBS]}
-                  alt=""
-                  aria-hidden="true"
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  className="h-full w-full object-cover opacity-40"
-                />
-                <span className="absolute inset-0 flex items-center justify-center bg-foreground/50 font-mono text-[11px] font-bold text-background">
-                  +{hiddenThumbCount} More
-                </span>
-              </button>
-            )}
           </div>
 
           <button

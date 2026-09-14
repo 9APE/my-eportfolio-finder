@@ -85,7 +85,7 @@ function Hero() {
   return (
     <section className="relative border-b border-border">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
-        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:py-24">
+        <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
           <span className={label}>Ref. AP-00 / Assembly View</span>
           <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
@@ -212,7 +212,7 @@ function Hero() {
             onClick={scrollToProjects}
             className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
           >
-            Scroll for more details <ArrowDown className="h-3.5 w-3.5" />
+            Scroll to see {projects.length} Engineering Projects <ArrowDown className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
@@ -233,7 +233,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <span className={label}>{projects.length} Entries</span>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
         {projects.map((p) => (
           <ProjectCard key={p.slug} p={p} onExpand={onExpand} />
         ))}
