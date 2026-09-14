@@ -11,13 +11,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a mecanum-drive MDFS robot.",
+          "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a mecanum-drive Warman Challenge robot.",
       },
       { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
       {
         property: "og:description",
         content:
-          "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive MDFS robot.",
+          "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive Warman Challenge robot.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -85,7 +85,7 @@ function Hero() {
               { n: "7,020", t: "Nm/° validated" },
               { n: "~75%", t: "Torsional rigidity" },
               { n: "−11%", t: "Rear-wing weight" },
-              { n: "100%", t: "MDFS process docs" },
+              { n: "100%", t: "Warman process docs" },
             ].map((s) => (
               <div key={s.t} className="border-r border-border p-5 last:border-r-0">
                 <div className="text-2xl font-bold">{s.n}</div>

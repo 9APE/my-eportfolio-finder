@@ -2,18 +2,24 @@ import monoFeaHero from "@/assets/mono-fea-hero.jpg";
 import monoFea1 from "@/assets/mono-fea-1.jpg";
 import monoFea2 from "@/assets/mono-fea-2.jpg";
 import monoFea3 from "@/assets/mono-fea-3.jpg";
+import monoFea4 from "@/assets/mono-fea-4.jpg";
+import monoFea5 from "@/assets/mono-fea-5.jpg";
+import monoFea6 from "@/assets/mono-fea-6.jpg";
 import aeroHero from "@/assets/aero-hero.jpg";
 import aero1 from "@/assets/aero-1.jpg";
 import aero2 from "@/assets/aero-2.jpg";
 import aero3 from "@/assets/aero-3.jpg";
+import aero4 from "@/assets/aero-4.jpg";
 import manuHero from "@/assets/manu-hero.jpg";
 import manu1 from "@/assets/manu-1.jpg";
 import manu2 from "@/assets/manu-2.jpg";
 import manu3 from "@/assets/manu-3.jpg";
+import manu4 from "@/assets/manu-4.jpg";
 import urePkgHero from "@/assets/ure-pkg-hero.jpg";
 import urePkg1 from "@/assets/ure-pkg-1.jpg";
 import urePkg2 from "@/assets/ure-pkg-2.jpg";
 import urePkg3 from "@/assets/ure-pkg-3.jpg";
+import urePkg4 from "@/assets/ure-pkg-4.jpg";
 import ureErgoHero from "@/assets/ure-ergo-hero.jpg";
 import ureErgo1 from "@/assets/ure-ergo-1.jpg";
 import ureErgo2 from "@/assets/ure-ergo-2.jpg";
@@ -22,6 +28,7 @@ import ureToolHero from "@/assets/ure-tool-hero.jpg";
 import ureTool1 from "@/assets/ure-tool-1.jpg";
 import ureTool2 from "@/assets/ure-tool-2.jpg";
 import ureTool3 from "@/assets/ure-tool-3.jpg";
+import ureTool4 from "@/assets/ure-tool-4.jpg";
 import mdfsHero from "@/assets/mdfs-hero.jpg";
 import mdfs1 from "@/assets/mdfs-1.jpg";
 import mdfs2 from "@/assets/mdfs-2.jpg";
@@ -44,7 +51,7 @@ export const projects: Project[] = [
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: monoFeaHero,
-    gallery: [monoFea1, monoFea2, monoFea3],
+    gallery: [monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
     what: "Set a chassis torsional-stiffness target from first principles so chassis flex could not corrupt the intended mechanical balance, then verified the carbon-fibre monocoque met it through FEA.",
     how: [
       "Treated the chassis as a torsional spring in series between the front and rear suspension.",
@@ -68,11 +75,11 @@ export const projects: Project[] = [
     slug: "aero-devices-fea",
     ref: "AP-02",
     category: "Structural Validation",
-    title: "Aerodynamic Devices FEA — Rear Wing",
+    title: "Aerodynamic Devices FEA",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEA", "Composites Layup", "Rules Compliance"],
     image: aeroHero,
-    gallery: [aero1, aero2, aero3],
+    gallery: [aero1, aero2, aero3, aero4],
     what: "Made every aerodynamic device light, stiff and strong enough to pass the FSG structural rules by aligning the aerodynamic and structural design and validating each device in FEA.",
     how: [
       "Applied the FSG aero-device load cases in FEA — a 200 N load distributed over ≥225 cm² and a 50 N point load in any direction at any point.",
@@ -100,7 +107,7 @@ export const projects: Project[] = [
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["Fibersim", "Ply Book", "DFM"],
     image: manuHero,
-    gallery: [manu1, manu2, manu3],
+    gallery: [manu1, manu2, manu3, manu4],
     what: "Turned the monocoque CAD surface into a repeatable, low-waste carbon-fibre part by planning the plies and layup before touching the mould.",
     how: [
       "Defined ply zones and drop-offs on the monocoque surface in Siemens NX / Fibersim.",
@@ -128,7 +135,7 @@ export const projects: Project[] = [
     team: "University Racing Eindhoven · Netherlands",
     tags: ["Siemens NX", "Packaging", "Integration"],
     image: urePkgHero,
-    gallery: [urePkg1, urePkg2, urePkg3],
+    gallery: [urePkg1, urePkg2, urePkg3, urePkg4],
     what: "Designed the monocoque geometry and packaged every subsystem into one integrated chassis surface during a six-month internship at University Racing Eindhoven.",
     how: [
       "Modelled the monocoque geometry in Siemens NX and allocated subsystem volumes.",
@@ -184,7 +191,7 @@ export const projects: Project[] = [
     team: "University Racing Eindhoven · Netherlands",
     tags: ["Siemens NX", "Tooling", "DFM"],
     image: ureToolHero,
-    gallery: [ureTool1, ureTool2, ureTool3],
+    gallery: [ureTool1, ureTool2, ureTool3, ureTool4],
     what: "Designed the monocoque moulds to their own set of requirements so the cured part demoulds cleanly and the car is built to the correct geometry.",
     how: [
       "Drew the tooling in Siemens NX with a minimum 3° draft angle on every face for demouldability.",
@@ -208,7 +215,7 @@ export const projects: Project[] = [
     slug: "mdfs-robot",
     ref: "AP-07",
     category: "Mechatronics / 3D Print",
-    title: "MDFS Robot",
+    title: "Warman Challenge Robot",
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
     image: mdfsHero,
