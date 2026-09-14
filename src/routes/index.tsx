@@ -130,9 +130,9 @@ function Hero() {
           </div>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            While I'm thankful for every one of these opportunities, I'm most looking forward to
-            learning inside established companies and applying what I've built so far to real-world
-            engineering challenges.
+            Motivated engineer eager to tackle real-world technical challenges within established
+            teams. Focused on continuous learning, active feedback integration, and delivering
+            impactful results.
           </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
@@ -445,7 +445,7 @@ function StatCell({
         {display}
         {suffix}
         {denominator && (
-          <span className="ml-0.5 inline-block align-baseline text-base font-bold text-foreground/80">
+          <span className="ml-0.5 inline-block align-baseline text-xs font-medium text-muted-foreground">
             {denominator}
           </span>
         )}
