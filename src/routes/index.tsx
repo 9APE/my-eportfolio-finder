@@ -303,21 +303,22 @@ function truncate(text: string, maxLength: number) {
 function ProjectCard({
   p,
   onExpand,
-  dimmed = false,
 }: {
   p: Project;
   onExpand: (images: string[], index: number) => void;
-  dimmed?: boolean;
 }) {
   const navigate = useNavigate();
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [hovering, setHovering] = useState(false);
 
   const openProject = () => navigate({ to: "/projects/$slug", params: { slug: p.slug } });
 
   const startAutoOpen = () => {
+    setHovering(true);
     hoverTimer.current = setTimeout(openProject, HOVER_AUTO_OPEN_MS);
   };
   const cancelAutoOpen = () => {
+    setHovering(false);
     if (hoverTimer.current) {
       clearTimeout(hoverTimer.current);
       hoverTimer.current = null;
@@ -327,16 +328,20 @@ function ProjectCard({
   useEffect(() => cancelAutoOpen, []);
 
   return (
-    <article
-      className={`flex h-full flex-col border border-border transition-all duration-300 ${
-        dimmed ? "opacity-30 grayscale" : "opacity-100"
-      }`}
-    >
+    <article className="flex h-full flex-col border border-border transition-all duration-300">
       <div
         className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
         onMouseEnter={startAutoOpen}
         onMouseLeave={cancelAutoOpen}
       >
+        {/* Hover-to-open progress bar — mirrors the hero slideshow timer */}
+        {hovering && (
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 z-30 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
+            style={{ animation: `hero-progress ${HOVER_AUTO_OPEN_MS}ms linear forwards` }}
+          />
+        )}
         <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
           {p.ref}
         </span>
