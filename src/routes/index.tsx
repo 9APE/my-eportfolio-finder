@@ -247,27 +247,10 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <span className={label}>{projects.length} Entries</span>
       </div>
 
-      <Reveal>
-        <SkillExplorer
-          active={activeSkill}
-          onHover={setHoverSkill}
-          onToggle={(s) => setPinnedSkill((cur) => (cur === s ? null : s))}
-        />
-        {pinnedSkill && (
-          <p className={`${label} mt-2`}>
-            Pinned: {pinnedSkill} — click it again to clear
-          </p>
-        )}
-      </Reveal>
-
       <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
         {projects.map((p, i) => (
           <Reveal key={p.slug} className="h-full" delay={(i % 3) * 100}>
-            <ProjectCard
-              p={p}
-              onExpand={onExpand}
-              dimmed={activeSkill !== null && !projectUsesSkill(p, activeSkill)}
-            />
+            <ProjectCard p={p} onExpand={onExpand} />
           </Reveal>
         ))}
       </div>
