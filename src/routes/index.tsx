@@ -1,24 +1,286 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight, Expand, Mail, MapPin, Phone, Linkedin } from "lucide-react";
+import { projects } from "@/data/projects";
+import { Lightbox } from "@/components/Lightbox";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      {
+        name: "description",
+        content:
+          "Mechanical engineering portfolio of Aurélien Pons: CAD in Siemens NX, FEA in HyperMesh, GD&T and structural validation projects.",
+      },
+      { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      {
+        property: "og:description",
+        content:
+          "CAD, FEA and GD&T projects — Formula Student wheel upright, Warman mechanism, topology optimization and gearbox design.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background text-foreground">
+      <Hero />
+      <ProjectIndex onExpand={(images, index) => setLightbox({ images, index })} />
+      <Footer />
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          onClose={() => setLightbox(null)}
+          onIndexChange={(i) => setLightbox({ ...lightbox, index: i })}
+        />
+      )}
+    </main>
+  );
+}
+
+const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
+
+function Hero() {
+  const [active, setActive] = useState(0);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    timer.current = setInterval(() => setActive((i) => (i + 1) % projects.length), 7000);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, []);
+
+  const scrollToProjects = () => {
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const project = projects[active];
+
+  return (
+    <section className="relative border-b border-border">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
+        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:py-24">
+          <span className={label}>Ref. AP-00 / Assembly View</span>
+          <p className={`${label} mt-14 text-foreground/70`}>Mechanical Engineering — Portfolio</p>
+          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons</h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            Mechanical engineering student focused on the bridge between design intent and validated
+            hardware. I build CAD models in Siemens NX, run structural validation through HyperMesh
+            and FEA, and apply GD&amp;T to ensure parts assemble in the real world the way they do on
+            screen — within tolerance, first time.
+          </p>
+
+          <div className="mt-10 grid max-w-2xl grid-cols-2 border border-border sm:grid-cols-4">
+            {[
+              { n: "5+", t: "Years in CAD" },
+              { n: "20+", t: "FEA studies" },
+              { n: "15", t: "Tolerance stack-ups" },
+            ].map((s) => (
+              <div key={s.t} className="border-r border-border p-5 last:border-r-0">
+                <div className="text-2xl font-bold">{s.n}</div>
+                <div className={`${label} mt-2 leading-snug`}>{s.t}</div>
+              </div>
+            ))}
+            <div className="hidden bg-muted sm:block" />
+          </div>
+
+          <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+            <a
+              href="mailto:aurelien.pons@engineering-portfolio.dev"
+              className="flex items-start gap-3 text-foreground hover:underline"
+            >
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+              aurelien.pons@engineering-portfolio.dev
+            </a>
+            <span className="flex items-start gap-3 text-foreground">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+              +33 6 00 00 00 00
+            </span>
+            <span className="flex items-start gap-3 text-foreground">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+              France / Remote
+            </span>
+            <a
+              href="https://linkedin.com/in/aurelienpons"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-start gap-3 text-foreground hover:underline"
+            >
+              <Linkedin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+              linkedin.com/in/aurelienpons
+            </a>
+          </div>
+        </div>
+
+        {/* Rotating project showcase */}
+        <button
+          onClick={scrollToProjects}
+          aria-label={`View project ${project.title}`}
+          className="group relative flex min-h-[420px] items-center justify-center overflow-hidden bg-muted/60 p-8 text-left lg:min-h-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px)",
+            backgroundSize: "120px 120px",
+          }}
+        >
+          <span className={`${label} absolute right-6 top-6`}>Drawn by: A. Pons</span>
+
+          {projects.map((p, i) => (
+            <img
+              key={p.slug}
+              src={p.image}
+              alt={p.title}
+              width={1408}
+              height={1104}
+              loading={i === 0 ? "eager" : "lazy"}
+              className={`absolute max-h-[62%] max-w-[76%] bg-background object-contain shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] transition-opacity duration-1000 ${
+                i === active ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+
+          <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
+            {project.ref} — {project.title.toUpperCase()}
+          </span>
+
+          <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
+            {projects.map((p, i) => (
+              <span
+                key={p.slug}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActive(i);
+                }}
+                className={`h-[3px] w-8 transition-colors ${
+                  i === active ? "bg-foreground" : "bg-border"
+                }`}
+              />
+            ))}
+          </span>
+
+          <span className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
+            Scroll to BOM grid <ArrowDown className="h-3.5 w-3.5" />
+          </span>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
+  return (
+    <section id="projects" className="mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
+      <span className={label}>Ref. AP-BOM / Project Index</span>
+      <div className="mt-3 flex items-end justify-between border-b border-foreground/80 pb-4">
+        <h2 className="text-3xl font-bold tracking-tight">Engineering Projects</h2>
+        <span className={label}>{projects.length} Entries</span>
+      </div>
+
+      <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-2">
+        {projects.map((p) => (
+          <article key={p.slug} className="flex flex-col border border-border">
+            <button
+              onClick={() => onExpand(p.gallery, 0)}
+              className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
+              aria-label={`Expand image for ${p.title}`}
+            >
+              <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1`}>
+                {p.ref}
+              </span>
+              <img
+                src={p.image}
+                alt={p.title}
+                width={1408}
+                height={1104}
+                loading="lazy"
+                className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              <span className="absolute inset-0 flex items-center justify-center bg-foreground/10 opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-background/90">
+                  <Expand className="h-5 w-5" />
+                </span>
+              </span>
+            </button>
+
+            <div className="flex items-center justify-between border-y border-border px-5 py-3">
+              <span className={label}>{p.category}</span>
+              <span className="flex gap-2">
+                {p.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="border border-chart-3/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-chart-3"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </span>
+            </div>
+
+            <div className="flex flex-1 flex-col px-5 pb-5">
+              <h3 className="mt-5 text-xl font-bold tracking-tight">{p.title}</h3>
+
+              <div className="mt-6 grid flex-1 grid-cols-1 gap-6 sm:grid-cols-3">
+                <div>
+                  <div className={label}>What</div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.what}</p>
+                </div>
+                <div>
+                  <div className={label}>How</div>
+                  <ul className="mt-2 space-y-2">
+                    {p.how.map((h) => (
+                      <li key={h} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
+                        <span className="text-chart-3">•</span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <div className={`${label} text-chart-3`}>Result</div>
+                  <ul className="mt-2 space-y-2">
+                    {p.result.map((r) => (
+                      <li key={r} className="flex gap-2 text-sm font-medium leading-relaxed">
+                        <span className="text-chart-3">—</span>
+                        <span>{r}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <Link
+                to="/projects/$slug"
+                params={{ slug: p.slug }}
+                className={`${label} mt-8 inline-flex items-center gap-2 transition-colors hover:text-foreground`}
+              >
+                more details <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+        <span className={label}>Aurélien Pons — Mechanical Engineering</span>
+        <a href="mailto:aurelien.pons@engineering-portfolio.dev" className={`${label} hover:text-foreground`}>
+          aurelien.pons@engineering-portfolio.dev
+        </a>
+      </div>
+    </footer>
   );
 }
