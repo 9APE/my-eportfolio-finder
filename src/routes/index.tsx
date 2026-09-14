@@ -110,12 +110,30 @@ function Hero() {
             {[
               { value: 75, prefix: "+", suffix: "%", t: "Torsional rigidity increase" },
               { value: 11, prefix: "−", suffix: "%", t: "Rear-wing weight" },
-              { value: 2, prefix: "", suffix: "nd", t: "Formula Student World Rankings 2026" },
-              { value: 2, prefix: "", suffix: "nd", t: "Formula Student Germany 2026" },
+              {
+                value: 2,
+                prefix: "",
+                suffix: "nd",
+                denominator: "/800",
+                t: "Formula Student World Rankings 2026",
+              },
+              {
+                value: 2,
+                prefix: "",
+                suffix: "nd",
+                denominator: "/80",
+                t: "Formula Student Germany 2026",
+              },
             ].map((s) => (
               <StatCell key={s.t} {...s} />
             ))}
           </div>
+
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            While I'm thankful for every one of these opportunities, I'm most looking forward to
+            learning inside established companies and applying what I've built so far to real-world
+            engineering challenges.
+          </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a
@@ -385,7 +403,19 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
   );
 }
 
-function StatCell({ value, prefix, suffix, t }: { value: number; prefix: string; suffix: string; t: string }) {
+function StatCell({
+  value,
+  prefix,
+  suffix,
+  denominator,
+  t,
+}: {
+  value: number;
+  prefix: string;
+  suffix: string;
+  denominator?: string;
+  t: string;
+}) {
   const { ref, inView } = useInView<HTMLDivElement>(0.4);
   const [display, setDisplay] = useState(0);
 
@@ -414,6 +444,11 @@ function StatCell({ value, prefix, suffix, t }: { value: number; prefix: string;
         {prefix}
         {display}
         {suffix}
+        {denominator && (
+          <span className="ml-0.5 inline-block align-baseline text-base font-bold text-foreground/80">
+            {denominator}
+          </span>
+        )}
       </div>
       <div className={`${label} mt-2 leading-snug`}>{t}</div>
     </div>
