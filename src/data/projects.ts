@@ -1,12 +1,12 @@
 import monoFeaHero from "@/assets/mono-fea-hero.jpg";
 import monoFea1 from "@/assets/mono-fea-1.jpg";
-import monoFea2 from "@/assets/mono-fea-2.jpg";
+
 import monoFea3 from "@/assets/mono-fea-3.jpg";
 import monoFea4 from "@/assets/mono-fea-4.jpg";
 import monoFea5 from "@/assets/mono-fea-5.jpg";
 import monoFea6 from "@/assets/mono-fea-6.jpg";
 import aeroHero from "@/assets/aero-hero.jpg";
-import aero1 from "@/assets/aero-1.jpg";
+
 import aero2 from "@/assets/aero-2.jpg";
 import aero3 from "@/assets/aero-3.jpg";
 import aero4 from "@/assets/aero-4.jpg";
