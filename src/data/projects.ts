@@ -64,6 +64,7 @@ export const projects: Project[] = [
       "One integrated chassis surface carrying all load paths and mounting interfaces.",
       "Package validated against the full vehicle before manufacture.",
       "Design handed off to the tooling and composites teams.",
+      "100% grade on engineering documentation.",
     ],
     spec: [
       { label: "Duration", value: "6-month placement" },
@@ -187,7 +188,7 @@ export const projects: Project[] = [
     tags: ["FEA", "Composites Layup", "Rules Compliance"],
     image: aeroHero,
     gallery: [aero1, aero2, aero3, aero4],
-    what: "Every aerodynamic device had to be light, stiff, and compliant with FSG's structural rules. I aligned the aero and structural design process so each device was validated in FEA against the rulebook loads before manufacture.",
+    what: "Every aerodynamic device had to be light, stiff, and compliant with Formula Student Germany's (FSG) structural rules. I aligned the aero and structural design process so each device was validated in FEA against the rulebook loads before manufacture.",
     how: [
       "Applied FSG's aero-device load cases in FEA: 200 N distributed over ≥225 cm², and a 50 N point load at any position.",
       "Optimised the composite layup to hold deflection limits while removing material carrying no load.",
@@ -220,7 +221,7 @@ export const projects: Project[] = [
     tags: ["Fibersim", "Drapability", "Ply Book"],
     image: manuHero,
     gallery: [manu1, manu2, manu3, manu4, manu5],
-    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched. Hands-on **manufacturing** work on the shop floor, **learning by doing** alongside the people laying up the parts.",
+    what: "Turning the monocoque's CAD surface into a repeatable, low-waste carbon-fibre part meant simulating drapability and planning every ply before the mould was touched. Hands-on **manufacturing** work on the shop floor, **learning by doing** alongside peers laying up the parts.",
     how: [
       "Defined ply zones and drop-offs on the monocoque surface in Siemens NX / Fibersim.",
       "Ran drapability simulation to verify fibre orientation, then nested plies to reduce waste and exported flat patterns for cutting.",
