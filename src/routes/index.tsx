@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
@@ -18,6 +17,7 @@ import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
+import { ScrollPill } from "@/components/ScrollPill";
 import { stripMarks } from "@/components/RichText";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
