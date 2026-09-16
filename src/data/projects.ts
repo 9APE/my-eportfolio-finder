@@ -35,12 +35,14 @@ import mdfs1 from "@/assets/mdfs-1.jpg";
 import mdfs2 from "@/assets/mdfs-2.jpg";
 import mdfs3 from "@/assets/mdfs-3.jpg";
 import mdfs4 from "@/assets/mdfs-4.jpg";
+import carIsometric from "@/assets/car-isometric.png.asset.json";
+import rearWingPhoto from "@/assets/rear-wing-photo.jpg.asset.json";
 import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
 
 export type Project = {
   slug: string; category: string; title: string; team: string;
-  tags: string[]; image: string; gallery: string[];
+  tags: string[]; image: string; hoverImage?: string; gallery: string[];
   what: string; how: string[]; result: string[];
   spec: { label: string; value: string }[]; skills: string[];
 };
@@ -152,8 +154,9 @@ export const projects: Project[] = [
     title: "Chassis Torsional Stiffness Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEA", "First Principles"],
-    image: monoFeaHero,
-    gallery: [monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
+    image: carIsometric.url,
+    hoverImage: monoFeaHero,
+    gallery: [monoFeaHero, monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
@@ -186,8 +189,9 @@ export const projects: Project[] = [
     title: "FEA Aerodynamic Devices Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEA", "Composites Layup", "Rules Compliance"],
-    image: aeroHero,
-    gallery: [aero1, aero2, aero3, aero4],
+    image: rearWingPhoto.url,
+    hoverImage: aeroHero,
+    gallery: [aeroHero, aero1, aero2, aero3, aero4],
     what: "Every aerodynamic device had to be light, stiff, and compliant with Formula Student Germany's (FSG) structural rules. I aligned the aero and structural design process so each device was validated in FEA against the rulebook loads before manufacture.",
     how: [
       "Applied FSG's aero-device load cases in FEA: 200 N distributed over ≥225 cm², and a 50 N point load at any position.",
