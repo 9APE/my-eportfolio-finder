@@ -1,12 +1,12 @@
 import monoFeaHero from "@/assets/mono-fea-hero.jpg";
 import monoFea1 from "@/assets/mono-fea-1.jpg";
-import monoFea2 from "@/assets/mono-fea-2.jpg";
+
 import monoFea3 from "@/assets/mono-fea-3.jpg";
 import monoFea4 from "@/assets/mono-fea-4.jpg";
 import monoFea5 from "@/assets/mono-fea-5.jpg";
 import monoFea6 from "@/assets/mono-fea-6.jpg";
 import aeroHero from "@/assets/aero-hero.jpg";
-import aero1 from "@/assets/aero-1.jpg";
+
 import aero2 from "@/assets/aero-2.jpg";
 import aero3 from "@/assets/aero-3.jpg";
 import aero4 from "@/assets/aero-4.jpg";
@@ -156,7 +156,7 @@ export const projects: Project[] = [
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: carIsometric.url,
     hoverImage: monoFeaHero,
-    gallery: [monoFeaHero, monoFea1, monoFea2, monoFea3, monoFea4, monoFea5, monoFea6],
+    gallery: [monoFeaHero, monoFea1, monoFea3, monoFea4, monoFea5, monoFea6],
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
@@ -191,7 +191,7 @@ export const projects: Project[] = [
     tags: ["FEA", "Composites Layup", "Rules Compliance"],
     image: rearWingPhoto.url,
     hoverImage: aeroHero,
-    gallery: [aeroHero, aero1, aero2, aero3, aero4],
+    gallery: [aeroHero, aero2, aero3, aero4],
     what: "Every aerodynamic device had to be light, stiff, and compliant with Formula Student Germany's (FSG) structural rules. I aligned the aero and structural design process so each device was validated in FEA against the rulebook loads before manufacture.",
     how: [
       "Applied FSG's aero-device load cases in FEA: 200 N distributed over ≥225 cm², and a 50 N point load at any position.",
