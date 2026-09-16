@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, ChevronRight, X } from "lucide-react";
 
 import carCutout from "@/assets/ecurie-aix-car-cutout.png";
+import frontWing from "@/assets/ecurie-front-wing.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 
 const ACCESS_KEY = "b566c164-ac8d-4287-b322-130930e8ba60";
@@ -16,7 +17,13 @@ const ROLES = [
 ] as const;
 
 type Status = "idle" | "sending" | "error";
-type Sequence = "idle" | "entering" | "packet" | "driving" | "thanks";
+type Sequence = "idle" | "entering" | "packet" | "squat" | "driving" | "thanks";
+
+const QUICK_REASONS = [
+  "💼 Open to Chat / Roles",
+  "💡 Portfolio Feedback",
+  "👋 Just Saying Hi",
+] as const;
 
 const label =
   "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
@@ -130,9 +137,17 @@ export default function FeedbackWidget() {
       return;
     }
     setSequence("packet");
-    later(() => setSequence("driving"), 850);
-    later(() => setSequence("thanks"), 1_750);
+    later(() => setSequence("squat"), 850);
+    later(() => setSequence("driving"), 1_000);
+    later(() => setSequence("thanks"), 1_475);
   }, [later]);
+
+  const addQuickReason = (reason: string) => {
+    setMessage((current) => {
+      if (current.includes(reason)) return current;
+      return current ? `${current}\n${reason}` : reason;
+    });
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -140,10 +155,11 @@ export default function FeedbackWidget() {
     setStatus("sending");
     setTeasing(false);
     setSequence("entering");
+    const arrivalStartedAt = performance.now();
 
     const trimmedIdentity = identity.trim();
     const trimmedMessage = message.trim();
-    if (!trimmedMessage || trimmedMessage.length > 2000 || trimmedIdentity.length > 200) {
+    if (!trimmedMessage || !trimmedIdentity || trimmedMessage.length > 2000 || trimmedIdentity.length > 200) {
       setStatus("error");
       setSequence("idle");
       return;
@@ -171,6 +187,10 @@ export default function FeedbackWidget() {
       });
       const data = (await response.json()) as { success?: boolean };
       if (!response.ok || !data.success) throw new Error("Submission failed");
+      const arrivalRemaining = Math.max(0, 1_200 - (performance.now() - arrivalStartedAt));
+      if (arrivalRemaining > 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, arrivalRemaining));
+      }
       finishSequence();
     } catch {
       setStatus("error");
@@ -208,14 +228,16 @@ export default function FeedbackWidget() {
               sequenceActive ? "pointer-events-none scale-75 opacity-0" : "scale-100 opacity-100"
             } ${sequence === "thanks" ? "pointer-events-none opacity-0" : ""}`}
           >
+            <div className="feedback-wing-accent -mx-6 -mt-6 mb-6 h-28 overflow-hidden border-b border-border/70 sm:-mx-8 sm:-mt-8 sm:h-32">
+              <img src={frontWing.url} alt="Écurie Aix race car front wing" className="h-full w-full object-cover object-center" />
+            </div>
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
               <div className="min-w-0">
                 <h2 id="feedback-title" className="text-xl font-semibold text-foreground">
-                  I really value your feedback
+                  Leave your thoughts &amp; connect
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  A few honest thoughts on the portfolio or any project would genuinely help me improve,
-                  from clarity to technical depth.
+                  Any feedback is welcome, whether it's thoughts on the portfolio, project suggestions, or opportunities to connect.
                 </p>
               </div>
               <Button type="button" variant="ghost" size="icon" onClick={closeModal} aria-label="Dismiss feedback" className="-mr-1 -mt-1 shrink-0 rounded-full text-muted-foreground">
@@ -224,6 +246,16 @@ export default function FeedbackWidget() {
             </div>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <div className="space-y-2">
+                <p className={label}>Quick reason</p>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_REASONS.map((reason) => (
+                    <Button key={reason} type="button" variant="outline" size="sm" onClick={() => addQuickReason(reason)} disabled={status === "sending"} className="h-8 rounded-full px-3 text-xs font-normal">
+                      {reason}
+                    </Button>
+                  ))}
+                </div>
+              </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-role" className={label}>Who are you?</label>
                 <select id="feedback-role" ref={firstFieldRef} value={role} onChange={(event) => setRole(event.target.value)} className={field} disabled={status === "sending"}>
@@ -231,9 +263,9 @@ export default function FeedbackWidget() {
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="feedback-identity" className={label}>Name, Email, or LinkedIn (Optional)</label>
-                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} maxLength={200} placeholder="Optional, only if you'd like a reply" className={field} disabled={status === "sending"} />
-                <p className="text-xs text-muted-foreground">Completely optional. Leave blank to stay anonymous.</p>
+                <label htmlFor="feedback-identity" className={label}>Your name, email, or LinkedIn</label>
+                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} required maxLength={200} placeholder="e.g. Sarah Miller · smiller@company.com or LinkedIn URL" className={field} disabled={status === "sending"} />
+                <p className="text-xs text-muted-foreground">Leave your info so I can thank you directly or follow up.</p>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-message" className={label}>Your feedback</label>
@@ -251,7 +283,7 @@ export default function FeedbackWidget() {
                   onBlur={() => setTeasing(false)}
                   className="rounded-full px-5"
                 >
-                  {status === "sending" ? "Sending..." : "Send feedback"}
+                  {status === "sending" ? "Sending..." : "Submit Feedback 🏁"}
                 </Button>
               </div>
             </form>
@@ -259,7 +291,7 @@ export default function FeedbackWidget() {
 
           <div className={`feedback-car-layer ${teasing && sequence === "idle" ? "is-teasing" : ""} ${sequenceActive ? `is-${sequence}` : ""}`} aria-hidden="true">
             <img src={carCutout} alt="" className="feedback-car" />
-            {(sequence === "packet" || sequence === "driving") && (
+            {(sequence === "packet" || sequence === "squat") && (
               <span className="feedback-packet"><span /><span /><span /></span>
             )}
           </div>
