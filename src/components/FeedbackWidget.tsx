@@ -23,7 +23,10 @@ const QUICK_REASONS = [
   "💼 Open to Chat / Roles",
   "💡 Portfolio Feedback",
   "👋 Just Saying Hi",
+  "⚙️ Other",
 ] as const;
+
+const OTHER_REASON = "⚙️ Other";
 
 const label =
   "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
@@ -36,6 +39,8 @@ export default function FeedbackWidget() {
   const [role, setRole] = useState<string>(ROLES[0]);
   const [identity, setIdentity] = useState("");
   const [message, setMessage] = useState("");
+  const [otherReason, setOtherReason] = useState("");
+  const [showOther, setShowOther] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const firstFieldRef = useRef<HTMLSelectElement | null>(null);
   const returnRef = useRef<HTMLButtonElement | null>(null);
@@ -75,6 +80,8 @@ export default function FeedbackWidget() {
     setTeasing(false);
     setIdentity("");
     setMessage("");
+    setOtherReason("");
+    setShowOther(false);
     setRole(ROLES[0]);
   }, [clearTimers]);
 
@@ -143,6 +150,10 @@ export default function FeedbackWidget() {
   }, [later]);
 
   const addQuickReason = (reason: string) => {
+    if (reason === OTHER_REASON) {
+      setShowOther((current) => !current);
+      return;
+    }
     setMessage((current) => {
       if (current.includes(reason)) return current;
       return current ? `${current}\n${reason}` : reason;
@@ -180,6 +191,7 @@ export default function FeedbackWidget() {
           message: [
             `Visitor type: ${role}`,
             `Identity: ${trimmedIdentity || "Not provided"}`,
+            ...(otherReason.trim() ? [`Other reason: ${otherReason.trim()}`] : []),
             "",
             trimmedMessage,
           ].join("\n"),
@@ -255,6 +267,17 @@ export default function FeedbackWidget() {
                     </Button>
                   ))}
                 </div>
+                {showOther && (
+                  <input
+                    value={otherReason}
+                    onChange={(event) => setOtherReason(event.target.value)}
+                    maxLength={120}
+                    placeholder="Tell me your reason"
+                    aria-label="Your reason"
+                    className={`${field} motion-safe:animate-fade-in`}
+                    disabled={status === "sending"}
+                  />
+                )}
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-role" className={label}>Who are you?</label>
@@ -264,7 +287,7 @@ export default function FeedbackWidget() {
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-identity" className={label}>Your name, email, or LinkedIn</label>
-                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} required maxLength={200} placeholder="e.g. Sarah Miller · smiller@company.com or LinkedIn URL" className={field} disabled={status === "sending"} />
+                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} required maxLength={200} placeholder="e.g. Aurelien Pons · aurelien.pons@example.com or LinkedIn URL" className={field} disabled={status === "sending"} />
                 <p className="text-xs text-muted-foreground">Leave your info so I can thank you directly or follow up.</p>
               </div>
               <div className="space-y-1.5">
@@ -303,7 +326,7 @@ export default function FeedbackWidget() {
                   <Check className="h-6 w-6" />
                 </span>
                 <h2 id="feedback-thanks-title" className="mt-8 text-4xl font-bold text-foreground sm:text-6xl">I APPRECIATE YOUR FEEDBACK.</h2>
-                <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Your input helps me continuously improve my engineering process.</p>
+                <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Your input helps me continuously improve.</p>
                 <Button ref={returnRef} type="button" variant="outline" onClick={returnToSite} className="mt-10 rounded-full px-6">
                   Return to Site <ChevronRight className="h-4 w-4" />
                 </Button>
