@@ -39,6 +39,7 @@ import carIsometric from "@/assets/car-isometric.png.asset.json";
 import rearWingPhoto from "@/assets/rear-wing-photo.jpg.asset.json";
 import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
+import warmanCadRender from "@/assets/warman-cad-render.png.asset.json";
 
 export type Project = {
   slug: string; category: string; title: string; team: string;
@@ -256,8 +257,8 @@ export const projects: Project[] = [
     title: "Warman Challenge Robot",
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
-    image: mdfsHero,
-    gallery: [warmanPrototypeFront.url, warmanPrototypeSide.url, mdfs1, mdfs2, mdfs3, mdfs4],
+    image: warmanCadRender.url,
+    gallery: [warmanCadRender.url, warmanPrototypeFront.url, warmanPrototypeSide.url, mdfs1, mdfs2, mdfs3, mdfs4],
     what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
     how: [
       "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
