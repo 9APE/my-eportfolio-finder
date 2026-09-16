@@ -15,10 +15,10 @@ export const Route = createFileRoute("/projects/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Project unavailable — Aurélien Pons" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Project unavailable | Aurélien Pons" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `${loaderData.title} — Aurélien Pons`;
+    const title = `${loaderData.title} | Aurélien Pons`;
     return {
       meta: [
         { title },
@@ -214,7 +214,7 @@ function ProjectPage() {
               <ul className="mt-2 space-y-2">
                 {project.result.map((r) => (
                   <li key={r} className="flex gap-2 text-sm font-medium leading-snug">
-                    <span className="text-chart-3">—</span>
+                    <span className="text-chart-3">-</span>
                     <span><RichText text={r} /></span>
                   </li>
                 ))}

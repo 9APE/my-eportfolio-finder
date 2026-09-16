@@ -89,7 +89,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: Props) {
       onClick={onClose}
     >
       <span className="absolute left-5 top-6 font-mono text-[11px] tracking-[0.2em] text-background/60">
-        REF. INSPECT — {String(index + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+        IMAGE {String(index + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
         {zoomed && ` · ${zoom.toFixed(1)}×`}
       </span>
 

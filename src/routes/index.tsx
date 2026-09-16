@@ -25,13 +25,13 @@ import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      { title: "Aurélien Pons | Mechanical Engineering Portfolio" },
       {
         name: "description",
         content:
           "Mechanical engineering portfolio of Aurélien Pons: carbon-fibre monocoque design in Siemens NX, FEA in HyperMesh, composite manufacturing and a mecanum-drive Warman Challenge robot.",
       },
-      { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      { property: "og:title", content: "Aurélien Pons | Mechanical Engineering Portfolio" },
       {
         property: "og:description",
         content:
@@ -405,7 +405,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         {/* End-of-index marker */}
         <div className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between">
           <span className={label}>
-            End of index — {projects.length} projects shown
+            End of index. {projects.length} projects shown
           </span>
           <button
             type="button"
@@ -642,7 +642,7 @@ function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-        <span className={label}>Aurélien Pons — Mechanical Engineering</span>
+        <span className={label}>Aurélien Pons | Mechanical Engineering</span>
         <a href="mailto:ariimoanapons@gmail.com" className={`${label} hover:text-foreground`}>
           ariimoanapons@gmail.com
         </a>

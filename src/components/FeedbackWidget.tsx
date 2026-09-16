@@ -173,7 +173,7 @@ export default function FeedbackWidget() {
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   A few honest thoughts on the portfolio or any of the projects would
-                  genuinely help me improve — anything from clarity to technical depth.
+                  genuinely help me improve, from clarity to technical depth.
                 </p>
               </div>
               <button
@@ -225,7 +225,7 @@ export default function FeedbackWidget() {
                     value={identity}
                     onChange={(e) => setIdentity(e.target.value)}
                     maxLength={200}
-                    placeholder="Optional — only if you'd like a reply"
+                    placeholder="Optional, only if you'd like a reply"
                     className={field}
                   />
                   <p className="text-xs text-muted-foreground">
