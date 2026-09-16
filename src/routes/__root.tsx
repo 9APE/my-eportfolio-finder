@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      { title: "Aurélien Pons | Mechanical Engineering Portfolio" },
       { name: "description", content: "CAD, FEA and GD&T engineering portfolio of Aurélien Pons." },
       { name: "author", content: "Aurélien Pons" },
-      { property: "og:title", content: "Aurélien Pons — Mechanical Engineering Portfolio" },
+      { property: "og:title", content: "Aurélien Pons | Mechanical Engineering Portfolio" },
       { property: "og:description", content: "CAD, FEA and GD&T engineering portfolio of Aurélien Pons." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
