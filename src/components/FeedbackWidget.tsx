@@ -224,7 +224,7 @@ export default function FeedbackWidget() {
             role="dialog"
             aria-modal="true"
             aria-labelledby={sequence === "thanks" ? "feedback-thanks-title" : "feedback-title"}
-            className={`relative z-20 w-full max-w-lg overflow-hidden rounded-3xl border border-border/70 bg-background/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-500 motion-safe:animate-scale-in sm:p-8 ${
+            className={`relative z-20 max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-3xl border border-border/70 bg-background/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-500 motion-safe:animate-scale-in sm:p-8 ${
               sequenceActive ? "pointer-events-none scale-75 opacity-0" : "scale-100 opacity-100"
             } ${sequence === "thanks" ? "pointer-events-none opacity-0" : ""}`}
           >
@@ -297,7 +297,7 @@ export default function FeedbackWidget() {
           </div>
 
           {sequence === "thanks" && (
-            <div ref={panelRef} className="fixed inset-0 z-40 flex items-center justify-center bg-background/95 px-6 text-center backdrop-blur-xl motion-safe:animate-fade-in">
+            <div ref={panelRef} className="fixed inset-0 z-40 flex items-center justify-center bg-background px-6 text-center motion-safe:animate-fade-in">
               <div className="max-w-3xl">
                 <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-border text-chart-2">
                   <Check className="h-6 w-6" />
