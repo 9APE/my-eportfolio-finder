@@ -41,7 +41,7 @@ import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
 import warmanCadRender from "@/assets/warman-cad-render.png.asset.json";
 import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
-import monoFeaSectionSketch from "@/assets/mono-fea-section-sketch.png.asset.json";
+
 import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
 
 export type Project = {
@@ -160,7 +160,7 @@ export const projects: Project[] = [
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: carIsometric.url,
     hoverImage: monoFeaHero,
-    gallery: [monoFeaHero, monoFea1, monoFea3, monoFea4, monoFea5, monoFea6, monoFeaMeshTop.url, monoFeaSectionSketch.url, monoFeaStiffnessCalc.url],
+    gallery: [monoFeaHero, monoFea1, monoFea3, monoFea4, monoFea5, monoFea6, monoFeaMeshTop.url, monoFeaStiffnessCalc.url],
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
