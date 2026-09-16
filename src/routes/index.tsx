@@ -565,14 +565,29 @@ function ProjectCard({
           className="absolute inset-0 z-0"
         >
           <TiltWrapper className="h-full w-full" maxTilt={6}>
-            <img
-              src={p.image}
-              alt={p.title}
-              width={1408}
-              height={1104}
-              loading="lazy"
-              className="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
-            />
+            <span className="relative block h-full w-full">
+              <img
+                src={p.image}
+                alt={p.title}
+                width={1408}
+                height={1104}
+                loading="lazy"
+                className={`h-full w-full object-contain p-6 transition-all duration-500 group-hover:scale-[1.03] ${
+                  p.hoverImage ? "group-hover:opacity-0" : ""
+                }`}
+              />
+              {p.hoverImage && (
+                <img
+                  src={p.hoverImage}
+                  alt={`${p.title} FEA analysis`}
+                  width={1408}
+                  height={1104}
+                  loading="lazy"
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full object-contain p-6 opacity-0 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                />
+              )}
+            </span>
           </TiltWrapper>
         </Link>
 
