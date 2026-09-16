@@ -40,6 +40,9 @@ import rearWingPhoto from "@/assets/rear-wing-photo.jpg.asset.json";
 import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
 import warmanCadRender from "@/assets/warman-cad-render.png.asset.json";
+import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
+import monoFeaSectionSketch from "@/assets/mono-fea-section-sketch.png.asset.json";
+import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
 
 export type Project = {
   slug: string; category: string; title: string; team: string;
