@@ -39,6 +39,7 @@ import carIsometric from "@/assets/car-isometric.png.asset.json";
 import rearWingPhoto from "@/assets/rear-wing-photo.jpg.asset.json";
 import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
+import warmanCadRender from "@/assets/warman-cad-render.png.asset.json";
 
 export type Project = {
   slug: string; category: string; title: string; team: string;
