@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
   ArrowDown,
   ArrowRight,
+  ArrowUpRight,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -115,21 +116,27 @@ function Hero() {
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
-              { value: 75, prefix: "+", suffix: "%", t: "Torsional rigidity increase" },
-              { value: 11, prefix: "−", suffix: "%", t: "Rear-wing weight" },
+              { value: 13, prefix: "", suffix: "+", t: "Self-Driven Engineering & Technical Projects" },
               {
                 value: 2,
                 prefix: "",
                 suffix: "nd",
-                denominator: "/800",
+                denominator: "/400+ teams",
                 t: "Formula Student World Rankings 2026",
               },
               {
-                value: 2,
+                value: 75,
                 prefix: "",
-                suffix: "nd",
-                denominator: "/80",
-                t: "Formula Student Germany 2026",
+                suffix: "%",
+                t: "Chassis torsional rigidity increase",
+                slug: "chassis-torsional-stiffness",
+              },
+              {
+                value: 11,
+                prefix: "",
+                suffix: "%",
+                t: "Rear-wing weight decrease",
+                slug: "aero-devices-fea",
               },
             ].map((s) => (
               <StatCell key={s.t} {...s} />
@@ -419,12 +426,14 @@ function StatCell({
   suffix,
   denominator,
   t,
+  slug,
 }: {
   value: number;
   prefix: string;
   suffix: string;
   denominator?: string;
   t: string;
+  slug?: string;
 }) {
   const { ref, inView } = useInView<HTMLDivElement>(0.4);
   const [display, setDisplay] = useState(0);
@@ -448,8 +457,8 @@ function StatCell({
     return () => cancelAnimationFrame(raf);
   }, [inView, value]);
 
-  return (
-    <div ref={ref} className="border-r border-border p-5 last:border-r-0">
+  const content = (
+    <>
       <div className="text-2xl font-bold tabular-nums">
         {prefix}
         {display}
@@ -461,6 +470,27 @@ function StatCell({
         )}
       </div>
       <div className={`${label} mt-2 leading-snug`}>{t}</div>
+    </>
+  );
+
+  return (
+    <div ref={ref} className="border-r border-border last:border-r-0">
+      {slug ? (
+        <Link
+          to="/projects/$slug"
+          params={{ slug }}
+          title="View the project behind this result"
+          className="group relative block h-full p-5 transition-colors hover:bg-muted/60 focus-visible:bg-muted/60"
+        >
+          <ArrowUpRight
+            aria-hidden="true"
+            className="absolute right-3 top-3 h-4 w-4 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-chart-3"
+          />
+          {content}
+        </Link>
+      ) : (
+        <div className="p-5">{content}</div>
+      )}
     </div>
   );
 }
