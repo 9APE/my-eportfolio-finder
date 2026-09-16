@@ -102,7 +102,7 @@ function Hero() {
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
             Final-year Mechanical Engineering student who worked across the full design-analysis-validation
-            cycle in Formula Student. I designed and packaged chassis geometry in Siemens NX, validated
+            cycle in Formula Student. I designed and packaged a chassis geometry in Siemens NX, validated
             structures through FEA in Altair HyperMesh, and took parts from first-principles requirements to{" "}
             <strong className="font-semibold text-foreground">manufactured</strong> carbon-fibre assemblies.
             I <strong className="font-semibold text-foreground">took ownership</strong> of subsystems end to
