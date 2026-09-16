@@ -52,6 +52,7 @@ function Index() {
       <Hero />
       <ProjectIndex onExpand={(images, index) => setLightbox({ images, index })} />
       <Footer />
+      <ScrollPill />
       {lightbox && (
         <Lightbox
           images={lightbox.images}
@@ -89,10 +90,6 @@ function Hero() {
   };
   const openProject = () => {
     navigate({ to: "/projects/$slug", params: { slug: project.slug } });
-  };
-  const scrollToProjects = (e: MouseEvent) => {
-    e.stopPropagation();
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
