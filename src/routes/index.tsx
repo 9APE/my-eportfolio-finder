@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
@@ -18,6 +17,7 @@ import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
+import { ScrollPill } from "@/components/ScrollPill";
 import { stripMarks } from "@/components/RichText";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
@@ -52,6 +52,7 @@ function Index() {
       <Hero />
       <ProjectIndex onExpand={(images, index) => setLightbox({ images, index })} />
       <Footer />
+      <ScrollPill />
       {lightbox && (
         <Lightbox
           images={lightbox.images}
@@ -89,10 +90,6 @@ function Hero() {
   };
   const openProject = () => {
     navigate({ to: "/projects/$slug", params: { slug: project.slug } });
-  };
-  const scrollToProjects = (e: MouseEvent) => {
-    e.stopPropagation();
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -261,17 +258,6 @@ function Hero() {
             ))}
           </span>
 
-          <button
-            type="button"
-            onClick={scrollToProjects}
-            className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 border border-foreground/70 bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-foreground hover:text-background"
-          >
-            Scroll to see all {projects.length} projects
-            <ArrowDown
-              className="cue-pulse h-3.5 w-3.5"
-              style={{ animation: "cue-pulse 1.4s ease-in-out infinite" }}
-            />
-          </button>
         </div>
       </div>
     </section>
