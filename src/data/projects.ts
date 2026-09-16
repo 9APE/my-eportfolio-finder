@@ -156,18 +156,18 @@ export const projects: Project[] = [
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
-      "A 0.8% mechanical-balance tolerance set the minimum target at 7,000 Nm/°.",
+      "A 0.8% mechanical-balance tolerance set the minimum torsional stiffness target.",
       "Built the monocoque FE model in Altair HyperMesh, applied the torsion load case, and extracted deflection to calculate stiffness.",
     ],
     result: [
-      "Raised torsional stiffness from ~4,000 to 7,020 Nm/° (+75%), while mass increased by only 35%.",
-      "Correlated the FEA prediction against the team's prior-year physical test bench data to within ±150 Nm/° (~2% error).",
+      "Raised torsional stiffness by 75%, while mass increased by only 35%.",
+      "Correlated the FEA prediction against the team's prior-year physical test bench data to within ~2% error.",
       "Delivered within all constraints, including a frame mass target under 23 kg.",
     ],
     spec: [
-      { label: "Target", value: "7,000 Nm/° min" },
-      { label: "Achieved", value: "7,020 Nm/°" },
-      { label: "Validated", value: "±150 Nm/° vs. test (~2% error)" },
+      { label: "Target", value: "Met (0.8% balance tolerance)" },
+      { label: "Stiffness gain", value: "+75%" },
+      { label: "Validated", value: "~2% error vs. test" },
       { label: "Frame mass", value: "< 23 kg (+35%)" },
     ],
     skills: [

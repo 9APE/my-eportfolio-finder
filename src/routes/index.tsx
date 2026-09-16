@@ -100,17 +100,17 @@ function Hero() {
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            Final-year Mechanical Engineering student working across the full design-analysis-validation
-            cycle for Formula Student. I design and package chassis geometry in Siemens NX, validate
-            structures through FEA in Altair HyperMesh, and take parts from first-principles requirements
-            through to <strong className="font-semibold text-foreground">manufactured</strong>{" "}
-            carbon-fibre hardware — <strong className="font-semibold text-foreground">taking ownership</strong>{" "}
-            of a subsystem end to end and{" "}
-            <strong className="font-semibold text-foreground">learning by doing</strong>, from{" "}
+            Final-year Mechanical Engineering student who worked across the full design-analysis-validation
+            cycle in Formula Student. I designed and packaged chassis geometry in Siemens NX, validated
+            structures through FEA in Altair HyperMesh, and took parts from first-principles requirements to{" "}
+            <strong className="font-semibold text-foreground">manufactured</strong> carbon-fibre assemblies.
+            I <strong className="font-semibold text-foreground">took ownership</strong> of subsystems end to
+            end, ensuring transparency and proper engineering process throughout, from{" "}
             <strong className="font-semibold text-foreground">prototyping</strong> and{" "}
-            <strong className="font-semibold text-foreground">testing</strong> to the shop floor. Ready for a
-            hands-on internship where I can own real hardware. Currently building GD&amp;T and CATIA
-            proficiency.
+            <strong className="font-semibold text-foreground">testing</strong> to in-house or outsourced
+            manufacturing. <strong className="font-semibold text-foreground">Learning by doing</strong> is
+            something I'm comfortable with, and as a student I value learning from others and adapting to
+            feedback.
           </p>
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
