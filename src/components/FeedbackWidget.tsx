@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const ACCESS_KEY = "b566c164-ac8d-4287-b322-130930e8ba60";
 const SESSION_KEY = "feedback-prompt-shown";
-const AUTO_OPEN_MS = 180_000;
+const AUTO_OPEN_MS = 90_000;
 
 const ROLES = [
   "Recruiter / Hiring Manager",
