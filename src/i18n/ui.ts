@@ -59,6 +59,13 @@ export type UiCopy = {
   // Language switcher
   language: string;
 
+  // Skill filter
+  filterBySkill: string;
+  clearFilters: string;
+  sortedByRelevance: string;
+  introLens: (lens: string) => string;
+  listAnd: string;
+
   // Feedback widget
   feedbackTrigger: string;
   feedbackTitle: string;
@@ -134,6 +141,12 @@ export const UI: Record<Lang, UiCopy> = {
     scrollToProjects: "Scroll down to the engineering projects",
 
     language: "Language",
+
+    filterBySkill: "Filter by skill",
+    clearFilters: "Clear filters",
+    sortedByRelevance: "Sorted by relevance",
+    introLens: (lens) => `You're looking at Aurélien's work through the lens of ${lens}.`,
+    listAnd: "and",
 
     feedbackTrigger: "Feedback would be very much appreciated",
     feedbackTitle: "Leave your thoughts & connect",
@@ -220,6 +233,12 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Langue",
 
+    filterBySkill: "Filtrer par compétence",
+    clearFilters: "Effacer les filtres",
+    sortedByRelevance: "Trié par pertinence",
+    introLens: (lens) => `Vous découvrez le travail d'Aurélien sous l'angle suivant : ${lens}.`,
+    listAnd: "et",
+
     feedbackTrigger: "Vos retours seraient très appréciés",
     feedbackTitle: "Laissez votre avis et restons en contact",
     feedbackSubtitle:
@@ -305,6 +324,12 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Sprache",
 
+    filterBySkill: "Nach Kompetenz filtern",
+    clearFilters: "Filter zurücksetzen",
+    sortedByRelevance: "Nach Relevanz sortiert",
+    introLens: (lens) => `Sie sehen Auréliens Arbeit unter folgendem Blickwinkel: ${lens}.`,
+    listAnd: "und",
+
     feedbackTrigger: "Über Feedback würde ich mich sehr freuen",
     feedbackTitle: "Feedback hinterlassen & vernetzen",
     feedbackSubtitle:
@@ -389,6 +414,12 @@ export const UI: Record<Lang, UiCopy> = {
     scrollToProjects: "Scroll naar de engineeringprojecten",
 
     language: "Taal",
+
+    filterBySkill: "Filteren op vaardigheid",
+    clearFilters: "Filters wissen",
+    sortedByRelevance: "Gesorteerd op relevantie",
+    introLens: (lens) => `Je bekijkt Auréliens werk vanuit deze invalshoek: ${lens}.`,
+    listAnd: "en",
 
     feedbackTrigger: "Feedback wordt zeer gewaardeerd",
     feedbackTitle: "Deel je gedachten & maak contact",

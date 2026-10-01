@@ -44,11 +44,17 @@ import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
 
 import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
 
+import type { SkillCategoryId } from "./skillCategories";
+
+/** Relevance of a project to each skill lens: 0 = not relevant, 3 = primary focus. */
+export type Relevance = Record<SkillCategoryId, number>;
+
 export type Project = {
   slug: string; category: string; title: string; team: string;
   tags: string[]; image: string; hoverImage?: string; gallery: string[];
   what: string; how: string[]; result: string[];
   spec: { label: string; value: string }[]; skills: string[];
+  relevance: Relevance;
 };
 
 export const projects: Project[] = [
@@ -85,6 +91,7 @@ export const projects: Project[] = [
       "Systems Integration",
       "Cross-Functional Collaboration",
     ],
+    relevance: { "structural-analysis": 1, fea: 0, "vehicle-integration": 3 },
   },
   {
     slug: "ergonomics-driver-fitment",
@@ -118,6 +125,7 @@ export const projects: Project[] = [
       "Human Factors",
       "Physical Rig Validation",
     ],
+    relevance: { "structural-analysis": 0, fea: 0, "vehicle-integration": 3 },
   },
   {
     slug: "cad-tooling-design",
@@ -151,6 +159,7 @@ export const projects: Project[] = [
       "Mould Design",
       "Manufacturing Coordination",
     ],
+    relevance: { "structural-analysis": 1, fea: 0, "vehicle-integration": 2 },
   },
   {
     slug: "chassis-torsional-stiffness",
@@ -186,6 +195,7 @@ export const projects: Project[] = [
       "Requirements Derivation",
       "Structural Simulation",
     ],
+    relevance: { "structural-analysis": 3, fea: 3, "vehicle-integration": 1 },
   },
   {
     slug: "aero-devices-fea",
@@ -220,6 +230,7 @@ export const projects: Project[] = [
       "Rules Compliance",
       "Load Case Analysis",
     ],
+    relevance: { "structural-analysis": 3, fea: 3, "vehicle-integration": 1 },
   },
   {
     slug: "composite-manufacturing",
@@ -253,6 +264,7 @@ export const projects: Project[] = [
       "Composite Manufacturing",
       "DFM",
     ],
+    relevance: { "structural-analysis": 1, fea: 1, "vehicle-integration": 1 },
   },
   {
     slug: "warman-challenge-robot",
@@ -286,6 +298,7 @@ export const projects: Project[] = [
       "Engineering Drawings",
       "Stepper Motor Systems",
     ],
+    relevance: { "structural-analysis": 0, fea: 0, "vehicle-integration": 1 },
   },
 ];
 

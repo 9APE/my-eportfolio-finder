@@ -21,10 +21,28 @@ import { ScrollPill } from "@/components/ScrollPill";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { RichText, stripMarks } from "@/components/RichText";
 import { useLanguage, useT, localizeProjects } from "@/i18n/context";
+import { SkillFilterBar } from "@/components/SkillFilterBar";
+import type { SkillCategoryId } from "@/data/skillCategories";
+import { boldKeywords } from "@/lib/bold-keywords";
+import {
+  activeKeywords,
+  buildIntro,
+  parseSkills,
+  serializeSkills,
+  excerptAround,
+  sortByRelevance,
+  toggleSkill,
+} from "@/lib/skill-filter";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
+  // ?skills=fea,vehicle-integration — selection lives in the URL so a filtered view is
+  // shareable and survives a refresh.
+  validateSearch: (search: Record<string, unknown>): { skills?: string | undefined } => {
+    const raw = search["skills"];
+    return typeof raw === "string" && raw ? { skills: raw } : {};
+  },
   head: () => ({
     meta: [
       { title: "Aurélien Pons | Mechanical Engineering Portfolio" },
@@ -69,13 +87,44 @@ function Index() {
 
 const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
 
+/** Selected skill lenses, read from and written to the URL. */
+function useSkillSelection() {
+  const { skills } = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+  const selected = parseSkills(skills);
+
+  const apply = (next: SkillCategoryId[]) => {
+    const value = serializeSkills(next);
+    navigate({
+      search: value ? { skills: value } : {},
+      replace: true,
+      resetScroll: false,
+    });
+  };
+
+  return {
+    selected,
+    toggle: (id: SkillCategoryId) => apply(toggleSkill(selected, id)),
+    clear: () => apply([]),
+  };
+}
+
 function Hero() {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
+  const { selected } = useSkillSelection();
 
-  const localized = localizeProjects(projects, lang);
+  // Filtering never removes a project; it only changes which one leads the showcase.
+  const localized = sortByRelevance(localizeProjects(projects, lang), selected);
   const project = localized[active]!;
+  const lensIntro = buildIntro(selected, lang, t.introLens, t.listAnd);
+
+  // A new lens re-ranks the slides, so start again from the most relevant one.
+  const selectionKey = selected.join(",");
+  useEffect(() => {
+    setActive(0);
+  }, [selectionKey]);
 
   // Auto-cycle the showcase every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
@@ -103,7 +152,7 @@ function Hero() {
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            <RichText text={t.heroIntro} />
+            {lensIntro ? lensIntro : <RichText text={t.heroIntro} />}
           </p>
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
@@ -256,7 +305,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
   const { lang, t } = useLanguage();
-  const localized = localizeProjects(projects, lang);
+  const { selected, toggle, clear } = useSkillSelection();
+  const localized = sortByRelevance(localizeProjects(projects, lang), selected);
+  const keywords = activeKeywords(selected, lang);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeCard, setActiveCard] = useState(0);
   const [showBar, setShowBar] = useState(false);
@@ -340,6 +391,8 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
           <span className={label}>{t.entries(localized.length)}</span>
         </div>
 
+        <SkillFilterBar selected={selected} onToggle={toggle} onClear={clear} />
+
         {/* Progress rail — shows how far through the index you are */}
         <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">
           {localized.map((p, i) => (
@@ -372,7 +425,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
               className="h-full"
             >
               <Reveal className="h-full" delay={(i % 3) * 100}>
-                <ProjectCard p={p} index={i} onExpand={onExpand} />
+                <ProjectCard p={p} index={i} onExpand={onExpand} keywords={keywords} />
               </Reveal>
             </div>
           ))}
@@ -472,19 +525,16 @@ function StatCell({
 
 const HOVER_AUTO_OPEN_MS = 5000;
 
-function truncate(text: string, maxLength: number) {
-  if (text.length <= maxLength) return text;
-  return `${text.slice(0, maxLength).trimEnd()}…`;
-}
-
 function ProjectCard({
   p,
   index,
   onExpand,
+  keywords,
 }: {
   p: Project;
   index: number;
   onExpand: (images: string[], index: number) => void;
+  keywords: string[];
 }) {
   const navigate = useNavigate();
   const t = useT();
@@ -614,7 +664,7 @@ function ProjectCard({
         <span className={`${label} mt-1`}>{p.team}</span>
 
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-          {truncate(stripMarks(p.what), 100)}
+          {boldKeywords(excerptAround(stripMarks(p.what), keywords, 100), keywords)}
         </p>
 
         <Link
