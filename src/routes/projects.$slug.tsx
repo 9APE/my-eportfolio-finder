@@ -5,6 +5,7 @@ import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
 import { RichText, stripMarks } from "@/components/RichText";
+import { useLanguage, localizeProject, localizeProjects } from "@/i18n/context";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: ({ params }) => {
@@ -37,12 +38,13 @@ const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-fore
 const sectionHeading = "font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground";
 function ProjectPage() {
   const { slug } = Route.useParams();
-  const project = getProject(slug)!;
+  const { lang, t } = useLanguage();
+  const project = localizeProject(getProject(slug)!, lang);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [activeImage, setActiveImage] = useState(0);
 
   const fullGallery = [project.image, ...project.gallery.filter((img) => img !== project.image)];
-  const otherProjects = projects.filter((p) => p.slug !== slug);
+  const otherProjects = localizeProjects(projects, lang).filter((p) => p.slug !== slug);
 
   // The bottom bar previews How / Result / Spec while they are still below the fold,
   // then gets out of the way once the reader actually reaches them.
@@ -78,8 +80,8 @@ function ProjectPage() {
           <div className="flex items-start gap-4">
             <Link
               to="/"
-              aria-label="Back to index"
-              title="Back to index"
+              aria-label={t.backToIndex}
+              title={t.backToIndex}
               className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-border text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -123,7 +125,7 @@ function ProjectPage() {
             className="mt-4 inline-flex items-center gap-2 border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/60"
           >
             <FileText className="h-4 w-4 text-chart-3" />
-            View full engineering process (PDF)
+            {t.viewPdf}
           </a>
         )}
 
@@ -131,7 +133,7 @@ function ProjectPage() {
         <Reveal className="mt-6">
           <div id="section-what">
             <div className={sectionHeading}>
-              <span className="text-chart-3">01</span> What
+              <span className="text-chart-3">01</span> {t.sectionWhat}
             </div>
             <p className="mt-2 text-lg leading-relaxed">
               <RichText text={project.what} />
@@ -150,14 +152,14 @@ function ProjectPage() {
                 onMouseEnter={() => setActiveImage(i)}
                 onFocus={() => setActiveImage(i)}
                 onClick={() => setLightbox(i)}
-                aria-label={`Preview image ${i + 1}`}
+                aria-label={t.previewImage(i + 1)}
                 className={`relative aspect-square w-16 shrink-0 overflow-hidden border bg-muted/60 transition-colors lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
                   i === activeImage ? "border-chart-3" : "border-border hover:border-chart-3/60"
                 }`}
               >
                 <img
                   src={img}
-                  alt={`${project.title} thumbnail ${i + 1}`}
+                  alt={t.thumbnailAlt(project.title, i + 1)}
                   width={200}
                   height={200}
                   loading="lazy"
@@ -170,7 +172,7 @@ function ProjectPage() {
           <button
             type="button"
             onClick={() => setLightbox(activeImage)}
-            aria-label="Expand main image"
+            aria-label={t.expandMainImage}
             className="group relative block aspect-[16/7] w-full overflow-hidden border border-border bg-muted/60"
           >
             <img
@@ -196,7 +198,7 @@ function ProjectPage() {
           <div className="grid grid-cols-1 border border-border sm:grid-cols-2">
             <div className="border-b border-border p-4 sm:border-b-0 sm:border-r" id="section-how">
               <div className={sectionHeading}>
-                <span className="text-chart-3">02</span> How
+                <span className="text-chart-3">02</span> {t.sectionHow}
               </div>
               <ol className="mt-2 space-y-2">
                 {project.how.map((h, i) => (
@@ -209,7 +211,7 @@ function ProjectPage() {
             </div>
             <div className="p-4" id="section-result">
               <div className={sectionHeading}>
-                <span className="text-chart-3">03</span> Result
+                <span className="text-chart-3">03</span> {t.sectionResult}
               </div>
               <ul className="mt-2 space-y-2">
                 {project.result.map((r) => (
@@ -224,7 +226,7 @@ function ProjectPage() {
 
           <aside className="h-fit border border-border lg:sticky lg:top-6" id="section-spec">
             <div className="border-b border-border px-4 py-3">
-              <span className={sectionHeading}>Technical Specification</span>
+              <span className={sectionHeading}>{t.technicalSpecification}</span>
             </div>
             {project.spec.map((s) => (
               <div key={s.label} className="flex items-start justify-between gap-3 border-b border-border px-4 py-3">
@@ -233,7 +235,7 @@ function ProjectPage() {
               </div>
             ))}
             <div className="px-4 py-3">
-              <span className={label}>Skills</span>
+              <span className={label}>{t.skills}</span>
               <div className="mt-2 flex flex-wrap gap-2">
                 {project.skills.map((s) => (
                   <span
@@ -255,10 +257,10 @@ function ProjectPage() {
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
           <div className="flex items-end justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">More Engineering Projects</h2>
+              <h2 className="text-2xl font-bold tracking-tight">{t.moreEngineeringProjects}</h2>
             </div>
             <span className={`${label} hidden sm:inline-flex items-center gap-2`}>
-              Scroll <ArrowRight className="h-3.5 w-3.5" />
+              {t.scroll} <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </div>
 
@@ -301,9 +303,9 @@ function ProjectPage() {
       >
         <div className="mx-auto grid max-w-[1400px] grid-cols-3">
           {[
-            { id: "section-how", n: "02", title: "How" },
-            { id: "section-result", n: "03", title: "Result" },
-            { id: "section-spec", n: null, title: "Technical Specification" },
+            { id: "section-how", n: "02", title: t.sectionHow },
+            { id: "section-result", n: "03", title: t.sectionResult },
+            { id: "section-spec", n: null, title: t.technicalSpecification },
           ].map((s) => (
             <button
               key={s.id}

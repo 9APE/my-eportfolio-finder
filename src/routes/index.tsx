@@ -18,7 +18,9 @@ import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
 import { ScrollPill } from "@/components/ScrollPill";
-import { stripMarks } from "@/components/RichText";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { RichText, stripMarks } from "@/components/RichText";
+import { useLanguage, useT, localizeProjects } from "@/i18n/context";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 
@@ -70,8 +72,10 @@ const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-fore
 function Hero() {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
+  const { lang, t } = useLanguage();
 
-  const project = projects[active]!;
+  const localized = localizeProjects(projects, lang);
+  const project = localized[active]!;
 
   // Auto-cycle the showcase every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
@@ -94,45 +98,36 @@ function Hero() {
 
   return (
     <section className="relative border-b border-border">
+      <LanguageSwitcher className="absolute right-4 top-4 z-50 sm:right-6 sm:top-6" />
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">Aurélien Pons' ePortfolio</h1>
+          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            Final-year Mechanical Engineering student who worked across the full design-analysis-validation
-            cycle in Formula Student. I designed and packaged a chassis geometry in Siemens NX, validated
-            structures through FEA in Altair HyperMesh, and took parts from first-principles requirements to{" "}
-            <strong className="font-semibold text-foreground">manufactured</strong> carbon-fibre assemblies.
-            I <strong className="font-semibold text-foreground">took ownership</strong> of subsystems end to
-            end, ensuring transparency and proper engineering process throughout, from{" "}
-            <strong className="font-semibold text-foreground">prototyping</strong> and{" "}
-            <strong className="font-semibold text-foreground">testing</strong> to in-house or outsourced
-            manufacturing. <strong className="font-semibold text-foreground">Learning by doing</strong> is
-            something I'm comfortable with, and as a student I value learning from others and adapting to
-            feedback.
+            <RichText text={t.heroIntro} />
           </p>
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
-              { value: 13, prefix: "", suffix: "+", t: "Self-Driven Engineering & Technical Projects" },
+              { value: 13, prefix: "", suffix: "+", t: t.statProjects },
               {
                 value: 2,
                 prefix: "",
                 suffix: "nd",
-                denominator: "/400+ teams",
-                t: "Formula Student World Rankings 2026",
+                denominator: t.statRankingDenominator,
+                t: t.statRanking,
               },
               {
                 value: 75,
                 prefix: "",
                 suffix: "%",
-                t: "Chassis torsional rigidity increase",
+                t: t.statStiffness,
                 slug: "chassis-torsional-stiffness",
               },
               {
                 value: 11,
                 prefix: "",
                 suffix: "%",
-                t: "Rear-wing weight decrease",
+                t: t.statWing,
                 slug: "aero-devices-fea",
               },
             ].map((s) => (
@@ -141,12 +136,7 @@ function Hero() {
           </div>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Motivated engineer eager to tackle real-world technical challenges within established
-            companies. Focused on continuous{" "}
-            <strong className="font-semibold text-foreground">learning</strong>,{" "}
-            <strong className="font-semibold text-foreground">growing</strong> by staying{" "}
-            <strong className="font-semibold text-foreground">open to feedback</strong>, and delivering
-            impactful results.
+            <RichText text={t.heroClosing} />
           </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
@@ -163,7 +153,7 @@ function Hero() {
             </a>
             <span className="flex items-start gap-3 text-foreground">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              Aachen, Germany
+              {t.location}
             </span>
             <a
               href="https://linkedin.com/in/aurelienpons2004"
@@ -185,7 +175,7 @@ function Hero() {
           onKeyDown={(e) => {
             if (e.key === "Enter") openProject();
           }}
-          aria-label={`View project ${project.title}`}
+          aria-label={t.viewProject(project.title)}
           className="group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden bg-muted/60 p-8 text-left lg:min-h-full"
           style={{
             backgroundImage:
@@ -200,14 +190,12 @@ function Hero() {
             className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
             style={{ animation: "hero-progress 7s linear forwards" }}
           />
-          <span className={`${label} absolute right-6 top-6`}>
-            {active + 1} / {projects.length} Projects
+          <span className={`${label} absolute bottom-6 right-6`}>
+            {t.showcaseCounter(active + 1, localized.length)}
           </span>
 
-
-
           <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
-            {projects.map((p, i) => (
+            {localized.map((p, i) => (
               <img
                 key={p.slug}
                 src={p.image}
@@ -225,7 +213,7 @@ function Hero() {
           <button
             type="button"
             onClick={goPrev}
-            aria-label="Previous project"
+            aria-label={t.previousProject}
             className="absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -233,7 +221,7 @@ function Hero() {
           <button
             type="button"
             onClick={goNext}
-            aria-label="Next project"
+            aria-label={t.nextProject}
             className="absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
           >
             <ChevronRight className="h-5 w-5" />
@@ -244,7 +232,7 @@ function Hero() {
           </span>
 
           <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
-            {projects.map((p, i) => (
+            {localized.map((p, i) => (
               <span
                 key={p.slug}
                 onClick={(e) => {
@@ -267,6 +255,8 @@ function Hero() {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
+  const { lang, t } = useLanguage();
+  const localized = localizeProjects(projects, lang);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeCard, setActiveCard] = useState(0);
   const [showBar, setShowBar] = useState(false);
@@ -312,12 +302,12 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-2.5 sm:px-10">
           <span className="text-sm font-bold tracking-tight">Aurélien Pons</span>
           <span className={`${label} tabular-nums`}>
-            Project {pad(activeCard + 1)} / {pad(projects.length)}
+            {t.projectCounter(pad(activeCard + 1), pad(localized.length))}
           </span>
           <span className="flex items-center gap-4">
             <a
               href="mailto:ariimoanapons@gmail.com"
-              aria-label="Email Aurélien Pons"
+              aria-label={t.emailAria}
               className="flex items-center gap-2 text-sm hover:text-chart-3"
             >
               <Mail className="h-4 w-4 text-chart-3" />
@@ -327,7 +317,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
               href="https://linkedin.com/in/aurelienpons2004"
               target="_blank"
               rel="noreferrer"
-              aria-label="LinkedIn profile"
+              aria-label={t.linkedinAria}
               className="flex items-center gap-2 text-sm hover:text-chart-3"
             >
               <Linkedin className="h-4 w-4 text-chart-3" />
@@ -345,19 +335,19 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         <div className="flex items-end justify-between border-b border-foreground/80 pb-4">
           <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
             <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
-            Engineering Projects
+            {t.engineeringProjects}
           </h2>
-          <span className={label}>{projects.length} Entries</span>
+          <span className={label}>{t.entries(localized.length)}</span>
         </div>
 
         {/* Progress rail — shows how far through the index you are */}
         <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">
-          {projects.map((p, i) => (
+          {localized.map((p, i) => (
             <button
               key={p.slug}
               type="button"
               onClick={() => scrollToCard(i)}
-              aria-label={`Go to ${p.title}`}
+              aria-label={t.goTo(p.title)}
               className="pointer-events-auto group/rail flex items-center gap-2"
             >
               <span className="whitespace-nowrap border border-border bg-background px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground opacity-0 transition-opacity group-hover/rail:opacity-100">
@@ -373,7 +363,7 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
-          {projects.map((p, i) => (
+          {localized.map((p, i) => (
             <div
               key={p.slug}
               ref={(el) => {
@@ -390,15 +380,13 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
 
         {/* End-of-index marker */}
         <div className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between">
-          <span className={label}>
-            End of index. {projects.length} projects shown
-          </span>
+          <span className={label}>{t.endOfIndex(localized.length)}</span>
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={`${label} inline-flex items-center gap-2 border border-border px-3 py-2 transition-colors hover:border-chart-3 hover:text-foreground`}
           >
-            Back to top <ArrowUp className="h-3.5 w-3.5" />
+            {t.backToTop} <ArrowUp className="h-3.5 w-3.5" />
           </button>
         </div>
       </section>
@@ -423,6 +411,7 @@ function StatCell({
 }) {
   const { ref, inView } = useInView<HTMLDivElement>(0.4);
   const [display, setDisplay] = useState(0);
+  const copy = useT();
 
   useEffect(() => {
     if (!inView) return;
@@ -465,7 +454,7 @@ function StatCell({
         <Link
           to="/projects/$slug"
           params={{ slug }}
-          title="View the project behind this result"
+          title={copy.statLinkTitle}
           className="group relative block h-full p-5 transition-colors hover:bg-muted/60 focus-visible:bg-muted/60"
         >
           <ArrowUpRight
@@ -498,6 +487,7 @@ function ProjectCard({
   onExpand: (images: string[], index: number) => void;
 }) {
   const navigate = useNavigate();
+  const t = useT();
   const { ref: cardRef, inView } = useInView<HTMLElement>(0.25);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hovering, setHovering] = useState(false);
@@ -551,7 +541,7 @@ function ProjectCard({
 
         <button
           type="button"
-          aria-label={`Expand image for ${p.title}`}
+          aria-label={t.expandImageFor(p.title)}
           onClick={() => onExpand([p.image, ...p.gallery], 0)}
           className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
         >
@@ -561,7 +551,7 @@ function ProjectCard({
         <Link
           to="/projects/$slug"
           params={{ slug: p.slug }}
-          aria-label={`View ${p.title} details`}
+          aria-label={t.viewDetailsFor(p.title)}
           className="absolute inset-0 z-0"
         >
           <TiltWrapper className="h-full w-full" maxTilt={6}>
@@ -579,7 +569,7 @@ function ProjectCard({
               {p.hoverImage && (
                 <img
                   src={p.hoverImage}
-                  alt={`${p.title} FEA analysis`}
+                  alt={`${p.title} FEA`}
                   width={1408}
                   height={1104}
                   loading="lazy"
@@ -592,14 +582,14 @@ function ProjectCard({
         </Link>
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-foreground/70 px-4 py-2.5 text-background opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
-          <span className="font-mono text-xs uppercase tracking-[0.15em]">More details</span>
+          <span className="font-mono text-xs uppercase tracking-[0.15em]">{t.moreDetails}</span>
           <ArrowRight className="h-4 w-4" />
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-y border-border px-5 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-y border-border px-5 py-3">
         <span className={label}>{p.category}</span>
-        <span className="flex gap-2">
+        <span className="flex flex-wrap justify-end gap-2">
           {p.tags.map((t) => (
             <span
               key={t}
@@ -632,7 +622,7 @@ function ProjectCard({
           params={{ slug: p.slug }}
           className={`${label} mt-4 inline-flex items-center gap-2 text-chart-3 transition-colors hover:text-foreground`}
         >
-          More details <ArrowRight className="h-3.5 w-3.5" />
+          {t.moreDetails} <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </article>
@@ -640,10 +630,11 @@ function ProjectCard({
 }
 
 function Footer() {
+  const t = useT();
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-        <span className={label}>Aurélien Pons | Mechanical Engineering</span>
+        <span className={label}>{t.footerTagline}</span>
         <a href="mailto:ariimoanapons@gmail.com" className={`${label} hover:text-foreground`}>
           ariimoanapons@gmail.com
         </a>

@@ -4,39 +4,38 @@ import { Check, ChevronRight, X } from "lucide-react";
 import carCutout from "@/assets/ecurie-aix-car-cutout.png";
 import frontWing from "@/assets/ecurie-front-wing.jpg.asset.json";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/i18n/context";
 
 const ACCESS_KEY = "b566c164-ac8d-4287-b322-130930e8ba60";
 const SESSION_KEY = "feedback-prompt-shown";
 const AUTO_OPEN_MS = 90_000;
 
-const ROLES = [
-  "Recruiter / Hiring Manager",
-  "Engineering Peer",
-  "Industry Professional",
-  "Other",
-] as const;
+const ROLE_KEYS = ["recruiter", "peer", "industry", "other"] as const;
+type RoleKey = (typeof ROLE_KEYS)[number];
+/** Submitted to the inbox in English regardless of the visitor's language. */
+const ROLE_VALUES: Record<RoleKey, string> = {
+  recruiter: "Recruiter / Hiring Manager",
+  peer: "Engineering Peer",
+  industry: "Industry Professional",
+  other: "Other",
+};
 
 type Status = "idle" | "sending" | "error";
 type Sequence = "idle" | "entering" | "packet" | "squat" | "driving" | "thanks";
 
-const QUICK_REASONS = [
-  "💼 Open to Chat / Roles",
-  "💡 Portfolio Feedback",
-  "👋 Just Saying Hi",
-  "⚙️ Other",
-] as const;
-
-const OTHER_REASON = "⚙️ Other";
+const REASON_KEYS = ["chat", "portfolio", "hi", "other"] as const;
+type ReasonKey = (typeof REASON_KEYS)[number];
 
 const label =
   "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
 
 export default function FeedbackWidget() {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [sequence, setSequence] = useState<Sequence>("idle");
   const [teasing, setTeasing] = useState(false);
-  const [role, setRole] = useState<string>(ROLES[0]);
+  const [role, setRole] = useState<RoleKey>("recruiter");
   const [identity, setIdentity] = useState("");
   const [message, setMessage] = useState("");
   const [otherReason, setOtherReason] = useState("");
@@ -82,7 +81,7 @@ export default function FeedbackWidget() {
     setMessage("");
     setOtherReason("");
     setShowOther(false);
-    setRole(ROLES[0]);
+    setRole("recruiter");
   }, [clearTimers]);
 
   useEffect(() => {
@@ -149,8 +148,8 @@ export default function FeedbackWidget() {
     later(() => setSequence("thanks"), 1_475);
   }, [later]);
 
-  const addQuickReason = (reason: string) => {
-    if (reason === OTHER_REASON) {
+  const addQuickReason = (key: ReasonKey, reason: string) => {
+    if (key === "other") {
       setShowOther((current) => !current);
       return;
     }
@@ -189,7 +188,7 @@ export default function FeedbackWidget() {
           from_name: trimmedIdentity || "Portfolio visitor",
           email: looksLikeEmail ? trimmedIdentity : "no-reply@eportfolioaurelien.today",
           message: [
-            `Visitor type: ${role}`,
+            `Visitor type: ${ROLE_VALUES[role]}`,
             `Identity: ${trimmedIdentity || "Not provided"}`,
             ...(otherReason.trim() ? [`Other reason: ${otherReason.trim()}`] : []),
             "",
@@ -219,7 +218,7 @@ export default function FeedbackWidget() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-[1400px] items-center justify-center px-6 py-8 sm:px-10">
           <Button type="button" variant="outline" onClick={openModal} className={`${label} h-auto rounded-full px-5 py-2.5`}>
-            Feedback would be very much appreciated
+            {t.feedbackTrigger}
           </Button>
         </div>
       </div>
@@ -246,24 +245,24 @@ export default function FeedbackWidget() {
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
               <div className="min-w-0">
                 <h2 id="feedback-title" className="text-xl font-semibold text-foreground">
-                  Leave your thoughts &amp; connect
+                  {t.feedbackTitle}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Any feedback is welcome, whether it's thoughts on the portfolio, project suggestions, or opportunities to connect.
+                  {t.feedbackSubtitle}
                 </p>
               </div>
-              <Button type="button" variant="ghost" size="icon" onClick={closeModal} aria-label="Dismiss feedback" className="-mr-1 -mt-1 shrink-0 rounded-full text-muted-foreground">
+              <Button type="button" variant="ghost" size="icon" onClick={closeModal} aria-label={t.feedbackDismissAria} className="-mr-1 -mt-1 shrink-0 rounded-full text-muted-foreground">
                 <X className="h-4 w-4" />
               </Button>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <div className="space-y-2">
-                <p className={label}>Quick reason</p>
+                <p className={label}>{t.feedbackQuickReason}</p>
                 <div className="flex flex-wrap gap-2">
-                  {QUICK_REASONS.map((reason) => (
-                    <Button key={reason} type="button" variant="outline" size="sm" onClick={() => addQuickReason(reason)} disabled={status === "sending"} className="h-8 rounded-full px-3 text-xs font-normal">
-                      {reason}
+                  {REASON_KEYS.map((key) => (
+                    <Button key={key} type="button" variant="outline" size="sm" onClick={() => addQuickReason(key, t.feedbackReasons[key])} disabled={status === "sending"} className="h-8 rounded-full px-3 text-xs font-normal">
+                      {t.feedbackReasons[key]}
                     </Button>
                   ))}
                 </div>
@@ -272,31 +271,31 @@ export default function FeedbackWidget() {
                     value={otherReason}
                     onChange={(event) => setOtherReason(event.target.value)}
                     maxLength={120}
-                    placeholder="Tell me your reason"
-                    aria-label="Your reason"
+                    placeholder={t.feedbackOtherPlaceholder}
+                    aria-label={t.feedbackOtherAria}
                     className={`${field} motion-safe:animate-fade-in`}
                     disabled={status === "sending"}
                   />
                 )}
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="feedback-role" className={label}>Who are you?</label>
-                <select id="feedback-role" ref={firstFieldRef} value={role} onChange={(event) => setRole(event.target.value)} className={field} disabled={status === "sending"}>
-                  {ROLES.map((item) => <option key={item} value={item}>{item}</option>)}
+                <label htmlFor="feedback-role" className={label}>{t.feedbackWhoAreYou}</label>
+                <select id="feedback-role" ref={firstFieldRef} value={role} onChange={(event) => setRole(event.target.value as RoleKey)} className={field} disabled={status === "sending"}>
+                  {ROLE_KEYS.map((key) => <option key={key} value={key}>{t.feedbackRoles[key]}</option>)}
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="feedback-identity" className={label}>Your name, email, or LinkedIn</label>
-                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} required maxLength={200} placeholder="e.g. Aurelien Pons · aurelien.pons@example.com or LinkedIn URL" className={field} disabled={status === "sending"} />
-                <p className="text-xs text-muted-foreground">Leave your info so I can thank you directly or follow up.</p>
+                <label htmlFor="feedback-identity" className={label}>{t.feedbackIdentityLabel}</label>
+                <input id="feedback-identity" value={identity} onChange={(event) => setIdentity(event.target.value)} required maxLength={200} placeholder={t.feedbackIdentityPlaceholder} className={field} disabled={status === "sending"} />
+                <p className="text-xs text-muted-foreground">{t.feedbackIdentityHint}</p>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="feedback-message" className={label}>Your feedback</label>
-                <textarea id="feedback-message" value={message} onChange={(event) => setMessage(event.target.value)} required maxLength={2000} rows={5} placeholder="What worked, what didn't, what you'd change..." className={`${field} resize-none`} disabled={status === "sending"} />
+                <label htmlFor="feedback-message" className={label}>{t.feedbackMessageLabel}</label>
+                <textarea id="feedback-message" value={message} onChange={(event) => setMessage(event.target.value)} required maxLength={2000} rows={5} placeholder={t.feedbackMessagePlaceholder} className={`${field} resize-none`} disabled={status === "sending"} />
               </div>
-              {status === "error" && <p className="text-sm text-destructive">That didn't go through. Your feedback is still here, so you can try again.</p>}
+              {status === "error" && <p className="text-sm text-destructive">{t.feedbackError}</p>}
               <div className="flex items-center justify-end gap-3 pt-1">
-                <Button type="button" variant="ghost" onClick={closeModal} className="rounded-full text-muted-foreground">Dismiss</Button>
+                <Button type="button" variant="ghost" onClick={closeModal} className="rounded-full text-muted-foreground">{t.feedbackDismiss}</Button>
                 <Button
                   type="submit"
                   disabled={status === "sending"}
@@ -306,7 +305,7 @@ export default function FeedbackWidget() {
                   onBlur={() => setTeasing(false)}
                   className="rounded-full px-5"
                 >
-                  {status === "sending" ? "Sending..." : "Submit Feedback 🏁"}
+                  {status === "sending" ? t.feedbackSending : t.feedbackSubmit}
                 </Button>
               </div>
             </form>
@@ -325,10 +324,10 @@ export default function FeedbackWidget() {
                 <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-border text-chart-2">
                   <Check className="h-6 w-6" />
                 </span>
-                <h2 id="feedback-thanks-title" className="mt-8 text-4xl font-bold text-foreground sm:text-6xl">I APPRECIATE YOUR FEEDBACK.</h2>
-                <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Your input helps me continuously improve.</p>
+                <h2 id="feedback-thanks-title" className="mt-8 text-4xl font-bold text-foreground sm:text-6xl">{t.feedbackThanksTitle}</h2>
+                <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">{t.feedbackThanksBody}</p>
                 <Button ref={returnRef} type="button" variant="outline" onClick={returnToSite} className="mt-10 rounded-full px-6">
-                  Return to Site <ChevronRight className="h-4 w-4" />
+                  {t.feedbackReturn} <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
