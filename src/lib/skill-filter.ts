@@ -35,24 +35,58 @@ export function sortByRelevance(projects: Project[], selected: SkillCategoryId[]
   return [...projects].sort((a, b) => scoreProject(b, selected) - scoreProject(a, selected));
 }
 
-/** "a", "a and b", "a, b and c" — conjunction supplied per language. */
-export function joinFragments(fragments: string[], and: string): string {
-  if (fragments.length <= 1) return fragments[0] ?? "";
-  return `${fragments.slice(0, -1).join(", ")} ${and} ${fragments[fragments.length - 1]}`;
+/** How many images the rotating hero keeps, so it never collapses to a single still. */
+export const HERO_POOL_MIN = 3;
+
+/**
+ * Images the hero rotates through. Unfiltered that is every project; with a lens active it
+ * narrows to the top-scoring tier, widened to HERO_POOL_MIN so there is always something
+ * to cycle. `ordered` must already be sorted by relevance.
+ *
+ * This only affects the showcase. The project index below always lists all seven.
+ */
+export function heroPool(ordered: Project[], selected: SkillCategoryId[]): Project[] {
+  if (!selected.length || !ordered.length) return ordered;
+  const best = scoreProject(ordered[0]!, selected);
+  if (best <= 0) return ordered;
+  const tier = ordered.filter((p) => scoreProject(p, selected) === best);
+  return tier.length >= HERO_POOL_MIN ? tier : ordered.slice(0, HERO_POOL_MIN);
 }
 
-/** The lens sentence, or null when no filter is active (caller keeps the default intro). */
+/** "a", "a and b", "a, b and c" — separator and conjunction supplied per language. */
+export function joinList(items: string[], and: string, separator = ", "): string {
+  if (items.length <= 1) return items[0] ?? "";
+  return `${items.slice(0, -1).join(separator)} ${and} ${items[items.length - 1]}`;
+}
+
+export type IntroCopy = {
+  /** One lens: the full paragraph. */
+  single: (names: string, body: string) => string;
+  /** Several lenses: their key clauses combined, rather than every paragraph in full. */
+  multi: (names: string, clauses: string) => string;
+  and: string;
+};
+
+/** The lens paragraph, or null when no filter is active (caller keeps the default intro). */
 export function buildIntro(
   selected: SkillCategoryId[],
   lang: Lang,
-  template: (lens: string) => string,
-  and: string,
+  copy: IntroCopy,
 ): string | null {
-  if (!selected.length) return null;
-  const fragments = skillCategories
-    .filter((c) => selected.includes(c.id))
-    .map((c) => c.introFragment[lang]);
-  return template(joinFragments(fragments, and));
+  const active = skillCategories.filter((c) => selected.includes(c.id));
+  const first = active[0];
+  if (!first) return null;
+
+  const names = joinList(
+    active.map((c) => c.name[lang]),
+    copy.and,
+  );
+  if (active.length === 1) return copy.single(names, first.body[lang]);
+
+  // Semicolons only, no conjunction: several clauses already contain "and" internally, and
+  // a trailing "x and y" would read as though the last two belonged together.
+  const clauses = active.map((c) => c.clause[lang]).join("; ");
+  return copy.multi(names, clauses);
 }
 
 /** Keywords for the active lenses, in the current language. */

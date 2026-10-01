@@ -36,7 +36,7 @@ export type UiCopy = {
   goTo: (title: string) => string;
   emailAria: string;
   linkedinAria: string;
-  footerTagline: string;
+  footerRole: string;
 
   // Project detail
   backToIndex: string;
@@ -63,7 +63,9 @@ export type UiCopy = {
   filterBySkill: string;
   clearFilters: string;
   sortedByRelevance: string;
-  introLens: (lens: string) => string;
+  introLens: (names: string, body: string) => string;
+  introLensMulti: (names: string, clauses: string) => string;
+  filterNote: string;
   listAnd: string;
 
   // Feedback widget
@@ -122,7 +124,7 @@ export const UI: Record<Lang, UiCopy> = {
     goTo: (title) => `Go to ${title}`,
     emailAria: "Email Aurélien Pons",
     linkedinAria: "LinkedIn profile",
-    footerTagline: "Aurélien Pons | Mechanical Engineering",
+    footerRole: "Mechanical Engineering",
 
     backToIndex: "Back to index",
     viewPdf: "View full engineering process (PDF)",
@@ -145,7 +147,9 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filter by skill",
     clearFilters: "Clear filters",
     sortedByRelevance: "Sorted by relevance",
-    introLens: (lens) => `You're looking at Aurélien's work through the lens of ${lens}.`,
+    introLens: (names, body) => `You're looking at Aurélien's portfolio filtered by ${names}. ${body}`,
+    introLensMulti: (names, clauses) => `You're looking at Aurélien's portfolio filtered by ${names}: ${clauses}.`,
+    filterNote: "Nothing is hidden — projects reorder by relevance.",
     listAnd: "and",
 
     feedbackTrigger: "Feedback would be very much appreciated",
@@ -213,7 +217,7 @@ export const UI: Record<Lang, UiCopy> = {
     goTo: (title) => `Aller à ${title}`,
     emailAria: "Envoyer un e-mail à Aurélien Pons",
     linkedinAria: "Profil LinkedIn",
-    footerTagline: "Aurélien Pons | Génie mécanique",
+    footerRole: "Génie mécanique",
 
     backToIndex: "Retour à l'index",
     viewPdf: "Voir le dossier d'ingénierie complet (PDF)",
@@ -236,7 +240,9 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filtrer par compétence",
     clearFilters: "Effacer les filtres",
     sortedByRelevance: "Trié par pertinence",
-    introLens: (lens) => `Vous découvrez le travail d'Aurélien sous l'angle suivant : ${lens}.`,
+    introLens: (names, body) => `Vous consultez le portfolio d'Aurélien filtré par ${names}. ${body}`,
+    introLensMulti: (names, clauses) => `Vous consultez le portfolio d'Aurélien filtré par ${names} : ${clauses}.`,
+    filterNote: "Rien n'est masqué — les projets sont simplement réordonnés.",
     listAnd: "et",
 
     feedbackTrigger: "Vos retours seraient très appréciés",
@@ -304,7 +310,7 @@ export const UI: Record<Lang, UiCopy> = {
     goTo: (title) => `Zu ${title} springen`,
     emailAria: "Aurélien Pons eine E-Mail schreiben",
     linkedinAria: "LinkedIn-Profil",
-    footerTagline: "Aurélien Pons | Maschinenbau",
+    footerRole: "Maschinenbau",
 
     backToIndex: "Zurück zur Übersicht",
     viewPdf: "Vollständige Engineering-Dokumentation ansehen (PDF)",
@@ -327,7 +333,9 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Nach Kompetenz filtern",
     clearFilters: "Filter zurücksetzen",
     sortedByRelevance: "Nach Relevanz sortiert",
-    introLens: (lens) => `Sie sehen Auréliens Arbeit unter folgendem Blickwinkel: ${lens}.`,
+    introLens: (names, body) => `Sie sehen Auréliens Portfolio gefiltert nach ${names}. ${body}`,
+    introLensMulti: (names, clauses) => `Sie sehen Auréliens Portfolio gefiltert nach ${names}: ${clauses}.`,
+    filterNote: "Nichts wird ausgeblendet – die Projekte werden nur neu sortiert.",
     listAnd: "und",
 
     feedbackTrigger: "Über Feedback würde ich mich sehr freuen",
@@ -395,7 +403,7 @@ export const UI: Record<Lang, UiCopy> = {
     goTo: (title) => `Ga naar ${title}`,
     emailAria: "E-mail Aurélien Pons",
     linkedinAria: "LinkedIn-profiel",
-    footerTagline: "Aurélien Pons | Werktuigbouwkunde",
+    footerRole: "Werktuigbouwkunde",
 
     backToIndex: "Terug naar overzicht",
     viewPdf: "Volledig engineeringproces bekijken (pdf)",
@@ -418,7 +426,9 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filteren op vaardigheid",
     clearFilters: "Filters wissen",
     sortedByRelevance: "Gesorteerd op relevantie",
-    introLens: (lens) => `Je bekijkt Auréliens werk vanuit deze invalshoek: ${lens}.`,
+    introLens: (names, body) => `Je bekijkt Auréliens portfolio gefilterd op ${names}. ${body}`,
+    introLensMulti: (names, clauses) => `Je bekijkt Auréliens portfolio gefilterd op ${names}: ${clauses}.`,
+    filterNote: "Niets wordt verborgen — projecten worden alleen opnieuw gesorteerd.",
     listAnd: "en",
 
     feedbackTrigger: "Feedback wordt zeer gewaardeerd",

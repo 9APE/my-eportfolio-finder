@@ -22,11 +22,13 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { RichText, stripMarks } from "@/components/RichText";
 import { useLanguage, useT, localizeProjects } from "@/i18n/context";
 import { SkillFilterBar } from "@/components/SkillFilterBar";
+import { SiteFooter } from "@/components/SiteFooter";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
   activeKeywords,
   buildIntro,
+  heroPool,
   parseSkills,
   serializeSkills,
   excerptAround,
@@ -66,12 +68,44 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
+  const { lang, t } = useLanguage();
+  const { selected, toggle, clear } = useSkillSelection();
+
+  const lensIntro = buildIntro(selected, lang, {
+    single: t.introLens,
+    multi: t.introLensMulti,
+    and: t.listAnd,
+  });
+
+  /*
+   * Doubles as the remount key for the showcase and the index. The entrance animations
+   * (Reveal, the card accent sweep, the stat count-ups) are one-shot observers that
+   * disconnect once they have fired, so replaying them means mounting them again - the
+   * honest way to get a fresh-load feel without a reload or a route change. The filter bar
+   * sits outside this subtree, so the chip you just clicked keeps focus.
+   */
+  const selectionKey = selected.join(",") || "all";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Hero />
-      <ProjectIndex onExpand={(images, index) => setLightbox({ images, index })} />
-      <Footer />
+      <SkillFilterBar
+        selected={selected}
+        onToggle={toggle}
+        onClear={clear}
+        selectionKey={selectionKey}
+        intro={lensIntro ?? <RichText text={t.heroIntro} />}
+        trailing={<LanguageSwitcher className="shrink-0" />}
+      />
+
+      <div key={selectionKey} className="page-enter">
+        <Hero selected={selected} />
+        <ProjectIndex
+          selected={selected}
+          onExpand={(images, index) => setLightbox({ images, index })}
+        />
+      </div>
+
+      <SiteFooter />
       <ScrollPill />
       {lightbox && (
         <Lightbox
@@ -109,37 +143,33 @@ function useSkillSelection() {
   };
 }
 
-function Hero() {
+function Hero({ selected }: { selected: SkillCategoryId[] }) {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
-  const { selected } = useSkillSelection();
 
-  // Filtering never removes a project; it only changes which one leads the showcase.
-  const localized = sortByRelevance(localizeProjects(projects, lang), selected);
-  const project = localized[active]!;
-  const lensIntro = buildIntro(selected, lang, t.introLens, t.listAnd);
+  // Filtering never removes a project. It re-ranks the list, and the showcase then rotates
+  // through the top-scoring projects for the lenses that are active.
+  const ordered = sortByRelevance(localizeProjects(projects, lang), selected);
+  const pool = heroPool(ordered, selected);
+  const index = Math.min(active, pool.length - 1);
+  const project = pool[index]!;
+  const canCycle = pool.length > 1;
 
-  // A new lens re-ranks the slides, so start again from the most relevant one.
-  const selectionKey = selected.join(",");
+  // Auto-cycle every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
-    setActive(0);
-  }, [selectionKey]);
-
-  // Auto-cycle the showcase every 7s; any slide change (manual or auto) restarts the timer.
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    const t = setTimeout(() => setActive((i) => (i + 1) % projects.length), 7000);
-    return () => clearTimeout(t);
-  }, [active]);
+    if (!canCycle || prefersReducedMotion()) return;
+    const timer = setTimeout(() => setActive((i) => (i + 1) % pool.length), 7000);
+    return () => clearTimeout(timer);
+  }, [active, canCycle, pool.length]);
 
   const goPrev = (e: MouseEvent) => {
     e.stopPropagation();
-    setActive((i) => (i - 1 + projects.length) % projects.length);
+    setActive((i) => (i - 1 + pool.length) % pool.length);
   };
   const goNext = (e: MouseEvent) => {
     e.stopPropagation();
-    setActive((i) => (i + 1) % projects.length);
+    setActive((i) => (i + 1) % pool.length);
   };
   const openProject = () => {
     navigate({ to: "/projects/$slug", params: { slug: project.slug } });
@@ -147,13 +177,9 @@ function Hero() {
 
   return (
     <section className="relative border-b border-border">
-      <LanguageSwitcher className="absolute right-4 top-4 z-50 sm:right-6 sm:top-6" />
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
-          <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            {lensIntro ? lensIntro : <RichText text={t.heroIntro} />}
-          </p>
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[
@@ -216,7 +242,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* Project showcase — click the image to open that project; arrows browse without navigating */}
+        {/* Project showcase: click the image to open that project; arrows browse without navigating */}
         <div
           role="button"
           tabIndex={0}
@@ -232,19 +258,21 @@ function Hero() {
             backgroundSize: "120px 120px",
           }}
         >
-          {/* Auto-cycle progress bar — restarts on every slide change */}
-          <span
-            key={active}
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
-            style={{ animation: "hero-progress 7s linear forwards" }}
-          />
+          {/* Auto-cycle progress bar, restarts on every slide change */}
+          {canCycle && (
+            <span
+              key={index}
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
+              style={{ animation: "hero-progress 7s linear forwards" }}
+            />
+          )}
           <span className={`${label} absolute bottom-6 right-6`}>
-            {t.showcaseCounter(active + 1, localized.length)}
+            {t.showcaseCounter(index + 1, pool.length)}
           </span>
 
           <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
-            {localized.map((p, i) => (
+            {pool.map((p, i) => (
               <img
                 key={p.slug}
                 src={p.image}
@@ -253,35 +281,39 @@ function Hero() {
                 height={1104}
                 loading={i === 0 ? "eager" : "lazy"}
                 className={`absolute max-h-[62%] max-w-[76%] bg-background object-contain shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] transition-opacity duration-1000 ${
-                  i === active ? "opacity-100" : "opacity-0"
+                  i === index ? "opacity-100" : "opacity-0"
                 }`}
               />
             ))}
           </TiltWrapper>
 
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label={t.previousProject}
-            className="absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label={t.nextProject}
-            className="absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+          {canCycle && (
+            <>
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label={t.previousProject}
+                className="absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label={t.nextProject}
+                className="absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </>
+          )}
 
           <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
             {project.title.toUpperCase()}
           </span>
 
           <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
-            {localized.map((p, i) => (
+            {pool.map((p, i) => (
               <span
                 key={p.slug}
                 onClick={(e) => {
@@ -289,12 +321,11 @@ function Hero() {
                   setActive(i);
                 }}
                 className={`h-[3px] w-8 transition-colors ${
-                  i === active ? "bg-foreground" : "bg-border"
+                  i === index ? "bg-foreground" : "bg-border"
                 }`}
               />
             ))}
           </span>
-
         </div>
       </div>
     </section>
@@ -303,9 +334,14 @@ function Hero() {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number) => void }) {
+function ProjectIndex({
+  selected,
+  onExpand,
+}: {
+  selected: SkillCategoryId[];
+  onExpand: (images: string[], index: number) => void;
+}) {
   const { lang, t } = useLanguage();
-  const { selected, toggle, clear } = useSkillSelection();
   const localized = sortByRelevance(localizeProjects(projects, lang), selected);
   const keywords = activeKeywords(selected, lang);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -390,8 +426,6 @@ function ProjectIndex({ onExpand }: { onExpand: (images: string[], index: number
           </h2>
           <span className={label}>{t.entries(localized.length)}</span>
         </div>
-
-        <SkillFilterBar selected={selected} onToggle={toggle} onClear={clear} />
 
         {/* Progress rail — shows how far through the index you are */}
         <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">
@@ -676,19 +710,5 @@ function ProjectCard({
         </Link>
       </div>
     </article>
-  );
-}
-
-function Footer() {
-  const t = useT();
-  return (
-    <footer className="border-t border-border">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-        <span className={label}>{t.footerTagline}</span>
-        <a href="mailto:ariimoanapons@gmail.com" className={`${label} hover:text-foreground`}>
-          ariimoanapons@gmail.com
-        </a>
-      </div>
-    </footer>
   );
 }

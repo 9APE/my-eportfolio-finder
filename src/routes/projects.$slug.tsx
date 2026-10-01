@@ -5,6 +5,7 @@ import { getProject, projects } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
 import { RichText, stripMarks } from "@/components/RichText";
+import { SiteFooter } from "@/components/SiteFooter";
 import { useLanguage, localizeProject, localizeProjects } from "@/i18n/context";
 
 export const Route = createFileRoute("/projects/$slug")({
@@ -293,6 +294,8 @@ function ProjectPage() {
           </div>
         </div>
       </section>
+
+      <SiteFooter />
 
       {/* Peek bar — previews the sections below the fold, then slides away once they're reached */}
       <nav

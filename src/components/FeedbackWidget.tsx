@@ -4,10 +4,10 @@ import { Check, ChevronRight, X } from "lucide-react";
 import carCutout from "@/assets/ecurie-aix-car-cutout.png";
 import frontWing from "@/assets/ecurie-front-wing.jpg.asset.json";
 import { Button } from "@/components/ui/button";
+import { FEEDBACK_SESSION_KEY, useFeedback } from "@/components/feedback-context";
 import { useT } from "@/i18n/context";
 
 const ACCESS_KEY = "b566c164-ac8d-4287-b322-130930e8ba60";
-const SESSION_KEY = "feedback-prompt-shown";
 const AUTO_OPEN_MS = 90_000;
 
 const ROLE_KEYS = ["recruiter", "peer", "industry", "other"] as const;
@@ -31,7 +31,8 @@ const label =
 
 export default function FeedbackWidget() {
   const t = useT();
-  const [open, setOpen] = useState(false);
+  // Open state lives above the outlet so the footer button can raise it.
+  const { open, openFeedback, setOpen } = useFeedback();
   const [status, setStatus] = useState<Status>("idle");
   const [sequence, setSequence] = useState<Sequence>("idle");
   const [teasing, setTeasing] = useState(false);
@@ -53,15 +54,6 @@ export default function FeedbackWidget() {
   const later = useCallback((callback: () => void, milliseconds: number) => {
     const timer = window.setTimeout(callback, milliseconds);
     timersRef.current.push(timer);
-  }, []);
-
-  const openModal = useCallback(() => {
-    try {
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch {
-      /* storage unavailable */
-    }
-    setOpen(true);
   }, []);
 
   const closeModal = useCallback(() => {
@@ -87,14 +79,14 @@ export default function FeedbackWidget() {
   useEffect(() => {
     let alreadyShown = false;
     try {
-      alreadyShown = sessionStorage.getItem(SESSION_KEY) === "1";
+      alreadyShown = sessionStorage.getItem(FEEDBACK_SESSION_KEY) === "1";
     } catch {
       alreadyShown = true;
     }
     if (alreadyShown) return;
-    const timer = window.setTimeout(() => openModal(), AUTO_OPEN_MS);
+    const timer = window.setTimeout(() => openFeedback(), AUTO_OPEN_MS);
     return () => window.clearTimeout(timer);
-  }, [openModal]);
+  }, [openFeedback]);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
@@ -215,14 +207,6 @@ export default function FeedbackWidget() {
 
   return (
     <>
-      <div className="border-t border-border">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-center px-6 py-8 sm:px-10">
-          <Button type="button" variant="outline" onClick={openModal} className={`${label} h-auto rounded-full px-5 py-2.5`}>
-            {t.feedbackTrigger}
-          </Button>
-        </div>
-      </div>
-
       {open && (
         <div
           className="fixed inset-0 z-50 flex items-end justify-center overflow-hidden bg-foreground/20 p-4 backdrop-blur-sm motion-safe:animate-fade-in sm:items-center"
