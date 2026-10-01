@@ -33,7 +33,7 @@ import {
   serializeSkills,
   excerptAround,
   sortByRelevance,
-  toggleSkill,
+  selectSkill,
 } from "@/lib/skill-filter";
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
@@ -68,14 +68,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
-  const { lang, t } = useLanguage();
-  const { selected, toggle, clear } = useSkillSelection();
-
-  const lensIntro = buildIntro(selected, lang, {
-    single: t.introLens,
-    multi: t.introLensMulti,
-    and: t.listAnd,
-  });
+  const { selected, select, clear } = useSkillSelection();
 
   /*
    * Doubles as the remount key for the showcase and the index. The entrance animations
@@ -90,10 +83,8 @@ function Index() {
     <main className="min-h-screen bg-background text-foreground">
       <SkillFilterBar
         selected={selected}
-        onToggle={toggle}
+        onSelect={select}
         onClear={clear}
-        selectionKey={selectionKey}
-        intro={lensIntro ?? <RichText text={t.heroIntro} />}
         trailing={<LanguageSwitcher className="shrink-0" />}
       />
 
@@ -138,7 +129,7 @@ function useSkillSelection() {
 
   return {
     selected,
-    toggle: (id: SkillCategoryId) => apply(toggleSkill(selected, id)),
+    select: (id: SkillCategoryId) => apply(selectSkill(selected, id)),
     clear: () => apply([]),
   };
 }
@@ -155,6 +146,9 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
   const index = Math.min(active, pool.length - 1);
   const project = pool[index]!;
   const canCycle = pool.length > 1;
+
+  // One lens, one paragraph. With nothing selected this is the default bio, unchanged.
+  const lensIntro = buildIntro(selected, lang, t.introLens);
 
   // Auto-cycle every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
@@ -180,6 +174,12 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
+          <p
+            aria-live="polite"
+            className="lens-intro mt-6 max-w-xl leading-relaxed text-muted-foreground"
+          >
+            {lensIntro ?? <RichText text={t.heroIntro} />}
+          </p>
 
           <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
             {[

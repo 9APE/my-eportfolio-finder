@@ -20,8 +20,7 @@ export type SkillCategoryId =
  * Every text field is per-language because the site runs in EN/FR/DE/NL.
  * - label     chip text, Title Case
  * - name      prose form, used inside "filtered by ..."
- * - body      the rest of the paragraph when this lens is the only one selected
- * - clause    short form, combined with the other lenses' clauses on a multi-select
+ * - body      the rest of the paragraph shown while this lens is active
  * - keywords  wording that actually appears in that language's project copy, so matched
  *             terms get emboldened on the cards. Equivalents, not translations.
  */
@@ -30,7 +29,6 @@ export type SkillCategory = {
   label: Record<Lang, string>;
   name: Record<Lang, string>;
   body: Record<Lang, string>;
-  clause: Record<Lang, string>;
   keywords: Record<Lang, string[]>;
 };
 
@@ -54,12 +52,6 @@ export const skillCategories: SkillCategory[] = [
       fr: "Il a défini les objectifs de rigidité en torsion d'un monocoque en fibre de carbone, vérifié chaque itération de conception par calculs analytiques avant de passer à la simulation, puis corrélé les prédictions finales à des données d'essais physiques — en assumant toute l'histoire structurelle d'un composant, et pas une seule étape.",
       de: "Er hat die Torsionssteifigkeitsziele für ein Carbon-Monocoque hergeleitet, jede Konstruktionsiteration vor der Simulation per Handrechnung geprüft und die endgültigen Vorhersagen mit physikalischen Prüfstandsdaten korreliert – er verantwortet die gesamte strukturelle Kette eines Bauteils, nicht nur eine Stufe davon.",
       nl: "Hij stelde de torsiestijfheidsdoelen voor een koolstofvezelmonocoque op, controleerde elke ontwerpiteratie met handberekeningen voordat hij aan simulatie begon en correleerde de uiteindelijke voorspellingen met fysieke testdata — hij neemt het hele constructieve verhaal van een onderdeel op zich, niet slechts één stap daarvan.",
-    },
-    clause: {
-      en: "stiffness targets hand-calculated before simulation and correlated against physical test data",
-      fr: "des objectifs de rigidité calculés à la main avant simulation et corrélés à des essais physiques",
-      de: "Steifigkeitsziele per Handrechnung vor der Simulation, korreliert mit Prüfstandsdaten",
-      nl: "stijfheidsdoelen met handberekeningen vóór simulatie, gecorreleerd aan fysieke testdata",
     },
     keywords: {
       en: [
@@ -109,12 +101,6 @@ export const skillCategories: SkillCategory[] = [
       fr: "Il a construit et fait évoluer des modèles éléments finis sous Altair HyperMesh et OptiStruct pour des châssis et des éléments aérodynamiques en carbone, en confrontant chaque itération de stratifié à un objectif de rigidité, puis en corrélant les prédictions à des mesures physiques par jauges de déformation et cellules de charge, à 2 % près.",
       de: "Er hat FE-Modelle in Altair HyperMesh und OptiStruct für Carbon-Chassis und Aerodynamikstrukturen aufgebaut und iteriert, jede Laminat-Iteration gegen ein Steifigkeitsziel gemessen und die Vorhersagen anschließend mit Dehnungsmessstreifen- und Kraftmessdosendaten auf 2 % genau korreliert.",
       nl: "Hij bouwde en itereerde eindige-elementenmodellen in Altair HyperMesh en OptiStruct voor koolstofvezelchassis en aerodynamische structuren, toetste elke laminaatiteratie aan een stijfheidsdoel en correleerde de voorspellingen vervolgens tot op 2% met fysieke rekstrookjes- en krachtopnemerdata.",
-    },
-    clause: {
-      en: "finite element models in Altair HyperMesh and OptiStruct, correlated to within 2% of test data",
-      fr: "des modèles éléments finis sous Altair HyperMesh et OptiStruct, corrélés à 2 % près aux essais",
-      de: "FE-Modelle in Altair HyperMesh und OptiStruct, auf 2 % mit Messdaten korreliert",
-      nl: "eindige-elementenmodellen in Altair HyperMesh en OptiStruct, tot op 2% gecorreleerd",
     },
     keywords: {
       en: [
@@ -172,12 +158,6 @@ export const skillCategories: SkillCategory[] = [
       de: "Er hat Chassisgeometrien, Formwerkzeuge und Aerodynamikbauteile von Grund auf in Siemens NX konstruiert – stets unter engen Package- und Fertigungsrandbedingungen – und ist in weniger als zwei Wochen von SolidWorks auf NX umgestiegen, als ein neues Team es verlangte.",
       nl: "Hij ontwierp chassisgeometrie, matrijzen en aerodynamische onderdelen vanaf nul in Siemens NX, altijd binnen strakke package- en produceerbaarheidseisen, en stapte in minder dan twee weken van SolidWorks over op NX toen een nieuw team dat vroeg.",
     },
-    clause: {
-      en: "chassis geometry, tooling and aero parts from a clean sheet in Siemens NX",
-      fr: "des géométries de châssis, outillages et éléments aéro depuis la feuille blanche sous Siemens NX",
-      de: "Chassisgeometrien, Formwerkzeuge und Aerobauteile von Grund auf in Siemens NX",
-      nl: "chassisgeometrie, matrijzen en aero-onderdelen vanaf nul in Siemens NX",
-    },
     keywords: {
       en: [
         "Siemens NX",
@@ -233,12 +213,6 @@ export const skillCategories: SkillCategory[] = [
       fr: "Il a travaillé de bout en bout sur des pièces en fibre de carbone : choix des matériaux, conception du stratifié, simulation de drapabilité, découpe des plis, drapage, cuisson et outillage de moule conçu pour le démoulage — en diagnostiquant un risque de manque de résine par coupe transversale plutôt que par simple inspection visuelle.",
       de: "Er hat Carbonbauteile durchgängig begleitet: Materialauswahl, Laminataufbau, Drapierbarkeitssimulation, Lagenzuschnitt, Laminieren, Aushärten und entformungsgerechte Formwerkzeuge – und ein Harzmangel-Risiko per Querschnitt statt nur per Sichtprüfung diagnostiziert.",
       nl: "Hij werkte van begin tot eind aan koolstofvezeldelen: materiaalkeuze, laminaatontwerp, drapeerbaarheidssimulatie, lagen snijden, lamineren, uitharden en matrijzen ontworpen om schoon te lossen — en diagnosticeerde een risico op harsarmoede via doorsneden in plaats van alleen visuele inspectie.",
-    },
-    clause: {
-      en: "carbon-fibre parts taken from laminate design and drapability simulation through layup, cure and mould tooling",
-      fr: "des pièces carbone menées du stratifié et de la drapabilité jusqu'au drapage, à la cuisson et aux moules",
-      de: "Carbonbauteile von Laminataufbau und Drapierbarkeit bis Laminieren, Aushärten und Formwerkzeug",
-      nl: "koolstofvezeldelen van laminaatontwerp en drapeerbaarheid tot lamineren, uitharden en matrijzen",
     },
     keywords: {
       en: [
@@ -315,12 +289,6 @@ export const skillCategories: SkillCategory[] = [
       de: "Er führt Subsysteme von den Grundanforderungen bis zum gefertigten, getesteten Bauteil und führt auf jedem Projekt ein persönliches Ingenieurslogbuch – von niemandem verlangt –, um Prozesswissen weiterzugeben und seine Arbeit für die nächste Person nachvollziehbar zu halten.",
       nl: "Hij brengt subsystemen van basiseisen tot geproduceerde, geteste onderdelen en houdt op elk project een persoonlijk engineeringlogboek bij — door niemand gevraagd — om proceskennis mee te nemen en zijn werk navolgbaar te houden voor de volgende.",
     },
-    clause: {
-      en: "subsystems owned from first-principles requirements to manufactured, tested parts",
-      fr: "des sous-systèmes pris en charge des exigences fondamentales aux pièces fabriquées et testées",
-      de: "Subsysteme von den Grundanforderungen bis zum gefertigten, getesteten Bauteil verantwortet",
-      nl: "subsystemen van basiseisen tot geproduceerde, geteste onderdelen",
-    },
     keywords: {
       en: [
         "took ownership",
@@ -365,12 +333,6 @@ export const skillCategories: SkillCategory[] = [
       fr: "D'un robot à base mecanum développé en cinq révisions CAO jusqu'aux outillages de moule carbone et aux bancs d'ergonomie pilote, il apprend en construisant : itérer vite sur le matériel et tester tôt plutôt que d'attendre une conception parfaite du premier coup.",
       de: "Vom Mecanum-Roboter über fünf CAD-Revisionen bis zu Carbon-Formwerkzeugen und Fahrer-Ergonomieprüfständen lernt er durch Bauen: schnell an der Hardware iterieren und früh testen, statt auf den perfekten ersten Entwurf zu warten.",
       nl: "Van een mecanumrobot in vijf CAD-revisies tot koolstofvezelmatrijzen en ergonomieopstellingen voor de coureur: hij leert door te bouwen, itereert snel op hardware en test vroeg in plaats van te wachten op een perfect eerste ontwerp.",
-    },
-    clause: {
-      en: "hardware iterated fast — five CAD revisions of a mecanum robot, mould tooling and ergonomics rigs",
-      fr: "du matériel itéré vite — cinq révisions CAO d'un robot mecanum, moules et bancs d'ergonomie",
-      de: "schnelle Hardware-Iteration – fünf CAD-Revisionen eines Mecanum-Roboters, Formen und Prüfstände",
-      nl: "snel itereren op hardware — vijf CAD-revisies van een mecanumrobot, matrijzen en opstellingen",
     },
     keywords: {
       en: [
@@ -421,12 +383,6 @@ export const skillCategories: SkillCategory[] = [
       de: "Er hat Konstruktionen durchgehend an realen Daten validiert: Drei-Punkt-Biege- und Durchdrückversuche an Carbonplatten, Korrelation von Dehnungsmessstreifen- und Kraftmessdosendaten mit der FEM, und Ergonomie auf einem eigens gebauten, verstellbaren Prüfstand.",
       nl: "Hij valideerde ontwerpen doorlopend met echte data: driepuntsbuiging en doordruktests op koolstofvezelpanelen, correlatie van rekstrookjes- en krachtopnemerdata met FEA, en ergonomie gevalideerd op een speciaal gebouwde verstelbare opstelling.",
     },
-    clause: {
-      en: "designs validated on real data: bending and push-through tests, strain gauge and load cell correlation",
-      fr: "des conceptions validées sur données réelles : flexion, poinçonnement, jauges et cellules de charge",
-      de: "Konstruktionen an realen Daten validiert: Biege- und Durchdrückversuche, Messtechnik-Korrelation",
-      nl: "ontwerpen gevalideerd met echte data: buig- en doordruktests, rekstrookjes en krachtopnemers",
-    },
     keywords: {
       en: ["testing", "tested", "test", "validated", "validation", "correlated", "quality", "rig"],
       fr: ["essais", "testé", "validée", "validés", "validé", "corrélé", "qualité", "banc"],
@@ -443,12 +399,6 @@ export const skillCategories: SkillCategory[] = [
       fr: "Il a dirigé une équipe aérodynamique pluridisciplinaire de 25 personnes, résolu des conflits d'intégration entre les sous-équipes structure et électronique sans compromettre la performance, et accorde autant de valeur à apprendre des autres et tenir compte des retours qu'à travailler en autonomie.",
       de: "Er hat ein interdisziplinäres Aerodynamikteam mit 25 Personen geleitet, Package-Konflikte zwischen Struktur- und Elektrik-Subteams ohne Leistungseinbußen gelöst und schätzt das Lernen von anderen und das Aufnehmen von Feedback genauso wie eigenständiges Arbeiten.",
       nl: "Hij leidde een interdisciplinair aerodynamicateam van 25 personen, loste packageconflicten tussen de constructie- en elektrische subteams op zonder prestatieverlies, en vindt leren van anderen en feedback verwerken even belangrijk als zelfstandig werken.",
-    },
-    clause: {
-      en: "a 25-person interdisciplinary aerodynamics team led, and cross-subteam packaging conflicts resolved",
-      fr: "une équipe aéro pluridisciplinaire de 25 personnes dirigée et des conflits d'intégration résolus",
-      de: "ein interdisziplinäres Aerodynamikteam mit 25 Personen geführt und Package-Konflikte gelöst",
-      nl: "een interdisciplinair aerodynamicateam van 25 personen geleid en packageconflicten opgelost",
     },
     keywords: {
       en: [

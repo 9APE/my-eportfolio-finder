@@ -63,10 +63,8 @@ export type UiCopy = {
   filterBySkill: string;
   clearFilters: string;
   sortedByRelevance: string;
-  introLens: (names: string, body: string) => string;
-  introLensMulti: (names: string, clauses: string) => string;
+  introLens: (name: string, body: string) => string;
   filterNote: string;
-  listAnd: string;
 
   // Feedback widget
   feedbackTrigger: string;
@@ -147,10 +145,8 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filter by skill",
     clearFilters: "Clear filters",
     sortedByRelevance: "Sorted by relevance",
-    introLens: (names, body) => `You're looking at Aurélien's portfolio filtered by ${names}. ${body}`,
-    introLensMulti: (names, clauses) => `You're looking at Aurélien's portfolio filtered by ${names}: ${clauses}.`,
+    introLens: (name, body) => `You're looking at Aurélien's portfolio filtered by ${name}. ${body}`,
     filterNote: "Nothing is hidden — projects reorder by relevance.",
-    listAnd: "and",
 
     feedbackTrigger: "Feedback would be very much appreciated",
     feedbackTitle: "Leave your thoughts & connect",
@@ -240,10 +236,8 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filtrer par compétence",
     clearFilters: "Effacer les filtres",
     sortedByRelevance: "Trié par pertinence",
-    introLens: (names, body) => `Vous consultez le portfolio d'Aurélien filtré par ${names}. ${body}`,
-    introLensMulti: (names, clauses) => `Vous consultez le portfolio d'Aurélien filtré par ${names} : ${clauses}.`,
+    introLens: (name, body) => `Vous consultez le portfolio d'Aurélien filtré par ${name}. ${body}`,
     filterNote: "Rien n'est masqué — les projets sont simplement réordonnés.",
-    listAnd: "et",
 
     feedbackTrigger: "Vos retours seraient très appréciés",
     feedbackTitle: "Laissez votre avis et restons en contact",
@@ -333,10 +327,8 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Nach Kompetenz filtern",
     clearFilters: "Filter zurücksetzen",
     sortedByRelevance: "Nach Relevanz sortiert",
-    introLens: (names, body) => `Sie sehen Auréliens Portfolio gefiltert nach ${names}. ${body}`,
-    introLensMulti: (names, clauses) => `Sie sehen Auréliens Portfolio gefiltert nach ${names}: ${clauses}.`,
+    introLens: (name, body) => `Sie sehen Auréliens Portfolio gefiltert nach ${name}. ${body}`,
     filterNote: "Nichts wird ausgeblendet – die Projekte werden nur neu sortiert.",
-    listAnd: "und",
 
     feedbackTrigger: "Über Feedback würde ich mich sehr freuen",
     feedbackTitle: "Feedback hinterlassen & vernetzen",
@@ -426,10 +418,8 @@ export const UI: Record<Lang, UiCopy> = {
     filterBySkill: "Filteren op vaardigheid",
     clearFilters: "Filters wissen",
     sortedByRelevance: "Gesorteerd op relevantie",
-    introLens: (names, body) => `Je bekijkt Auréliens portfolio gefilterd op ${names}. ${body}`,
-    introLensMulti: (names, clauses) => `Je bekijkt Auréliens portfolio gefilterd op ${names}: ${clauses}.`,
+    introLens: (name, body) => `Je bekijkt Auréliens portfolio gefilterd op ${name}. ${body}`,
     filterNote: "Niets wordt verborgen — projecten worden alleen opnieuw gesorteerd.",
-    listAnd: "en",
 
     feedbackTrigger: "Feedback wordt zeer gewaardeerd",
     feedbackTitle: "Deel je gedachten & maak contact",

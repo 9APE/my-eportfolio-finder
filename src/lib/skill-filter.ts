@@ -3,22 +3,28 @@ import { skillCategories, type SkillCategoryId } from "@/data/skillCategories";
 import type { Lang } from "@/i18n/config";
 import { buildKeywordPattern } from "@/lib/bold-keywords";
 
-/** Reads ?skills=a,b into a clean, de-duplicated list of known category ids. */
+/**
+ * Reads ?skills=… into the selection. One lens at a time: a link carrying several (an older
+ * shared URL) keeps the first one it recognises, so the view always matches the chips.
+ *
+ * Still modelled as a list rather than a single id, because the scoring, sorting and
+ * keyword code is written against a set and widening back out stays a one-line change.
+ */
 export function parseSkills(raw: string | undefined): SkillCategoryId[] {
   if (!raw) return [];
   const wanted = new Set(raw.split(",").map((s) => s.trim()));
-  // Iterate the canonical list so the result keeps a stable, declaration order.
-  return skillCategories.filter((c) => wanted.has(c.id)).map((c) => c.id);
+  const first = skillCategories.find((c) => wanted.has(c.id));
+  return first ? [first.id] : [];
 }
 
 /** Serialises selection back to the URL; undefined clears the param entirely. */
 export function serializeSkills(selected: SkillCategoryId[]): string | undefined {
-  return selected.length ? selected.join(",") : undefined;
+  return selected[0];
 }
 
-export function toggleSkill(selected: SkillCategoryId[], id: SkillCategoryId): SkillCategoryId[] {
-  const next = selected.includes(id) ? selected.filter((s) => s !== id) : [...selected, id];
-  return skillCategories.filter((c) => next.includes(c.id)).map((c) => c.id);
+/** Picks a lens, replacing whichever was active. Clicking the active one clears it. */
+export function selectSkill(selected: SkillCategoryId[], id: SkillCategoryId): SkillCategoryId[] {
+  return selected[0] === id ? [] : [id];
 }
 
 /** Summed relevance across the selected lenses. 0 when nothing is selected. */
@@ -53,40 +59,18 @@ export function heroPool(ordered: Project[], selected: SkillCategoryId[]): Proje
   return tier.length >= HERO_POOL_MIN ? tier : ordered.slice(0, HERO_POOL_MIN);
 }
 
-/** "a", "a and b", "a, b and c" — separator and conjunction supplied per language. */
-export function joinList(items: string[], and: string, separator = ", "): string {
-  if (items.length <= 1) return items[0] ?? "";
-  return `${items.slice(0, -1).join(separator)} ${and} ${items[items.length - 1]}`;
-}
-
-export type IntroCopy = {
-  /** One lens: the full paragraph. */
-  single: (names: string, body: string) => string;
-  /** Several lenses: their key clauses combined, rather than every paragraph in full. */
-  multi: (names: string, clauses: string) => string;
-  and: string;
-};
-
-/** The lens paragraph, or null when no filter is active (caller keeps the default intro). */
+/**
+ * The paragraph for the active lens, or null when none is — in which case the caller keeps
+ * the default intro. One lens, one text.
+ */
 export function buildIntro(
   selected: SkillCategoryId[],
   lang: Lang,
-  copy: IntroCopy,
+  template: (name: string, body: string) => string,
 ): string | null {
-  const active = skillCategories.filter((c) => selected.includes(c.id));
-  const first = active[0];
-  if (!first) return null;
-
-  const names = joinList(
-    active.map((c) => c.name[lang]),
-    copy.and,
-  );
-  if (active.length === 1) return copy.single(names, first.body[lang]);
-
-  // Semicolons only, no conjunction: several clauses already contain "and" internally, and
-  // a trailing "x and y" would read as though the last two belonged together.
-  const clauses = active.map((c) => c.clause[lang]).join("; ");
-  return copy.multi(names, clauses);
+  const active = skillCategories.find((c) => c.id === selected[0]);
+  if (!active) return null;
+  return template(active.name[lang], active.body[lang]);
 }
 
 /** Keywords for the active lenses, in the current language. */
