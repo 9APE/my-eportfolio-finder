@@ -342,3 +342,26 @@
     color: var(--color-foreground);
   }
 }
+
+/* Guides the eye to the skill chips until the visitor picks one. */
+@keyframes guide-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--chart-3) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.guide-ring {
+  animation: guide-ring 1.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-ring {
+    animation: none;
+  }
+}
