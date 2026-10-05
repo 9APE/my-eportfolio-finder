@@ -54,7 +54,7 @@ export function SkillFilterBar({
                     isActive
                       ? "border-chart-3 bg-chart-3 text-background shadow-[0_2px_12px_-6px_var(--chart-3)]"
                       : "border-border bg-background text-muted-foreground hover:-translate-y-px hover:border-chart-3/60 hover:text-foreground"
-                  }`}
+                  } ${!active && category.id === skillCategories[0]?.id ? "guide-ring border-chart-3/60 text-foreground" : ""}`}
                 >
                   {category.label[lang]}
                 </button>
@@ -74,9 +74,7 @@ export function SkillFilterBar({
               </button>
               <span className={`${label} text-chart-3`}>{t.sortedByRelevance}</span>
             </div>
-          ) : (
-            <span className={`${label} hidden lg:inline`}>{t.filterNote}</span>
-          )}
+          ) : null}
         </div>
       </div>
     </section>

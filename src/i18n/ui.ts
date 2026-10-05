@@ -64,7 +64,6 @@ export type UiCopy = {
   clearFilters: string;
   sortedByRelevance: string;
   introLens: (name: string, body: string) => string;
-  filterNote: string;
 
   // Feedback widget
   feedbackTrigger: string;
@@ -146,7 +145,6 @@ export const UI: Record<Lang, UiCopy> = {
     clearFilters: "Clear filters",
     sortedByRelevance: "Sorted by relevance",
     introLens: (_name, body) => body,
-    filterNote: "Nothing is hidden — projects reorder by relevance.",
 
     feedbackTrigger: "Feedback would be very much appreciated",
     feedbackTitle: "Leave your thoughts & connect",
@@ -237,7 +235,6 @@ export const UI: Record<Lang, UiCopy> = {
     clearFilters: "Effacer les filtres",
     sortedByRelevance: "Trié par pertinence",
     introLens: (_name, body) => body,
-    filterNote: "Rien n'est masqué — les projets sont simplement réordonnés.",
 
     feedbackTrigger: "Vos retours seraient très appréciés",
     feedbackTitle: "Laissez votre avis et restons en contact",
@@ -328,7 +325,6 @@ export const UI: Record<Lang, UiCopy> = {
     clearFilters: "Filter zurücksetzen",
     sortedByRelevance: "Nach Relevanz sortiert",
     introLens: (_name, body) => body,
-    filterNote: "Nichts wird ausgeblendet – die Projekte werden nur neu sortiert.",
 
     feedbackTrigger: "Über Feedback würde ich mich sehr freuen",
     feedbackTitle: "Feedback hinterlassen & vernetzen",
@@ -419,7 +415,6 @@ export const UI: Record<Lang, UiCopy> = {
     clearFilters: "Filters wissen",
     sortedByRelevance: "Gesorteerd op relevantie",
     introLens: (_name, body) => body,
-    filterNote: "Niets wordt verborgen — projecten worden alleen opnieuw gesorteerd.",
 
     feedbackTrigger: "Feedback wordt zeer gewaardeerd",
     feedbackTitle: "Deel je gedachten & maak contact",
