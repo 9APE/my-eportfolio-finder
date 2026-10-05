@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
@@ -81,15 +82,17 @@ function Index() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <SkillFilterBar
-        selected={selected}
-        onSelect={select}
-        onClear={clear}
-        trailing={<LanguageSwitcher className="shrink-0" />}
-      />
+      <div className="border-b border-border">
+        <div className="mx-auto flex max-w-[1600px] justify-end px-6 py-3 sm:px-10">
+          <LanguageSwitcher className="shrink-0" />
+        </div>
+      </div>
 
       <div key={selectionKey} className="page-enter">
-        <Hero selected={selected} />
+        <Hero
+          selected={selected}
+          filters={<SkillFilterBar inline selected={selected} onSelect={select} onClear={clear} />}
+        />
         <ProjectIndex
           selected={selected}
           onExpand={(images, index) => setLightbox({ images, index })}
@@ -134,7 +137,7 @@ function useSkillSelection() {
   };
 }
 
-function Hero({ selected }: { selected: SkillCategoryId[] }) {
+function Hero({ selected, filters }: { selected: SkillCategoryId[]; filters?: ReactNode }) {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
@@ -173,6 +176,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
     <section className="relative border-b border-border">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
+          <div className="mb-8">{filters}</div>
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p
             aria-live="polite"
