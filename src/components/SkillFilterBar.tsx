@@ -20,7 +20,9 @@ export function SkillFilterBar({
   onSelect,
   onClear,
   trailing,
+  inline,
 }: {
+  inline?: boolean;
   selected: SkillCategoryId[];
   onSelect: (id: SkillCategoryId) => void;
   onClear: () => void;
@@ -31,8 +33,8 @@ export function SkillFilterBar({
   const active = selected[0];
 
   return (
-    <section className="border-b border-border bg-muted/30">
-      <div className="mx-auto max-w-[1600px] px-6 py-5 sm:px-10">
+    <section className={inline ? "" : "border-b border-border bg-muted/30"}>
+      <div className={inline ? "" : "mx-auto max-w-[1600px] px-6 py-5 sm:px-10"}>
         <div className="flex items-start justify-between gap-4">
           <span className={`${label} pt-1.5`}>{t.filterBySkill}</span>
           {trailing}
