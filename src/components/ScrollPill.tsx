@@ -59,7 +59,10 @@ export function ScrollPill() {
             </>
           )}
         </span>
-        <ChevronDown className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <ChevronDown
+          className="h-3.5 w-3.5 shrink-0 animate-[cue-pulse_1.6s_ease-in-out_infinite] motion-reduce:animate-none"
+          aria-hidden="true"
+        />
       </button>
     </div>
   );
