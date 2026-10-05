@@ -64,7 +64,6 @@ export type UiCopy = {
   clearFilters: string;
   sortedByRelevance: string;
   introLens: (name: string, body: string) => string;
-  filterNote: string;
 
   // Feedback widget
   feedbackTrigger: string;

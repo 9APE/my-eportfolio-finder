@@ -74,9 +74,7 @@ export function SkillFilterBar({
               </button>
               <span className={`${label} text-chart-3`}>{t.sortedByRelevance}</span>
             </div>
-          ) : (
-            <span className={`${label} hidden lg:inline`}>{t.filterNote}</span>
-          )}
+          ) : null}
         </div>
       </div>
     </section>
