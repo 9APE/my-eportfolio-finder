@@ -401,8 +401,10 @@ function ProjectIndex({
     <>
       {/* Sticky bar — keeps the project count and contacts one click away once the hero is gone */}
       <div
-        className={`fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur transition-transform duration-300 ${
-          showBar ? "translate-y-0" : "-translate-y-full"
+        aria-hidden={!showBar}
+        inert={!showBar}
+        className={`fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur transition-[transform,visibility] duration-300 ${
+          showBar ? "visible translate-y-0" : "invisible -translate-y-full"
         }`}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-2.5 sm:px-10">
