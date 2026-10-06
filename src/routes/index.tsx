@@ -80,6 +80,22 @@ function Index() {
    */
   const selectionKey = selected.join(",") || "all";
 
+  // The filter now lives inside the remounting subtree, so hand focus back to the chip that
+  // was just used (or the first chip after "clear") once the new subtree is in place.
+  const lastUsed = useRef<string | null>(null);
+  const pick = (id: SkillCategoryId) => {
+    lastUsed.current = id;
+    select(id);
+  };
+  const reset = () => {
+    lastUsed.current = null;
+    clear();
+  };
+  useEffect(() => {
+    if (!lastUsed.current) return;
+    document.querySelector<HTMLElement>(`[data-skill-id="${lastUsed.current}"]`)?.focus();
+  }, [selectionKey]);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border">
@@ -89,12 +105,10 @@ function Index() {
       </div>
 
       <div key={selectionKey} className="page-enter">
-        <Hero
-          selected={selected}
-          filters={<SkillFilterBar inline selected={selected} onSelect={select} onClear={clear} />}
-        />
+        <Hero selected={selected} />
         <ProjectIndex
           selected={selected}
+          filters={<SkillFilterBar inline selected={selected} onSelect={pick} onClear={reset} />}
           onExpand={(images, index) => setLightbox({ images, index })}
         />
       </div>
@@ -137,7 +151,7 @@ function useSkillSelection() {
   };
 }
 
-function Hero({ selected, filters }: { selected: SkillCategoryId[]; filters?: ReactNode }) {
+function Hero({ selected }: { selected: SkillCategoryId[] }) {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
@@ -176,7 +190,6 @@ function Hero({ selected, filters }: { selected: SkillCategoryId[]; filters?: Re
     <section className="relative border-b border-border">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <div className="mb-8">{filters}</div>
           <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p
             aria-live="polite"
@@ -340,9 +353,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 function ProjectIndex({
   selected,
+  filters,
   onExpand,
 }: {
   selected: SkillCategoryId[];
+  filters?: ReactNode;
   onExpand: (images: string[], index: number) => void;
 }) {
   const { lang, t } = useLanguage();
@@ -430,6 +445,8 @@ function ProjectIndex({
           </h2>
           <span className={label}>{t.entries(localized.length)}</span>
         </div>
+
+        {filters ? <div className="mt-6">{filters}</div> : null}
 
         {/* Progress rail — shows how far through the index you are */}
         <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">

@@ -35,19 +35,22 @@ export function SkillFilterBar({
   return (
     <section className={inline ? "" : "border-b border-border bg-muted/30"}>
       <div className={inline ? "" : "mx-auto max-w-[1600px] px-6 py-5 sm:px-10"}>
-        <div className="flex items-start justify-between gap-4">
-          <span className={`${label} pt-1.5`}>{t.filterBySkill}</span>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <span className={label}>{t.filterBySkill}</span>
           {trailing}
-        </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-3">
-          <div className="flex flex-wrap gap-2" role="group" aria-label={t.filterBySkill}>
+          <div
+            className="flex flex-wrap items-center gap-2"
+            role="group"
+            aria-label={t.filterBySkill}
+          >
             {skillCategories.map((category) => {
               const isActive = active === category.id;
               return (
                 <button
                   key={category.id}
                   type="button"
+                  data-skill-id={category.id}
                   aria-pressed={isActive}
                   onClick={() => onSelect(category.id)}
                   className={`border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 ${
@@ -60,21 +63,21 @@ export function SkillFilterBar({
                 </button>
               );
             })}
-          </div>
 
-          {active ? (
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-              <button
-                type="button"
-                onClick={onClear}
-                className={`${label} inline-flex items-center gap-1.5 border border-border bg-background px-2.5 py-1 transition-colors hover:border-chart-3 hover:text-foreground`}
-              >
-                <X className="h-3 w-3" aria-hidden="true" />
-                {t.clearFilters}
-              </button>
-              <span className={`${label} text-chart-3`}>{t.sortedByRelevance}</span>
-            </div>
-          ) : null}
+            {active ? (
+              <>
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className={`${label} inline-flex items-center gap-1.5 border border-border bg-background px-2.5 py-1.5 transition-colors hover:border-chart-3 hover:text-foreground`}
+                >
+                  <X className="h-3 w-3" aria-hidden="true" />
+                  {t.clearFilters}
+                </button>
+                <span className={`${label} text-chart-3`}>{t.sortedByRelevance}</span>
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
     </section>
