@@ -141,7 +141,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Language",
 
-    filterBySkill: "Filter by skill",
+    filterBySkill: "Order by skill",
     clearFilters: "Clear filters",
     sortedByRelevance: "Sorted by relevance",
     introLens: (_name, body) => body,
@@ -231,7 +231,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Langue",
 
-    filterBySkill: "Filtrer par compétence",
+    filterBySkill: "Trier par compétence",
     clearFilters: "Effacer les filtres",
     sortedByRelevance: "Trié par pertinence",
     introLens: (_name, body) => body,
@@ -321,7 +321,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Sprache",
 
-    filterBySkill: "Nach Kompetenz filtern",
+    filterBySkill: "Nach Kompetenz sortieren",
     clearFilters: "Filter zurücksetzen",
     sortedByRelevance: "Nach Relevanz sortiert",
     introLens: (_name, body) => body,
@@ -411,7 +411,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Taal",
 
-    filterBySkill: "Filteren op vaardigheid",
+    filterBySkill: "Sorteren op vaardigheid",
     clearFilters: "Filters wissen",
     sortedByRelevance: "Gesorteerd op relevantie",
     introLens: (_name, body) => body,
