@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
-import { cv, type CvRole } from "@/data/cv";
+import { cv } from "@/data/cv";
 import { prefersReducedMotion } from "@/hooks/use-in-view";
-import { useT } from "@/i18n/context";
+import { CV_COPY } from "@/i18n/cv-copy";
+import { useLanguage, useT } from "@/i18n/context";
 
 const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
 const sectionHeading = "font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground";
@@ -59,7 +60,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function RoleDates({ role }: { role: Pick<CvRole, "start" | "end"> }) {
+function RoleDates({ role }: { role: { start: string; end: string | null } }) {
   const t = useT();
   return (
     <span className={`${label} whitespace-nowrap tabular-nums`}>
@@ -70,6 +71,8 @@ function RoleDates({ role }: { role: Pick<CvRole, "start" | "end"> }) {
 
 function Timeline() {
   const t = useT();
+  const { lang } = useLanguage();
+  const copy = CV_COPY[lang];
   const { ref, progress } = useScrollProgress<HTMLOListElement>();
 
   return (
@@ -81,11 +84,11 @@ function Timeline() {
           className="absolute -left-px top-0 w-[2px] origin-top bg-chart-3"
           style={{ height: "100%", transform: `scaleY(${progress})` }}
         />
-        {cv.experience.map((role, i) => {
+        {copy.experience.map((role, i) => {
           // A dot lights up once the line has reached it.
-          const reached = progress >= (i + 0.3) / cv.experience.length;
+          const reached = progress >= (i + 0.3) / copy.experience.length;
           return (
-            <li key={role.title} className="relative">
+            <li key={i} className="relative">
               <span
                 aria-hidden="true"
                 className={`absolute -left-[37px] top-1.5 h-3 w-3 border-2 transition-all duration-500 motion-reduce:transition-none ${
@@ -97,7 +100,7 @@ function Timeline() {
               <Reveal>
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
                   <h4 className="text-lg font-bold tracking-tight">{role.title}</h4>
-                  <RoleDates role={role} />
+                  <RoleDates role={cv.experience[i]!} />
                 </div>
                 <p className={`${label} mt-1`}>
                   {role.org}
@@ -123,16 +126,18 @@ function Timeline() {
 /** The CV itself. Used inline on the home page and on the standalone /cv page. */
 export function CvDocument() {
   const t = useT();
+  const { lang } = useLanguage();
+  const copy = CV_COPY[lang];
 
   return (
     <article className="space-y-12" aria-label={t.cvTitle}>
       <header>
         <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">{cv.name}</h2>
-        <p className="mt-3 max-w-3xl text-lg text-muted-foreground">{cv.headline}</p>
+        <p className="mt-3 max-w-3xl text-lg text-muted-foreground">{copy.headline}</p>
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
           <span className="flex items-center gap-2">
             <MapPin className="h-4 w-4 text-chart-3" aria-hidden="true" />
-            {cv.location}
+            {t.location}
           </span>
           <a href={`tel:${cv.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:text-chart-3">
             <Phone className="h-4 w-4 text-chart-3" aria-hidden="true" />
@@ -159,14 +164,14 @@ export function CvDocument() {
         <div className="space-y-12">
           <Reveal>
             <Section title={t.cvSummary}>
-              <p className="leading-relaxed text-foreground/85">{cv.summary}</p>
+              <p className="leading-relaxed text-foreground/85">{copy.summary}</p>
             </Section>
           </Reveal>
 
           <Reveal>
             <Section title={t.cvSkills}>
               <dl className="space-y-4">
-                {cv.skills.map((s) => (
+                {copy.skills.map((s) => (
                   <div key={s.area}>
                     <dt className="text-sm font-bold">{s.area}</dt>
                     <dd className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{s.detail}</dd>
@@ -184,13 +189,13 @@ export function CvDocument() {
         <Reveal>
           <Section title={t.cvEducation}>
             <ul className="space-y-6">
-              {cv.education.map((e) => (
-                <li key={e.degree}>
+              {copy.education.map((e, i) => (
+                <li key={i}>
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
                     <h4 className="font-bold tracking-tight">{e.degree}</h4>
                     <span className={`${label} whitespace-nowrap tabular-nums`}>
-                      {e.start} – {e.end}
-                      {e.expected ? ` (${t.cvExpected})` : ""}
+                      {cv.education[i]!.start} – {cv.education[i]!.end}
+                      {cv.education[i]!.expected ? ` (${t.cvExpected})` : ""}
                     </span>
                   </div>
                   <p className={`${label} mt-1`}>{e.school}</p>
@@ -203,9 +208,9 @@ export function CvDocument() {
 
         <Reveal delay={100}>
           <Section title={t.cvLanguages}>
-            <p className="text-sm leading-relaxed text-foreground/85">{cv.languages}</p>
+            <p className="text-sm leading-relaxed text-foreground/85">{copy.languages}</p>
             <p className={`${label} mt-5`}>{t.cvCitizenship}</p>
-            <p className="mt-1 text-sm text-foreground/85">{cv.citizenship}</p>
+            <p className="mt-1 text-sm text-foreground/85">{copy.citizenship}</p>
           </Section>
         </Reveal>
       </div>
