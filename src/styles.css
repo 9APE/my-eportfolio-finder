@@ -632,3 +632,8 @@
   position: relative;
   z-index: 1;
 }
+
+/* Only the visible slide reacts to the pointer, so hovering reaches the image you can see. */
+.hero-slide:not(.is-active) {
+  pointer-events: none;
+}

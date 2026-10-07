@@ -167,6 +167,10 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
     dir: 1,
   });
   const active = slide.active;
+  // Hovering the showcase reveals each project's second image and holds the autoplay, so the
+  // slide never changes under the cursor. `cycle` restarts the timeline when it resumes.
+  const [hover, setHover] = useState(false);
+  const [cycle, setCycle] = useState(0);
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
 
@@ -191,10 +195,10 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
 
   // Auto-cycle every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
-    if (!canCycle || prefersReducedMotion()) return;
+    if (!canCycle || prefersReducedMotion() || hover) return;
     const timer = setTimeout(() => go((active + 1) % pool.length), 7000);
     return () => clearTimeout(timer);
-  }, [active, canCycle, pool.length]);
+  }, [active, canCycle, pool.length, hover, cycle]);
 
   const goPrev = (e: MouseEvent) => {
     e.stopPropagation();
@@ -290,27 +294,60 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             if (e.key === "Enter") openProject();
           }}
           aria-label={t.viewProject(project.title)}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => {
+            setHover(false);
+            setCycle((c) => c + 1);
+          }}
           className="hero-stage group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden p-8 text-left lg:min-h-full"
         >
           <TiltWrapper
-            className="relative z-[1] flex h-full w-full items-center justify-center py-14"
+            className="relative z-[1] flex h-full w-full items-center justify-center py-14 [container-type:size]"
             maxTilt={4}
           >
-            {pool.map((p, i) => (
-              <img
-                key={p.slug}
-                src={p.image}
-                alt={p.title}
-                width={1408}
-                height={1104}
-                loading={i === 0 ? "eager" : "lazy"}
-                aria-hidden={i !== index}
-                style={{ "--dir": slide.dir } as React.CSSProperties}
-                className={`hero-slide absolute max-h-[58%] max-w-[78%] rounded-xl bg-background object-contain ring-1 ring-foreground/[0.06] ${
-                  i === index ? "is-active" : i === slide.prev ? "is-leaving" : ""
-                }`}
-              />
-            ))}
+            {pool.map((p, i) => {
+              const second = secondImage(p);
+              return (
+                <div
+                  key={p.slug}
+                  aria-hidden={i !== index}
+                  style={{ "--dir": slide.dir } as React.CSSProperties}
+                  className={`hero-slide group/slide absolute overflow-hidden rounded-xl bg-background ring-1 ring-foreground/[0.06] ${
+                    i === index ? "is-active" : i === slide.prev ? "is-leaving" : ""
+                  }`}
+                >
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    width={1408}
+                    height={1104}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    className={`block max-h-[58cqh] max-w-[78cqw] object-contain transition-opacity duration-500 ${
+                      second ? "group-hover/slide:opacity-0" : ""
+                    }`}
+                  />
+                  {second && (
+                    <>
+                      <img
+                        src={second}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full bg-background object-contain opacity-0 transition-opacity duration-500 group-hover/slide:opacity-100"
+                      />
+                      {/* Two dots: which of the project's images you are looking at */}
+                      <span
+                        aria-hidden="true"
+                        className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 rounded-full bg-background/75 px-2 py-1 shadow-sm backdrop-blur"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-foreground transition-colors duration-500 group-hover/slide:bg-foreground/25" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-foreground/25 transition-colors duration-500 group-hover/slide:bg-foreground" />
+                      </span>
+                    </>
+                  )}
+                </div>
+              );
+            })}
           </TiltWrapper>
 
           {canCycle && (
@@ -356,9 +393,16 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-foreground/15 transition-colors group-hover/seg:bg-foreground/30">
                   {i === index && (
                     <span
-                      key={index}
+                      key={`${index}-${cycle}`}
                       className="absolute inset-0 origin-left rounded-full bg-foreground motion-reduce:scale-x-100"
-                      style={canCycle ? { animation: "hero-progress 7s linear forwards" } : undefined}
+                      style={
+                        canCycle
+                          ? {
+                              animation: "hero-progress 7s linear forwards",
+                              animationPlayState: hover ? "paused" : "running",
+                            }
+                          : undefined
+                      }
                     />
                   )}
                 </span>
@@ -372,6 +416,9 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/** The image shown on hover: the project's dedicated hover image, else its next gallery photo. */
+const secondImage = (p: Project) => p.hoverImage ?? p.gallery.find((g) => g !== p.image);
 
 function ProjectIndex({
   selected,
