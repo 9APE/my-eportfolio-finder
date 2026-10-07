@@ -159,7 +159,14 @@ function useSkillSelection() {
 }
 
 function Hero({ selected }: { selected: SkillCategoryId[] }) {
-  const [active, setActive] = useState(0);
+  // The slide that is showing, the one just leaving, and which way the show is moving, so the
+  // transition can travel in the direction the visitor chose (or forward, when it auto-plays).
+  const [slide, setSlide] = useState<{ active: number; prev: number | null; dir: 1 | -1 }>({
+    active: 0,
+    prev: null,
+    dir: 1,
+  });
+  const active = slide.active;
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
 
@@ -171,23 +178,31 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
   const project = pool[index]!;
   const canCycle = pool.length > 1;
 
+  const go = (to: number) =>
+    setSlide((s) => {
+      const n = pool.length;
+      if (to === s.active) return s;
+      const forward = (to - s.active + n) % n;
+      return { active: to, prev: s.active, dir: forward <= n / 2 ? 1 : -1 };
+    });
+
   // One lens, one paragraph. With nothing selected this is the default bio, unchanged.
   const lensIntro = buildIntro(selected, lang, t.introLens);
 
   // Auto-cycle every 7s; any slide change (manual or auto) restarts the timer.
   useEffect(() => {
     if (!canCycle || prefersReducedMotion()) return;
-    const timer = setTimeout(() => setActive((i) => (i + 1) % pool.length), 7000);
+    const timer = setTimeout(() => go((active + 1) % pool.length), 7000);
     return () => clearTimeout(timer);
   }, [active, canCycle, pool.length]);
 
   const goPrev = (e: MouseEvent) => {
     e.stopPropagation();
-    setActive((i) => (i - 1 + pool.length) % pool.length);
+    go((index - 1 + pool.length) % pool.length);
   };
   const goNext = (e: MouseEvent) => {
     e.stopPropagation();
-    setActive((i) => (i + 1) % pool.length);
+    go((index + 1) % pool.length);
   };
   const openProject = () => {
     navigate({ to: "/projects/$slug", params: { slug: project.slug } });
@@ -275,27 +290,12 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             if (e.key === "Enter") openProject();
           }}
           aria-label={t.viewProject(project.title)}
-          className="group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden bg-muted/60 p-8 text-left lg:min-h-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px)",
-            backgroundSize: "120px 120px",
-          }}
+          className="hero-stage group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden p-8 text-left lg:min-h-full"
         >
-          {/* Auto-cycle progress bar, restarts on every slide change */}
-          {canCycle && (
-            <span
-              key={index}
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-chart-3 motion-reduce:hidden"
-              style={{ animation: "hero-progress 7s linear forwards" }}
-            />
-          )}
-          <span className={`${label} absolute bottom-6 right-6`}>
-            {t.showcaseCounter(index + 1, pool.length)}
-          </span>
-
-          <TiltWrapper className="relative flex h-full w-full items-center justify-center" maxTilt={8}>
+          <TiltWrapper
+            className="relative z-[1] flex h-full w-full items-center justify-center py-14"
+            maxTilt={4}
+          >
             {pool.map((p, i) => (
               <img
                 key={p.slug}
@@ -304,8 +304,10 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 width={1408}
                 height={1104}
                 loading={i === 0 ? "eager" : "lazy"}
-                className={`absolute max-h-[62%] max-w-[76%] bg-background object-contain shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] transition-opacity duration-1000 ${
-                  i === index ? "opacity-100" : "opacity-0"
+                aria-hidden={i !== index}
+                style={{ "--dir": slide.dir } as React.CSSProperties}
+                className={`hero-slide absolute max-h-[58%] max-w-[78%] rounded-xl bg-background object-contain ring-1 ring-foreground/[0.06] ${
+                  i === index ? "is-active" : i === slide.prev ? "is-leaving" : ""
                 }`}
               />
             ))}
@@ -317,7 +319,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 type="button"
                 onClick={goPrev}
                 aria-label={t.previousProject}
-                className="absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+                className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-0 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -325,31 +327,44 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 type="button"
                 onClick={goNext}
                 aria-label={t.nextProject}
-                className="absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border border-border bg-background/90 text-foreground/70 opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+                className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-0 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
             </>
           )}
 
-          <span className="absolute bottom-24 left-1/2 w-[76%] -translate-x-1/2 text-center font-mono text-[11px] tracking-[0.2em] text-muted-foreground">
-            {project.title.toUpperCase()}
-          </span>
-
-          <span className="absolute bottom-14 left-1/2 flex -translate-x-1/2 gap-2">
+          {/* Which project is showing (top) and how long until the next (bottom), both kept
+              clear of the centred scroll pill */}
+          <div key={project.slug} className="hero-caption absolute inset-x-6 top-6 z-10 min-w-0">
+            <span className={`${label} tabular-nums`}>{t.showcaseCounter(index + 1, pool.length)}</span>
+            <div className="mt-1 truncate text-base font-semibold tracking-tight">{project.title}</div>
+          </div>
+          <div className="absolute bottom-14 right-6 z-10 flex gap-1.5">
             {pool.map((p, i) => (
-              <span
+              <button
                 key={p.slug}
+                type="button"
+                aria-label={p.title}
+                aria-current={i === index}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setActive(i);
+                  go(i);
                 }}
-                className={`h-[3px] w-8 transition-colors ${
-                  i === index ? "bg-foreground" : "bg-border"
-                }`}
-              />
+                className="group/seg relative h-4 w-7 sm:w-9"
+              >
+                <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-foreground/15 transition-colors group-hover/seg:bg-foreground/30">
+                  {i === index && (
+                    <span
+                      key={index}
+                      className="absolute inset-0 origin-left rounded-full bg-foreground motion-reduce:scale-x-100"
+                      style={canCycle ? { animation: "hero-progress 7s linear forwards" } : undefined}
+                    />
+                  )}
+                </span>
+              </button>
             ))}
-          </span>
+          </div>
         </div>
       </div>
     </section>
@@ -658,7 +673,7 @@ function ProjectCard({
         }}
       />
       <div
-        className="group relative aspect-[4/3] overflow-hidden bg-muted/60"
+        className="img-stage group relative aspect-[4/3] overflow-hidden"
         onMouseEnter={startAutoOpen}
         onMouseLeave={cancelAutoOpen}
       >
