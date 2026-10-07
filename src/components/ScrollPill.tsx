@@ -82,65 +82,115 @@ function nudge(onDone: () => void): () => void {
   return finish;
 }
 
+/** Time spent looking at the projects before the pill points on to the CV. */
+const CV_DWELL_MS = 10000;
+const TICK_MS = 250;
+
 /**
- * Floating scroll hint pill.
- * - Hidden for the first 4s after load, then slides up into view and points at the projects.
- * - After 5s without any scrolling, the page itself gives a small nudge down and back.
- * - Fades out once the visitor scrolls past ~80px.
- * - Inside the project index it returns as "Next: Curriculum Vitae", nudges once more if the
- *   visitor lingers, and jumps to the CV on click. It goes away once the CV is on screen.
- * - Hover or focus expands it into a plain-language prompt.
+ * What the visitor has already been shown, kept for the browser session so that going to the
+ * Resume page and back does not bring the hints back. Falls back to memory if storage is
+ * unavailable (private windows, blocked site data).
+ */
+const memory = new Set<string>();
+const seen = (key: string) => {
+  try {
+    return memory.has(key) || sessionStorage.getItem(`pill:${key}`) === "1";
+  } catch {
+    return memory.has(key);
+  }
+};
+const markSeen = (key: string) => {
+  memory.add(key);
+  try {
+    sessionStorage.setItem(`pill:${key}`, "1");
+  } catch {
+    /* memory copy is enough */
+  }
+};
+
+/**
+ * Floating scroll hint pill. Each hint is shown at most once per visit.
+ * - Top: hidden for the first 4s, then slides up and points at the projects. If the visitor
+ *   hasn't scrolled after 5s the page gives a small nudge down and back. Once they scroll
+ *   away from the top it never returns, even if they scroll back up.
+ * - Projects: after 10s spent in the project index it appears as "Next: Curriculum Vitae"
+ *   (with one more nudge if they are still), and a click jumps to the CV. Once they leave
+ *   the projects, or click, it is gone for good.
+ * - Hover or focus expands either one into a plain-language prompt.
  */
 export function ScrollPill() {
   const copy = useT();
-  const [appeared, setAppeared] = useState(false);
-  const [mode, setMode] = useState<Mode>("top");
+  const [pill, setPill] = useState<"top" | "cv" | "none">("none");
   const [hovered, setHovered] = useState(false);
 
   const lastInput = useRef(0);
-  const nudged = useRef<Record<string, boolean>>({});
   const cancelNudge = useRef<(() => void) | null>(null);
-  const modeRef = useRef<Mode>("top");
 
   useEffect(() => {
-    const appear = setTimeout(() => setAppeared(true), 4000);
+    let appeared = false;
+    let dwell = 0;
+    let cvShown = false;
     lastInput.current = performance.now();
 
-    const sync = () => {
-      const next = readMode();
-      modeRef.current = next;
-      setMode(next);
+    const evaluate = () => {
+      const zone = readMode();
+      if (window.scrollY > 80) markSeen("top-done");
+
+      let next: "top" | "cv" | "none" = "none";
+      if (zone === "top" && appeared && !seen("top-done")) next = "top";
+      if (zone === "cv") {
+        if (dwell >= CV_DWELL_MS && !seen("cv-done")) {
+          next = "cv";
+          cvShown = true;
+        }
+      } else if (cvShown) {
+        // They have been shown the CV prompt and moved on: that is the one showing.
+        markSeen("cv-done");
+      }
+      setPill(next);
+      return { zone, next };
     };
+
+    const appear = setTimeout(() => {
+      appeared = true;
+      evaluate();
+    }, 4000);
+
     // Scrolling the visitor does counts as activity. The nudge's own scrolling does not.
     const onScroll = () => {
       if (!cancelNudge.current) lastInput.current = performance.now();
-      sync();
+      evaluate();
     };
     const onInput = () => {
       lastInput.current = performance.now();
     };
-    sync();
 
-    const idleCheck = setInterval(() => {
-      if (cancelNudge.current || prefersReducedMotion() || document.hidden) return;
-      const context = modeRef.current;
-      if (context === "none" || nudged.current[context]) return;
+    const tick = setInterval(() => {
+      if (document.hidden) return;
+      const { zone, next } = evaluate();
+      if (zone === "cv") dwell += TICK_MS;
+
+      if (cancelNudge.current || prefersReducedMotion()) return;
       if (performance.now() - lastInput.current < IDLE_MS) return;
-      nudged.current[context] = true;
+      // A nudge only goes with a hint that is on screen, and only ever once per hint.
+      const context = next === "top" ? "top" : next === "cv" ? "cv" : null;
+      if (!context || seen(`nudge-${context}`)) return;
+      markSeen(`nudge-${context}`);
       cancelNudge.current = nudge(() => {
         cancelNudge.current = null;
         lastInput.current = performance.now();
-        sync();
+        evaluate();
       });
-    }, 500);
+    }, TICK_MS);
 
+    evaluate();
     window.addEventListener("scroll", onScroll, { passive: true });
     for (const type of ["wheel", "touchstart", "keydown", "pointerdown"]) {
       window.addEventListener(type, onInput, { passive: true });
     }
     return () => {
       clearTimeout(appear);
-      clearInterval(idleCheck);
+      clearInterval(tick);
       cancelNudge.current?.();
       window.removeEventListener("scroll", onScroll);
       for (const type of ["wheel", "touchstart", "keydown", "pointerdown"]) {
@@ -150,14 +200,17 @@ export function ScrollPill() {
   }, []);
 
   // While fading out ("none"), keep the wording it had so the text doesn't flip mid-fade.
-  const labelMode = useRef<Exclude<Mode, "none">>("top");
-  if (mode !== "none") labelMode.current = mode;
+  const labelMode = useRef<"top" | "cv">("top");
+  if (pill !== "none") labelMode.current = pill;
   const toCv = labelMode.current === "cv";
-  const visible = mode !== "none" && (mode === "cv" || appeared);
+  const visible = pill !== "none";
 
   const go = () => {
-    const target = toCv ? "cv" : "projects";
-    document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+    if (toCv) {
+      markSeen("cv-done");
+      setPill("none");
+    }
+    document.getElementById(toCv ? "cv" : "projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
