@@ -368,3 +368,35 @@
     animation: none;
   }
 }
+
+/* CV hand-off at the foot of the project index. The sheet settles into place and the
+   header rule draws itself in once, when the section first enters the viewport. */
+.cv-sheet {
+  opacity: 0;
+  transform: translateY(56px) scale(0.985);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cv-sheet.is-in {
+  opacity: 1;
+  transform: none;
+}
+.cv-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1) 350ms;
+}
+.cv-sheet.is-in .cv-rule,
+.cv-page .cv-rule {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-sheet,
+  .cv-rule {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

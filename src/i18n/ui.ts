@@ -60,6 +60,23 @@ export type UiCopy = {
   language: string;
 
   // Skill filter
+  // CV
+  resume: string;
+  backToPortfolio: string;
+  cvEyebrow: string;
+  cvTitle: string;
+  cvOpenFull: string;
+  cvDownload: string;
+  cvSummary: string;
+  cvSkills: string;
+  cvExperience: string;
+  cvEducation: string;
+  cvLanguages: string;
+  cvCitizenship: string;
+  cvPresent: string;
+  cvExpected: string;
+  cvPdfHint: string;
+
   filterBySkill: string;
   clearFilters: string;
   sortedByRelevance: string;
@@ -140,6 +157,22 @@ export const UI: Record<Lang, UiCopy> = {
     scrollToProjects: "Scroll down to the engineering projects",
 
     language: "Language",
+
+    resume: "Resume",
+    backToPortfolio: "Back to portfolio",
+    cvEyebrow: "Next",
+    cvTitle: "Curriculum Vitae",
+    cvOpenFull: "Open full resume",
+    cvDownload: "Download PDF",
+    cvSummary: "Professional summary",
+    cvSkills: "Key skills",
+    cvExperience: "Professional experience",
+    cvEducation: "Education",
+    cvLanguages: "Languages",
+    cvCitizenship: "Citizenship",
+    cvPresent: "Present",
+    cvExpected: "Expected",
+    cvPdfHint: "One page, PDF",
 
     filterBySkill: "Order by skill",
     clearFilters: "Clear filters",
@@ -231,6 +264,22 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Langue",
 
+    resume: "CV",
+    backToPortfolio: "Retour au portfolio",
+    cvEyebrow: "Ensuite",
+    cvTitle: "Curriculum Vitae",
+    cvOpenFull: "Ouvrir le CV complet",
+    cvDownload: "Télécharger le PDF",
+    cvSummary: "Résumé professionnel",
+    cvSkills: "Compétences clés",
+    cvExperience: "Expérience professionnelle",
+    cvEducation: "Formation",
+    cvLanguages: "Langues",
+    cvCitizenship: "Nationalité",
+    cvPresent: "Aujourd'hui",
+    cvExpected: "Prévu",
+    cvPdfHint: "Une page, PDF",
+
     filterBySkill: "Trier par compétence",
     clearFilters: "Effacer les filtres",
     sortedByRelevance: "Trié par pertinence",
@@ -321,6 +370,22 @@ export const UI: Record<Lang, UiCopy> = {
 
     language: "Sprache",
 
+    resume: "Lebenslauf",
+    backToPortfolio: "Zurück zum Portfolio",
+    cvEyebrow: "Als Nächstes",
+    cvTitle: "Lebenslauf",
+    cvOpenFull: "Vollständigen Lebenslauf öffnen",
+    cvDownload: "PDF herunterladen",
+    cvSummary: "Berufliches Profil",
+    cvSkills: "Kernkompetenzen",
+    cvExperience: "Berufserfahrung",
+    cvEducation: "Ausbildung",
+    cvLanguages: "Sprachen",
+    cvCitizenship: "Staatsangehörigkeit",
+    cvPresent: "Heute",
+    cvExpected: "Voraussichtlich",
+    cvPdfHint: "Eine Seite, PDF",
+
     filterBySkill: "Nach Kompetenz sortieren",
     clearFilters: "Filter zurücksetzen",
     sortedByRelevance: "Nach Relevanz sortiert",
@@ -410,6 +475,22 @@ export const UI: Record<Lang, UiCopy> = {
     scrollToProjects: "Scroll naar de engineeringprojecten",
 
     language: "Taal",
+
+    resume: "CV",
+    backToPortfolio: "Terug naar portfolio",
+    cvEyebrow: "Hierna",
+    cvTitle: "Curriculum Vitae",
+    cvOpenFull: "Volledig cv openen",
+    cvDownload: "PDF downloaden",
+    cvSummary: "Professionele samenvatting",
+    cvSkills: "Kernvaardigheden",
+    cvExperience: "Werkervaring",
+    cvEducation: "Opleiding",
+    cvLanguages: "Talen",
+    cvCitizenship: "Nationaliteit",
+    cvPresent: "Heden",
+    cvExpected: "Verwacht",
+    cvPdfHint: "Eén pagina, PDF",
 
     filterBySkill: "Sorteren op vaardigheid",
     clearFilters: "Filters wissen",
