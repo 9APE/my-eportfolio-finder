@@ -53,10 +53,10 @@ export function SkillFilterBar({
                   data-skill-id={category.id}
                   aria-pressed={isActive}
                   onClick={() => onSelect(category.id)}
-                  className={`border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 ${
+                  className={`rounded-full border px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 ${
                     isActive
-                      ? "border-chart-3 bg-chart-3 text-background shadow-[0_2px_12px_-6px_var(--chart-3)]"
-                      : "border-border bg-background text-muted-foreground hover:-translate-y-px hover:border-chart-3/60 hover:text-foreground"
+                      ? "border-chart-3 bg-chart-3 text-background shadow-[0_6px_18px_-8px_var(--chart-3)]"
+                      : "border-border/80 bg-background/70 text-muted-foreground backdrop-blur hover:-translate-y-px hover:border-chart-3/60 hover:text-foreground"
                   } ${!active && category.id === skillCategories[0]?.id ? "guide-ring border-chart-3/60 text-foreground" : ""}`}
                 >
                   {category.label[lang]}
@@ -69,7 +69,7 @@ export function SkillFilterBar({
                 <button
                   type="button"
                   onClick={onClear}
-                  className={`${label} inline-flex items-center gap-1.5 border border-border bg-background px-2.5 py-1.5 transition-colors hover:border-chart-3 hover:text-foreground`}
+                  className={`${label} inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background/70 px-3 py-1.5 backdrop-blur transition-colors hover:border-chart-3 hover:text-foreground`}
                 >
                   <X className="h-3 w-3" aria-hidden="true" />
                   {t.clearFilters}

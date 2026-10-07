@@ -44,7 +44,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={t.language}
-        className="flex items-center gap-2 border border-border bg-background/90 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground backdrop-blur transition-colors hover:border-chart-3"
+        className="flex items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-colors hover:border-chart-3"
       >
         <Globe className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
         {current.short}
@@ -58,7 +58,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         <ul
           role="listbox"
           aria-label={t.language}
-          className="absolute right-0 z-50 mt-1 min-w-[11rem] border border-border bg-background shadow-lg"
+          className="absolute right-0 z-50 mt-2 min-w-[11rem] overflow-hidden rounded-2xl border border-border/70 bg-background/90 shadow-[0_24px_48px_-20px_rgba(15,23,42,0.35)] backdrop-blur-xl"
         >
           {LANGS.map((option) => (
             <li key={option.code}>

@@ -225,7 +225,7 @@ export function CvDownloadLink({ className = "" }: { className?: string }) {
       href={cv.pdf}
       download
       title={t.cvPdfHint}
-      className={`${label} inline-flex items-center gap-2 border border-border bg-background px-3 py-2 transition-colors hover:border-chart-3 hover:text-foreground ${className}`}
+      className={`${label} inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/70 px-4 py-2 backdrop-blur transition-colors hover:border-chart-3 hover:text-foreground ${className}`}
     >
       <Download className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
       {t.cvDownload}
