@@ -13,6 +13,7 @@ import {
   MapPin,
   Phone,
   Linkedin,
+  FileText,
 } from "lucide-react";
 import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
@@ -24,6 +25,7 @@ import { RichText, stripMarks } from "@/components/RichText";
 import { useLanguage, useT, localizeProjects } from "@/i18n/context";
 import { SkillFilterBar } from "@/components/SkillFilterBar";
 import { SiteFooter } from "@/components/SiteFooter";
+import { CvSection } from "@/components/CvSection";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
@@ -70,6 +72,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
   const { selected, select, clear } = useSkillSelection();
+  const [inCv, setInCv] = useState(false);
 
   /*
    * Doubles as the remount key for the showcase and the index. The entrance animations
@@ -99,7 +102,8 @@ function Index() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border">
-        <div className="mx-auto flex max-w-[1600px] justify-end px-6 py-3 sm:px-10">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-4 px-6 py-3 sm:px-10">
+          <ResumeLink />
           <LanguageSwitcher className="shrink-0" />
         </div>
       </div>
@@ -108,10 +112,13 @@ function Index() {
         <Hero selected={selected} />
         <ProjectIndex
           selected={selected}
+          inCv={inCv}
           filters={<SkillFilterBar inline selected={selected} onSelect={pick} onClear={reset} />}
           onExpand={(images, index) => setLightbox({ images, index })}
         />
       </div>
+
+      <CvSection onActiveChange={setInCv} />
 
       <SiteFooter />
       <ScrollPill />
@@ -354,10 +361,12 @@ const pad = (n: number) => String(n).padStart(2, "0");
 function ProjectIndex({
   selected,
   filters,
+  inCv,
   onExpand,
 }: {
   selected: SkillCategoryId[];
   filters?: ReactNode;
+  inCv?: boolean;
   onExpand: (images: string[], index: number) => void;
 }) {
   const { lang, t } = useLanguage();
@@ -410,9 +419,10 @@ function ProjectIndex({
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-2.5 sm:px-10">
           <span className="text-sm font-bold tracking-tight">Aurélien Pons</span>
           <span className={`${label} tabular-nums`}>
-            {t.projectCounter(pad(activeCard + 1), pad(localized.length))}
+            {inCv ? t.cvTitle : t.projectCounter(pad(activeCard + 1), pad(localized.length))}
           </span>
           <span className="flex items-center gap-4">
+            <ResumeLink />
             <a
               href="mailto:ariimoanapons@gmail.com"
               aria-label={t.emailAria}
@@ -501,6 +511,21 @@ function ProjectIndex({
         </div>
       </section>
     </>
+  );
+}
+
+/** Link to the standalone resume page. Sits to the left of the email in both top bars. */
+function ResumeLink() {
+  const t = useT();
+  return (
+    <Link
+      to="/cv"
+      aria-label={t.resume}
+      className="flex items-center gap-2 text-sm hover:text-chart-3"
+    >
+      <FileText className="h-4 w-4 text-chart-3" aria-hidden="true" />
+      <span className="hidden sm:inline">{t.resume}</span>
+    </Link>
   );
 }
 
