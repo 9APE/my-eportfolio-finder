@@ -499,7 +499,10 @@ function ProjectIndex({
         </div>
 
         {/* End-of-index marker */}
-        <div className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between">
+        <div
+          id="end-of-index"
+          className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between"
+        >
           <span className={label}>{t.endOfIndex(localized.length)}</span>
           <button
             type="button"

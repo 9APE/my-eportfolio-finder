@@ -55,6 +55,9 @@ export type UiCopy = {
   // Scroll pill
   explorePortfolio: string;
   scrollToProjects: string;
+  cvPill: string;
+  cvPillHover: string;
+  scrollToCv: string;
 
   // Language switcher
   language: string;
@@ -155,6 +158,9 @@ export const UI: Record<Lang, UiCopy> = {
 
     explorePortfolio: "Explore Portfolio",
     scrollToProjects: "Scroll down to the engineering projects",
+    cvPill: "Next: Curriculum Vitae",
+    cvPillHover: "Continue to my CV",
+    scrollToCv: "Scroll down to my CV",
 
     language: "Language",
 
@@ -261,6 +267,9 @@ export const UI: Record<Lang, UiCopy> = {
 
     explorePortfolio: "Explorer le portfolio",
     scrollToProjects: "Défiler jusqu'aux projets d'ingénierie",
+    cvPill: "Suite : mon CV",
+    cvPillHover: "Voir mon CV",
+    scrollToCv: "Défiler jusqu'à mon CV",
 
     language: "Langue",
 
@@ -367,6 +376,9 @@ export const UI: Record<Lang, UiCopy> = {
 
     explorePortfolio: "Portfolio entdecken",
     scrollToProjects: "Zu den Engineering-Projekten scrollen",
+    cvPill: "Weiter: mein Lebenslauf",
+    cvPillHover: "Zu meinem Lebenslauf",
+    scrollToCv: "Zum Lebenslauf scrollen",
 
     language: "Sprache",
 
@@ -473,6 +485,9 @@ export const UI: Record<Lang, UiCopy> = {
 
     explorePortfolio: "Portfolio verkennen",
     scrollToProjects: "Scroll naar de engineeringprojecten",
+    cvPill: "Hierna: mijn cv",
+    cvPillHover: "Naar mijn cv",
+    scrollToCv: "Scroll naar mijn cv",
 
     language: "Taal",
 
