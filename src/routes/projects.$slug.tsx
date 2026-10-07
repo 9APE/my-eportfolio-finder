@@ -75,7 +75,7 @@ function ProjectPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="site-bg min-h-screen text-foreground">
       <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-4">
@@ -83,7 +83,7 @@ function ProjectPage() {
               to="/"
               aria-label={t.backToIndex}
               title={t.backToIndex}
-              className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-border text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
+              className="glass-panel mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground/70 transition-colors hover:border-chart-3 hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
             </Link>
@@ -123,7 +123,7 @@ function ProjectPage() {
             href="/warman-engineering-process.pdf"
             target="_blank"
             rel="noreferrer"
-            className="mt-4 inline-flex items-center gap-2 border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/60"
+            className="glass-panel mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-colors hover:border-chart-3"
           >
             <FileText className="h-4 w-4 text-chart-3" />
             {t.viewPdf}
@@ -154,8 +154,8 @@ function ProjectPage() {
                 onFocus={() => setActiveImage(i)}
                 onClick={() => setLightbox(i)}
                 aria-label={t.previewImage(i + 1)}
-                className={`relative aspect-square w-16 shrink-0 overflow-hidden border bg-muted/60 transition-colors lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
-                  i === activeImage ? "border-chart-3" : "border-border hover:border-chart-3/60"
+                className={`img-stage relative aspect-square w-16 shrink-0 overflow-hidden rounded-xl border transition-all lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
+                  i === activeImage ? "border-chart-3 shadow-[0_8px_20px_-10px_var(--chart-3)]" : "border-border/70 hover:border-chart-3/60"
                 }`}
               >
                 <img
@@ -174,7 +174,7 @@ function ProjectPage() {
             type="button"
             onClick={() => setLightbox(activeImage)}
             aria-label={t.expandMainImage}
-            className="group relative block aspect-[16/7] w-full overflow-hidden border border-border bg-muted/60"
+            className="img-stage group relative block aspect-[16/7] w-full overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-30px_rgba(15,23,42,0.3)]"
           >
             <img
               src={fullGallery[activeImage]}
@@ -182,9 +182,9 @@ function ProjectPage() {
               width={1408}
               height={1104}
               loading="eager"
-              className="h-full w-full object-contain p-4"
+              className="relative z-[1] h-full w-full object-contain p-4"
             />
-            <span className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
+            <span className="absolute inset-0 z-[2] flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/90">
                 <Expand className="h-4 w-4" />
               </span>
@@ -196,7 +196,7 @@ function ProjectPage() {
         {/* How / Result + a separate Technical Specification box, tight under the images */}
         <Reveal delay={150}>
         <div ref={sectionsRef} className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
-          <div className="grid grid-cols-1 border border-border sm:grid-cols-2">
+          <div className="glass-panel grid grid-cols-1 overflow-hidden rounded-2xl sm:grid-cols-2">
             <div className="border-b border-border p-4 sm:border-b-0 sm:border-r" id="section-how">
               <div className={sectionHeading}>
                 <span className="text-chart-3">02</span> {t.sectionHow}
@@ -225,7 +225,7 @@ function ProjectPage() {
             </div>
           </div>
 
-          <aside className="h-fit border border-border lg:sticky lg:top-6" id="section-spec">
+          <aside className="glass-panel h-fit overflow-hidden rounded-2xl lg:sticky lg:top-6" id="section-spec">
             <div className="border-b border-border px-4 py-3">
               <span className={sectionHeading}>{t.technicalSpecification}</span>
             </div>
@@ -241,7 +241,7 @@ function ProjectPage() {
                 {project.skills.map((s) => (
                   <span
                     key={s}
-                    className="border border-chart-3/40 px-2 py-1 font-mono text-[10px] text-chart-3"
+                    className="rounded-full border border-chart-3/30 bg-chart-3/5 px-2.5 py-1 font-mono text-[10px] text-chart-3"
                   >
                     {s}
                   </span>
@@ -254,7 +254,7 @@ function ProjectPage() {
       </div>
 
       {/* Other Projects — horizontal scroll strip */}
-      <section className="border-t border-border">
+      <section className="section-rule-top">
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
           <div className="flex items-end justify-between">
             <div>
@@ -271,9 +271,9 @@ function ProjectPage() {
                 key={p.slug}
                 to="/projects/$slug"
                 params={{ slug: p.slug }}
-                className="group block w-60 shrink-0 border border-border bg-background"
+                className="glass-card group block w-60 shrink-0 overflow-hidden rounded-2xl"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-muted/60">
+                <div className="img-stage relative aspect-[4/3] overflow-hidden">
                   <img
                     src={p.image}
                     alt={p.title}
@@ -300,7 +300,7 @@ function ProjectPage() {
       {/* Peek bar — previews the sections below the fold, then slides away once they're reached */}
       <nav
         aria-hidden={!showPeekBar}
-        className={`fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-sm transition-transform duration-300 ease-out ${
+        className={`fixed inset-x-0 bottom-0 z-30 border-t border-border/50 bg-background/75 backdrop-blur-xl transition-transform duration-300 ease-out ${
           showPeekBar ? "translate-y-0" : "translate-y-full"
         }`}
       >
@@ -315,7 +315,7 @@ function ProjectPage() {
               type="button"
               tabIndex={showPeekBar ? 0 : -1}
               onClick={() => jumpTo(s.id)}
-              className="group flex items-center justify-center gap-2 border-r border-border py-3 font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors last:border-r-0 hover:bg-muted/60"
+              className="group flex items-center justify-center gap-2 border-r border-border/50 py-3 font-mono text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors last:border-r-0 hover:bg-muted/60"
             >
               {s.n && <span className="text-chart-3">{s.n}</span>}
               <span>{s.title}</span>

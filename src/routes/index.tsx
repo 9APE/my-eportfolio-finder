@@ -100,8 +100,8 @@ function Index() {
   }, [selectionKey]);
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="border-b border-border">
+    <main className="site-bg min-h-screen text-foreground">
+      <div className="relative z-20">
         <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-4 px-6 py-3 sm:px-10">
           <ResumeLink />
           <LanguageSwitcher className="shrink-0" />
@@ -209,10 +209,10 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
   };
 
   return (
-    <section className="relative border-b border-border">
+    <section className="relative">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <h1 className="text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
+          <h1 className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p
             aria-live="polite"
             className="lens-intro mt-6 max-w-xl leading-relaxed text-muted-foreground"
@@ -220,7 +220,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             {lensIntro ?? <RichText text={t.heroIntro} />}
           </p>
 
-          <div className="mt-10 grid max-w-3xl grid-cols-2 border border-border sm:grid-cols-4">
+          <div className="glass-panel mt-10 grid max-w-3xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-4">
             {[
               { value: 13, prefix: "", suffix: "+", t: t.statProjects },
               {
@@ -418,16 +418,13 @@ function ProjectIndex({
     };
   }, []);
 
-  const scrollToCard = (i: number) =>
-    cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
-
   return (
     <>
       {/* Sticky bar — keeps the project count and contacts one click away once the hero is gone */}
       <div
         aria-hidden={!showBar}
         inert={!showBar}
-        className={`fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur transition-[transform,visibility] duration-300 ${
+        className={`fixed inset-x-0 top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl transition-[transform,visibility] duration-300 ${
           showBar ? "visible translate-y-0" : "invisible -translate-y-full"
         }`}
       >
@@ -465,7 +462,7 @@ function ProjectIndex({
         ref={sectionRef}
         className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10"
       >
-        <div className="flex items-end justify-between border-b border-foreground/80 pb-4">
+        <div className="section-rule flex items-end justify-between pb-4">
           <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
             <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
             {t.engineeringProjects}
@@ -474,28 +471,6 @@ function ProjectIndex({
         </div>
 
         {filters ? <div className="mt-6">{filters}</div> : null}
-
-        {/* Progress rail — shows how far through the index you are */}
-        <div className="pointer-events-none absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex">
-          {localized.map((p, i) => (
-            <button
-              key={p.slug}
-              type="button"
-              onClick={() => scrollToCard(i)}
-              aria-label={t.goTo(p.title)}
-              className="pointer-events-auto group/rail flex items-center gap-2"
-            >
-              <span className="whitespace-nowrap border border-border bg-background px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground opacity-0 transition-opacity group-hover/rail:opacity-100">
-                {p.title}
-              </span>
-              <span
-                className={`h-[2px] transition-all duration-300 ${
-                  i === activeCard ? "w-8 bg-chart-3" : "w-4 bg-border group-hover/rail:bg-foreground"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
 
         <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
           {localized.map((p, i) => (
@@ -516,13 +491,13 @@ function ProjectIndex({
         {/* End-of-index marker */}
         <div
           id="end-of-index"
-          className="mt-14 flex flex-col items-center gap-3 border-t border-foreground/80 pt-6 sm:flex-row sm:justify-between"
+          className="section-rule-top mt-14 flex flex-col items-center gap-3 pt-6 sm:flex-row sm:justify-between"
         >
           <span className={label}>{t.endOfIndex(localized.length)}</span>
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className={`${label} inline-flex items-center gap-2 border border-border px-3 py-2 transition-colors hover:border-chart-3 hover:text-foreground`}
+            className={`${label} glass-panel inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors hover:border-chart-3 hover:text-foreground`}
           >
             {t.backToTop} <ArrowUp className="h-3.5 w-3.5" />
           </button>
@@ -661,7 +636,7 @@ function ProjectCard({
   return (
     <article
       ref={cardRef}
-      className="relative flex h-full flex-col border border-border transition-all duration-300"
+      className="glass-card relative flex h-full flex-col overflow-hidden rounded-2xl"
     >
       {/* Accent line draws across the top as the card enters view */}
       <span
@@ -685,7 +660,7 @@ function ProjectCard({
             style={{ animation: `hero-progress ${HOVER_AUTO_OPEN_MS}ms linear forwards` }}
           />
         )}
-        <span className={`${label} absolute left-3 top-3 z-10 border border-border bg-background px-2 py-1 tabular-nums`}>
+        <span className={`${label} absolute left-3 top-3 z-10 rounded-full border border-border/70 bg-background/80 px-2.5 py-1 tabular-nums backdrop-blur`}>
           {pad(index + 1)} / {pad(projects.length)}
         </span>
 
@@ -693,7 +668,7 @@ function ProjectCard({
           type="button"
           aria-label={t.expandImageFor(p.title)}
           onClick={() => onExpand([p.image, ...p.gallery], 0)}
-          className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center border border-border bg-background/90 text-foreground/70 transition-colors hover:text-foreground"
+          className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 backdrop-blur transition-colors hover:text-foreground"
         >
           <Expand className="h-4 w-4" />
         </button>
@@ -737,13 +712,13 @@ function ProjectCard({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-y border-border px-5 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-y border-border/60 px-5 py-3">
         <span className={label}>{p.category}</span>
         <span className="flex flex-wrap justify-end gap-2">
           {p.tags.map((t) => (
             <span
               key={t}
-              className="border border-chart-3/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-chart-3"
+              className="rounded-full border border-chart-3/30 bg-chart-3/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-chart-3"
             >
               {t}
             </span>
