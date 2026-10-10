@@ -40,7 +40,6 @@ const fr: Translated = {
       "Une surface de châssis intégrée reprenant tous les chemins d'effort et interfaces de fixation.",
       "Intégration validée sur le véhicule complet avant fabrication.",
       "Conception transmise aux équipes outillage et composites.",
-      "Note de 100 % sur la documentation d'ingénierie.",
     ],
     spec: [
       { label: "Durée", value: "Stage de 6 mois" },
@@ -133,13 +132,13 @@ const fr: Translated = {
     result: [
       "Rigidité en torsion augmentée de 75 %, pour une masse accrue de seulement 35 %.",
       "Prédiction par éléments finis corrélée aux mesures du banc d'essai de l'année précédente, à ~2 % près.",
-      "Livré dans le respect de toutes les contraintes, dont un objectif de masse de structure inférieur à 23 kg.",
+      "Livré dans le respect de toutes les contraintes, dont l'objectif de masse de structure.",
     ],
     spec: [
       { label: "Objectif", value: "Atteint (tolérance d'équilibre 0,8 %)" },
       { label: "Gain de rigidité", value: "+75 %" },
       { label: "Validation", value: "~2 % d'écart vs essai" },
-      { label: "Masse de structure", value: "< 23 kg (+35 %)" },
+      { label: "Masse de structure", value: "+35 %" },
     ],
     skills: [
       "Calcul éléments finis",
@@ -228,6 +227,7 @@ const fr: Translated = {
     result: [
       "Transmission, actionnement et effecteur pleinement intégrés dans une seule machine.",
       "Jeu de plans complet et fabricable.",
+      "Note de 100 % sur la documentation d'ingénierie.",
     ],
     spec: [
       { label: "Itérations CAO", value: "REV A–E" },
@@ -262,7 +262,6 @@ const de: Translated = {
       "Eine integrierte Chassis-Fläche, die alle Lastpfade und Anbindungspunkte aufnimmt.",
       "Package vor der Fertigung am Gesamtfahrzeug abgesichert.",
       "Konstruktion an die Formenbau- und Composite-Teams übergeben.",
-      "100 % Bewertung für die Engineering-Dokumentation.",
     ],
     spec: [
       { label: "Dauer", value: "6-monatiges Praktikum" },
@@ -355,13 +354,13 @@ const de: Translated = {
     result: [
       "Torsionssteifigkeit um 75 % gesteigert, bei nur 35 % Mehrmasse.",
       "FEM-Vorhersage mit den Prüfstandsdaten des Vorjahres auf ~2 % genau korreliert.",
-      "Innerhalb aller Randbedingungen geliefert, inklusive Zielmasse der Struktur unter 23 kg.",
+      "Innerhalb aller Randbedingungen geliefert, inklusive der Zielmasse der Struktur.",
     ],
     spec: [
       { label: "Ziel", value: "Erreicht (0,8 % Balance-Toleranz)" },
       { label: "Steifigkeitsgewinn", value: "+75 %" },
       { label: "Validierung", value: "~2 % Abweichung zum Versuch" },
-      { label: "Strukturmasse", value: "< 23 kg (+35 %)" },
+      { label: "Strukturmasse", value: "+35 %" },
     ],
     skills: [
       "FEM",
@@ -450,6 +449,7 @@ const de: Translated = {
     result: [
       "Antrieb, Aktuatorik und Endeffektor vollständig in einer Maschine integriert.",
       "Vollständiger, fertigungsgerechter Zeichnungssatz.",
+      "100 % Bewertung für die Engineering-Dokumentation.",
     ],
     spec: [
       { label: "CAD-Iterationen", value: "REV A–E" },
@@ -484,7 +484,6 @@ const nl: Translated = {
       "Eén geïntegreerd chassisoppervlak dat alle krachtpaden en bevestigingsinterfaces draagt.",
       "Package gevalideerd op het volledige voertuig vóór productie.",
       "Ontwerp overgedragen aan de matrijzen- en composietteams.",
-      "100% beoordeling voor de engineeringdocumentatie.",
     ],
     spec: [
       { label: "Duur", value: "Stage van 6 maanden" },
@@ -577,13 +576,13 @@ const nl: Translated = {
     result: [
       "Torsiestijfheid met 75% verhoogd, terwijl de massa met slechts 35% toenam.",
       "De FEA-voorspelling gecorreleerd aan de testbankdata van het voorgaande jaar tot op ~2% nauwkeurig.",
-      "Geleverd binnen alle randvoorwaarden, inclusief een framemassa onder 23 kg.",
+      "Geleverd binnen alle randvoorwaarden, inclusief het doel voor de framemassa.",
     ],
     spec: [
       { label: "Doel", value: "Gehaald (0,8% balanstolerantie)" },
       { label: "Stijfheidswinst", value: "+75%" },
       { label: "Validatie", value: "~2% afwijking t.o.v. test" },
-      { label: "Framemassa", value: "< 23 kg (+35%)" },
+      { label: "Framemassa", value: "+35%" },
     ],
     skills: [
       "FEA",
@@ -672,6 +671,7 @@ const nl: Translated = {
     result: [
       "Aandrijving, actuatie en eindeffector volledig geïntegreerd in één machine.",
       "Compleet, maakbaar tekeningenpakket.",
+      "100% beoordeling voor de engineeringdocumentatie.",
     ],
     spec: [
       { label: "CAD-iteraties", value: "REV A–E" },

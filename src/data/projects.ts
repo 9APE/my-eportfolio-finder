@@ -76,7 +76,6 @@ export const projects: Project[] = [
       "One integrated chassis surface carrying all load paths and mounting interfaces.",
       "Package validated against the full vehicle before manufacture.",
       "Design handed off to the tooling and composites teams.",
-      "100% grade on engineering documentation.",
     ],
     spec: [
       { label: "Duration", value: "6-month placement" },
@@ -206,13 +205,13 @@ export const projects: Project[] = [
     result: [
       "Raised torsional stiffness by 75%, while mass increased by only 35%.",
       "Correlated the FEA prediction against the team's prior-year physical test bench data to within ~2% error.",
-      "Delivered within all constraints, including a frame mass target under 23 kg.",
+      "Delivered within all constraints, including the frame mass target.",
     ],
     spec: [
       { label: "Target", value: "Met (0.8% balance tolerance)" },
       { label: "Stiffness gain", value: "+75%" },
       { label: "Validated", value: "~2% error vs. test" },
-      { label: "Frame mass", value: "< 23 kg (+35%)" },
+      { label: "Frame mass", value: "+35%" },
     ],
     skills: [
       "FEA",
@@ -338,6 +337,7 @@ export const projects: Project[] = [
     result: [
       "Fully integrated drive, actuation, and end-effector in one machine.",
       "Complete, manufacturable drawing set.",
+      "100% grade on engineering documentation.",
     ],
     spec: [
       { label: "CAD iterations", value: "REV A–E" },
