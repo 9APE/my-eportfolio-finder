@@ -90,6 +90,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
     ],
+    scripts: [
+      {
+        // Decides, before first paint, whether this visit gets the intro. Only the home page,
+        // once per browser session, never with reduced motion, and not for a shared filtered link.
+        children: `try{var d=document.documentElement;if(location.pathname==="/"&&!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!/[?&]skills=/.test(location.search)&&window.scrollY<10){d.classList.add("intro-pending")}}catch(e){}`,
+      },
+    ],
     links: [
       {
         rel: "stylesheet",
