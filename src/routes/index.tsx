@@ -26,6 +26,7 @@ import { useLanguage, useT, localizeProjects } from "@/i18n/context";
 import { SkillFilterBar } from "@/components/SkillFilterBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CvSection } from "@/components/CvSection";
+import { IntroSequence } from "@/components/IntroSequence";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
@@ -101,6 +102,7 @@ function Index() {
 
   return (
     <main className="site-bg min-h-screen text-foreground">
+      <IntroSequence />
       <div className="relative z-20">
         <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-4 px-6 py-3 sm:px-10">
           <ResumeLink />
