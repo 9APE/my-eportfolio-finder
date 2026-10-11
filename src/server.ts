@@ -1,7 +1,6 @@
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
-import { accessGate } from "./lib/access";
 import { renderErrorPage } from "./lib/error-page";
 
 type ServerEntry = {
@@ -48,8 +47,6 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
-      const gated = await accessGate(request, env);
-      if (gated) return gated;
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
