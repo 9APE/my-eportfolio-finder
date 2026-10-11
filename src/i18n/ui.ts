@@ -89,6 +89,7 @@ export type UiCopy = {
 
   // Feedback widget
   feedbackTrigger: string;
+  feedbackNav: string;
   feedbackTitle: string;
   feedbackSubtitle: string;
   feedbackDismissAria: string;
@@ -96,6 +97,8 @@ export type UiCopy = {
   feedbackReasons: { chat: string; portfolio: string; hi: string; other: string };
   feedbackOtherPlaceholder: string;
   feedbackOtherAria: string;
+  feedbackRoleOtherPlaceholder: string;
+  feedbackRoleOtherAria: string;
   feedbackWhoAreYou: string;
   feedbackRoles: { recruiter: string; peer: string; industry: string; other: string };
   feedbackIdentityLabel: string;
@@ -189,7 +192,8 @@ export const UI: Record<Lang, UiCopy> = {
     sortedByRelevance: "Sorted by relevance",
     introLens: (_name, body) => body,
 
-    feedbackTrigger: "Feedback would be very much appreciated",
+    feedbackTrigger: "Feedback / get in contact",
+    feedbackNav: "Feedback",
     feedbackTitle: "Leave your thoughts & connect",
     feedbackSubtitle:
       "Any feedback is welcome, whether it's thoughts on the portfolio, project suggestions, or opportunities to connect.",
@@ -201,8 +205,10 @@ export const UI: Record<Lang, UiCopy> = {
       hi: "👋 Just Saying Hi",
       other: "⚙️ Other",
     },
-    feedbackOtherPlaceholder: "Tell me your reason",
+    feedbackOtherPlaceholder: "Please tell me your reason",
     feedbackOtherAria: "Your reason",
+    feedbackRoleOtherPlaceholder: "Please specify",
+    feedbackRoleOtherAria: "Please specify who you are",
     feedbackWhoAreYou: "Who are you?",
     feedbackRoles: {
       recruiter: "Recruiter / Hiring Manager",
@@ -300,7 +306,8 @@ export const UI: Record<Lang, UiCopy> = {
     sortedByRelevance: "Trié par pertinence",
     introLens: (_name, body) => body,
 
-    feedbackTrigger: "Vos retours seraient très appréciés",
+    feedbackTrigger: "Avis / me contacter",
+    feedbackNav: "Votre avis",
     feedbackTitle: "Laissez votre avis et restons en contact",
     feedbackSubtitle:
       "Tout retour est le bienvenu : impressions sur le portfolio, suggestions de projets ou simples occasions d'échanger.",
@@ -312,8 +319,10 @@ export const UI: Record<Lang, UiCopy> = {
       hi: "👋 Juste un bonjour",
       other: "⚙️ Autre",
     },
-    feedbackOtherPlaceholder: "Précisez votre motif",
+    feedbackOtherPlaceholder: "Veuillez me préciser votre motif",
     feedbackOtherAria: "Votre motif",
+    feedbackRoleOtherPlaceholder: "Veuillez préciser",
+    feedbackRoleOtherAria: "Précisez qui vous êtes",
     feedbackWhoAreYou: "Qui êtes-vous ?",
     feedbackRoles: {
       recruiter: "Recruteur / Responsable du recrutement",
@@ -411,7 +420,8 @@ export const UI: Record<Lang, UiCopy> = {
     sortedByRelevance: "Nach Relevanz sortiert",
     introLens: (_name, body) => body,
 
-    feedbackTrigger: "Über Feedback würde ich mich sehr freuen",
+    feedbackTrigger: "Feedback / Kontakt aufnehmen",
+    feedbackNav: "Feedback",
     feedbackTitle: "Feedback hinterlassen & vernetzen",
     feedbackSubtitle:
       "Jedes Feedback ist willkommen – Eindrücke zum Portfolio, Projektvorschläge oder einfach der Wunsch, sich auszutauschen.",
@@ -423,8 +433,10 @@ export const UI: Record<Lang, UiCopy> = {
       hi: "👋 Einfach Hallo",
       other: "⚙️ Sonstiges",
     },
-    feedbackOtherPlaceholder: "Nennen Sie mir Ihren Anlass",
+    feedbackOtherPlaceholder: "Bitte nennen Sie mir Ihren Anlass",
     feedbackOtherAria: "Ihr Anlass",
+    feedbackRoleOtherPlaceholder: "Bitte angeben",
+    feedbackRoleOtherAria: "Bitte angeben, wer Sie sind",
     feedbackWhoAreYou: "Wer sind Sie?",
     feedbackRoles: {
       recruiter: "Recruiter / Personalverantwortliche:r",
@@ -522,7 +534,8 @@ export const UI: Record<Lang, UiCopy> = {
     sortedByRelevance: "Gesorteerd op relevantie",
     introLens: (_name, body) => body,
 
-    feedbackTrigger: "Feedback wordt zeer gewaardeerd",
+    feedbackTrigger: "Feedback / contact opnemen",
+    feedbackNav: "Feedback",
     feedbackTitle: "Deel je gedachten & maak contact",
     feedbackSubtitle:
       "Alle feedback is welkom: gedachten over het portfolio, projectsuggesties of gewoon even contact leggen.",
@@ -534,8 +547,10 @@ export const UI: Record<Lang, UiCopy> = {
       hi: "👋 Even hallo",
       other: "⚙️ Anders",
     },
-    feedbackOtherPlaceholder: "Vertel me je reden",
+    feedbackOtherPlaceholder: "Vertel me alsjeblieft je reden",
     feedbackOtherAria: "Je reden",
+    feedbackRoleOtherPlaceholder: "Graag specificeren",
+    feedbackRoleOtherAria: "Specificeer wie je bent",
     feedbackWhoAreYou: "Wie ben je?",
     feedbackRoles: {
       recruiter: "Recruiter / Hiring manager",

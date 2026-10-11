@@ -13,20 +13,19 @@ import {
   MapPin,
   Phone,
   Linkedin,
-  FileText,
 } from "lucide-react";
 import { projects, type Project } from "@/data/projects";
 import { Lightbox } from "@/components/Lightbox";
 import { TiltWrapper } from "@/components/TiltWrapper";
 import { Reveal } from "@/components/Reveal";
 import { ScrollPill } from "@/components/ScrollPill";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { RichText, stripMarks } from "@/components/RichText";
 import { useLanguage, useT, localizeProjects } from "@/i18n/context";
 import { SkillFilterBar } from "@/components/SkillFilterBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CvSection } from "@/components/CvSection";
 import { IntroSequence } from "@/components/IntroSequence";
+import { SiteHeader } from "@/components/SiteHeader";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
@@ -73,7 +72,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
   const { selected, select, clear } = useSkillSelection();
-  const [inCv, setInCv] = useState(false);
+  const [activeProject, setActiveProject] = useState(0);
 
   /*
    * Doubles as the remount key for the showcase and the index. The entrance animations
@@ -103,24 +102,21 @@ function Index() {
   return (
     <main className="site-bg min-h-screen text-foreground">
       <IntroSequence />
-      <div className="relative z-20">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-4 px-6 py-3 sm:px-10">
-          <ResumeLink />
-          <LanguageSwitcher className="shrink-0" />
-        </div>
-      </div>
+      <SiteHeader activeProject={activeProject} total={projects.length} />
+      {/* The header is fixed, so this keeps the page clear of it */}
+      <div aria-hidden="true" className="h-14" />
 
       <div key={selectionKey} className="page-enter">
         <Hero selected={selected} />
         <ProjectIndex
           selected={selected}
-          inCv={inCv}
+          onActiveProject={setActiveProject}
           filters={<SkillFilterBar inline selected={selected} onSelect={pick} onClear={reset} />}
           onExpand={(images, index) => setLightbox({ images, index })}
         />
       </div>
 
-      <CvSection onActiveChange={setInCv} />
+      <CvSection />
 
       <SiteFooter />
       <ScrollPill />
@@ -218,7 +214,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
     <section className="relative">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <h1 className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
+          <h1 id="hero-title" className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
           <p
             aria-live="polite"
             className="lens-intro mt-6 max-w-xl leading-relaxed text-muted-foreground"
@@ -303,6 +299,8 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
           }}
           className="hero-stage group relative flex min-h-[420px] cursor-pointer items-center justify-center overflow-hidden p-8 text-left lg:min-h-full"
         >
+          {/* The line between the introduction and the image, fading like the project index rule */}
+          <span aria-hidden="true" className="hero-divider" />
           <TiltWrapper
             className="relative z-[1] flex h-full w-full items-center justify-center py-14 [container-type:size]"
             maxTilt={4}
@@ -425,90 +423,39 @@ const secondImage = (p: Project) => p.hoverImage ?? p.gallery.find((g) => g !== 
 function ProjectIndex({
   selected,
   filters,
-  inCv,
+  onActiveProject,
   onExpand,
 }: {
   selected: SkillCategoryId[];
   filters?: ReactNode;
-  inCv?: boolean;
+  onActiveProject?: (index: number) => void;
   onExpand: (images: string[], index: number) => void;
 }) {
   const { lang, t } = useLanguage();
   const localized = sortByRelevance(localizeProjects(projects, lang), selected);
   const keywords = activeKeywords(selected, lang);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeCard, setActiveCard] = useState(0);
-  const [showBar, setShowBar] = useState(false);
-  const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Track which project is level with the middle of the viewport, and whether the hero is past.
+  // Track which project is level with the middle of the viewport; the header shows it.
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (!e.isIntersecting) continue;
           const i = cardRefs.current.indexOf(e.target as HTMLDivElement);
-          if (i >= 0) setActiveCard(i);
+          if (i >= 0) onActiveProject?.(i);
         }
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
     );
     cardRefs.current.forEach((el) => el && obs.observe(el));
-
-    const onScroll = () => {
-      const top = sectionRef.current?.getBoundingClientRect().top ?? 1;
-      setShowBar(top < 40);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      obs.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+    return () => obs.disconnect();
+  }, [onActiveProject]);
 
   return (
     <>
-      {/* Sticky bar — keeps the project count and contacts one click away once the hero is gone */}
-      <div
-        aria-hidden={!showBar}
-        inert={!showBar}
-        className={`fixed inset-x-0 top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl transition-[transform,visibility] duration-300 ${
-          showBar ? "visible translate-y-0" : "invisible -translate-y-full"
-        }`}
-      >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 py-2.5 sm:px-10">
-          <span className="text-sm font-bold tracking-tight">Aurélien Pons</span>
-          <span className={`${label} tabular-nums`}>
-            {inCv ? t.cvTitle : t.projectCounter(pad(activeCard + 1), pad(localized.length))}
-          </span>
-          <span className="flex items-center gap-4">
-            <ResumeLink />
-            <a
-              href="mailto:ariimoanapons@gmail.com"
-              aria-label={t.emailAria}
-              className="flex items-center gap-2 text-sm hover:text-chart-3"
-            >
-              <Mail className="h-4 w-4 text-chart-3" />
-              <span className="hidden sm:inline">ariimoanapons@gmail.com</span>
-            </a>
-            <a
-              href="https://linkedin.com/in/aurelienpons2004"
-              target="_blank"
-              rel="noreferrer"
-              aria-label={t.linkedinAria}
-              className="flex items-center gap-2 text-sm hover:text-chart-3"
-            >
-              <Linkedin className="h-4 w-4 text-chart-3" />
-              <span className="hidden sm:inline">LinkedIn</span>
-            </a>
-          </span>
-        </div>
-      </div>
-
       <section
         id="projects"
-        ref={sectionRef}
         className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10"
       >
         <div className="section-rule flex items-end justify-between pb-4">
@@ -553,21 +500,6 @@ function ProjectIndex({
         </div>
       </section>
     </>
-  );
-}
-
-/** Link to the standalone resume page. Sits to the left of the email in both top bars. */
-function ResumeLink() {
-  const t = useT();
-  return (
-    <Link
-      to="/cv"
-      aria-label={t.resume}
-      className="flex items-center gap-2 text-sm hover:text-chart-3"
-    >
-      <FileText className="h-4 w-4 text-chart-3" aria-hidden="true" />
-      <span className="hidden sm:inline">{t.resume}</span>
-    </Link>
   );
 }
 

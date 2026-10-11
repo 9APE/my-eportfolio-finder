@@ -1,5 +1,4 @@
 import monoFeaHero from "@/assets/mono-fea-hero.jpg";
-import monoFea1 from "@/assets/mono-fea-1.jpg";
 
 import monoFea3 from "@/assets/mono-fea-3.jpg";
 import monoFea4 from "@/assets/mono-fea-4.jpg";
@@ -193,13 +192,13 @@ export const projects: Project[] = [
     title: "Chassis Torsional Stiffness Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEA", "First Principles"],
-    image: carIsometric.url,
-    hoverImage: monoFeaHero,
-    gallery: [monoFeaHero, monoFea1, monoFea3, monoFea4, monoFea5, monoFea6, monoFeaMeshTop.url, monoFeaStiffnessCalc.url],
+    image: monoFeaHero,
+    hoverImage: carIsometric.url,
+    gallery: [carIsometric.url, monoFea3, monoFea4, monoFea5, monoFea6, monoFeaMeshTop.url, monoFeaStiffnessCalc.url],
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
-      "A 0.8% mechanical-balance tolerance set the minimum torsional stiffness target.",
+      "Mechanical balance tolerance sets the minimum torsional stiffness target.",
       "Built the monocoque FE model in Altair HyperMesh, applied the torsion load case, and extracted deflection to calculate stiffness.",
     ],
     result: [
@@ -208,7 +207,7 @@ export const projects: Project[] = [
       "Delivered within all constraints, including the frame mass target.",
     ],
     spec: [
-      { label: "Target", value: "Met (0.8% balance tolerance)" },
+      { label: "Target", value: "Mechanical balance tolerance" },
       { label: "Stiffness gain", value: "+75%" },
       { label: "Validated", value: "~2% error vs. test" },
       { label: "Frame mass", value: "+35%" },
@@ -238,9 +237,9 @@ export const projects: Project[] = [
     title: "FEA Aerodynamic Devices Simulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEA", "Composites Layup", "Rules Compliance"],
-    image: rearWingPhoto.url,
-    hoverImage: aeroHero,
-    gallery: [aeroHero, aero2, aero3, aero4],
+    image: aero3,
+    hoverImage: rearWingPhoto.url,
+    gallery: [rearWingPhoto.url, aeroHero, aero2, aero4],
     what: "Every aerodynamic device had to be light, stiff, and compliant with Formula Student Germany's (FSG) structural rules. I aligned the aero and structural design process so each device was validated in FEA against the rulebook loads before manufacture.",
     how: [
       "Applied FSG's aero-device load cases in FEA: 200 N distributed over ≥225 cm², and a 50 N point load at any position.",
