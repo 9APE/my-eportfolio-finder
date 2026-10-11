@@ -58,7 +58,7 @@ export type UiCopy = {
   cvPill: string;
   cvPillHover: string;
   scrollToCv: string;
-  introEyebrow: string;
+  introWelcome: string;
   skipIntro: string;
 
   // Language switcher
@@ -163,7 +163,7 @@ export const UI: Record<Lang, UiCopy> = {
     cvPill: "Next: Curriculum Vitae",
     cvPillHover: "Continue to my CV",
     scrollToCv: "Scroll down to my CV",
-    introEyebrow: "Telemetry online",
+    introWelcome: "Welcome to Aurélien's ePortfolio",
     skipIntro: "Skip intro",
 
     language: "Language",
@@ -274,7 +274,7 @@ export const UI: Record<Lang, UiCopy> = {
     cvPill: "Suite : mon CV",
     cvPillHover: "Voir mon CV",
     scrollToCv: "Défiler jusqu'à mon CV",
-    introEyebrow: "Télémétrie en ligne",
+    introWelcome: "Bienvenue sur l'ePortfolio d'Aurélien",
     skipIntro: "Passer l'intro",
 
     language: "Langue",
@@ -385,7 +385,7 @@ export const UI: Record<Lang, UiCopy> = {
     cvPill: "Weiter: mein Lebenslauf",
     cvPillHover: "Zu meinem Lebenslauf",
     scrollToCv: "Zum Lebenslauf scrollen",
-    introEyebrow: "Telemetrie online",
+    introWelcome: "Willkommen im ePortfolio von Aurélien",
     skipIntro: "Intro überspringen",
 
     language: "Sprache",
@@ -496,7 +496,7 @@ export const UI: Record<Lang, UiCopy> = {
     cvPill: "Hierna: mijn cv",
     cvPillHover: "Naar mijn cv",
     scrollToCv: "Scroll naar mijn cv",
-    introEyebrow: "Telemetrie online",
+    introWelcome: "Welkom bij Aurélien's ePortfolio",
     skipIntro: "Intro overslaan",
 
     language: "Taal",
