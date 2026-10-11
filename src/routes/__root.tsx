@@ -4,11 +4,12 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -85,7 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "CAD, FEA and GD&T engineering portfolio of Aurélien Pons." },
       { name: "author", content: "Aurélien Pons" },
       { property: "og:title", content: "Aurélien Pons | Mechanical Engineering Portfolio" },
-      { property: "og:description", content: "CAD, FEA and GD&T engineering portfolio of Aurélien Pons." },
+      {
+        property: "og:description",
+        content: "CAD, FEA and GD&T engineering portfolio of Aurélien Pons.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -131,6 +135,28 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+/** Reports in-site page changes (the first load is logged by the server). No cookies, no IDs. */
+function NavBeacon() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (navigator.doNotTrack === "1") return;
+    try {
+      navigator.sendBeacon(
+        "/__v",
+        new Blob([JSON.stringify({ p: pathname })], { type: "application/json" }),
+      );
+    } catch {
+      /* analytics must never break the page */
+    }
+  }, [pathname]);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -141,6 +167,7 @@ function RootComponent() {
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
           <FeedbackWidget />
+          <NavBeacon />
         </FeedbackProvider>
       </LanguageProvider>
     </QueryClientProvider>
