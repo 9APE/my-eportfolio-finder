@@ -9,6 +9,7 @@
 //   RESEND_API_KEY  sends the digest through Resend (falls back to web3forms)
 //   VISIT_SALT      extra secret mixed into the daily visitor hash
 //   DIGEST_TO       recipient (default ariimoanapons@gmail.com)
+//   OWNER_IPS       optional comma list of your own IPs to ignore
 //   DIGEST_TZ       time zone for times in the email (default Australia/Darwin)
 
 type D1Statement = {
@@ -25,6 +26,7 @@ export type VisitEnv = {
   VISIT_SALT?: string;
   DIGEST_TO?: string;
   DIGEST_TZ?: string;
+  OWNER_IPS?: string;
 };
 
 type Ctx = { waitUntil(p: Promise<unknown>): void } | undefined;
@@ -122,7 +124,14 @@ function ensureSchema(db: D1) {
 }
 
 /** True for requests worth logging: real page loads, not assets, bots or the owner. */
-function shouldRecord(request: Request, path: string, kind: "load" | "nav"): boolean {
+function shouldRecord(
+  request: Request,
+  env: VisitEnv,
+  path: string,
+  kind: "load" | "nav",
+): boolean {
+  const ip = request.headers.get("cf-connecting-ip");
+  if (ip && (env.OWNER_IPS ?? "").split(",").some((x) => x.trim() === ip)) return false;
   if (BOT.test(request.headers.get("user-agent") ?? "")) return false;
   if (request.headers.get("dnt") === "1") return false;
   if (hasCookie(request, OWNER_COOKIE)) return false;
@@ -189,7 +198,7 @@ export function trackVisit(request: Request, env: unknown, ctx: Ctx): void {
     const e = (env ?? {}) as VisitEnv;
     if (!e.DB) return;
     const url = new URL(request.url);
-    if (!shouldRecord(request, url.pathname, "load")) return;
+    if (!shouldRecord(request, e, url.pathname, "load")) return;
     const job = record(request, e, url.pathname, "load", url.searchParams.get("k") ?? "").catch(
       (err) => console.error("visit log failed", err),
     );
@@ -212,7 +221,7 @@ export async function handleBeacon(
     if (request.method === "POST" && e.DB) {
       const body = (await request.json()) as { p?: unknown };
       const path = clip(body.p, 200);
-      if (path.startsWith("/") && shouldRecord(request, path, "nav")) {
+      if (path.startsWith("/") && shouldRecord(request, e, path, "nav")) {
         const job = record(request, e, path, "nav", "").catch((err) =>
           console.error("visit log failed", err),
         );
@@ -362,6 +371,7 @@ export async function buildDigest(env: VisitEnv, windowMs: number) {
 
 export async function sendDigest(env: VisitEnv): Promise<{ ok: boolean; detail: string }> {
   const digest = await buildDigest(env, 86_400_000);
+  if (digest.groups.length === 0) return { ok: true, detail: "no visitors, nothing sent" };
   const to = env.DIGEST_TO ?? "ariimoanapons@gmail.com";
   if (env.RESEND_API_KEY) {
     const res = await fetch("https://api.resend.com/emails", {
