@@ -4,15 +4,40 @@ import { projects } from "@/data/projects";
 import { useT } from "@/i18n/context";
 
 /** Timeline, in ms from the start of the intro. */
-const WELCOME_MS = 3200; // the welcome line and the photos, then the curtain lifts
-const BEAT_MS = 500; // a moment on the CV before the page starts to move
+const WELCOME_MS = 4800; // the welcome line and every photo, then the curtain lifts
 const TO_PROJECTS_MS = 1900; // glide up from the CV to the engineering projects
-const HOLD_MS = 1100; // pause on the projects
+const HOLD_MS = 2000; // the one pause: two seconds on the engineering projects
 const TO_TOP_MS = 1500; // glide up to the introduction
 const SEEN_KEY = "intro-seen";
 
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const INPUT_EVENTS = ["wheel", "touchstart", "keydown"] as const;
+
+/** Seconds per loop for each row. They differ for depth, and all are short enough that every
+ *  photo in a row has crossed the screen by the time the welcome ends. */
+const ROW_SECONDS = [5.3, 4.9, 4.5];
+
+/**
+ * Every photo of every project (the main photo and the whole gallery), once each, dealt out
+ * across three rows so that neighbouring tiles come from different projects.
+ */
+function introRows(): string[][] {
+  const seen = new Set<string>();
+  const ordered: string[] = [];
+  const depth = Math.max(...projects.map((p) => 1 + p.gallery.length));
+  for (let k = 0; k < depth; k++) {
+    for (const p of projects) {
+      const photo = [p.image, ...p.gallery][k];
+      if (photo && !seen.has(photo)) {
+        seen.add(photo);
+        ordered.push(photo);
+      }
+    }
+  }
+  const rows: string[][] = [[], [], []];
+  ordered.forEach((src, i) => rows[i % rows.length]!.push(src));
+  return rows;
+}
 
 /** A photo that fails to load leaves a plain tile rather than a broken-image icon. */
 const hideBroken = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -21,7 +46,8 @@ const hideBroken = (e: React.SyntheticEvent<HTMLImageElement>) => {
 
 /**
  * A short, once-per-session opening, in the site's own look.
- *   1. "Welcome to Aurélien's ePortfolio" over rows of project photos gliding left to right.
+ *   1. "Welcome to Aurélien's ePortfolio" over three rows holding every project photo, gliding
+ *      left to right.
  *   2. The curtain lifts on the CV at the foot of the page, which then scrolls up, pauses on the
  *      engineering projects, and carries on up to the introduction.
  *
@@ -114,14 +140,10 @@ export function IntroSequence() {
     timers.push(
       window.setTimeout(() => {
         liftCurtain();
-        timers.push(
-          window.setTimeout(() => {
-            const projectsY = docY("projects");
-            glide(projectsY, TO_PROJECTS_MS, () => {
-              timers.push(window.setTimeout(() => glide(0, TO_TOP_MS, () => finish("leave")), HOLD_MS));
-            });
-          }, BEAT_MS),
-        );
+        // No pause on the CV: the page starts moving as soon as it is revealed.
+        glide(docY("projects"), TO_PROJECTS_MS, () => {
+          timers.push(window.setTimeout(() => glide(0, TO_TOP_MS, () => finish("leave")), HOLD_MS));
+        });
       }, WELCOME_MS),
     );
 
@@ -134,11 +156,7 @@ export function IntroSequence() {
     };
   }, []);
 
-  // Two rows, each holding its photos twice so a half-row shift loops seamlessly.
-  const photos = projects.map((p) => ({ slug: p.slug, src: p.image }));
-  const rowA = [...photos, ...photos];
-  const rowB = [...photos.slice(3), ...photos.slice(0, 3)];
-  const rowBDoubled = [...rowB, ...rowB];
+  const rows = introRows();
 
   return (
     <>
@@ -147,20 +165,15 @@ export function IntroSequence() {
           {t.introWelcome}
         </div>
         <div className="intro-marquee">
-          <div className="intro-row" style={{ ["--dur" as string]: "7.5s" }}>
-            {rowA.map((p, i) => (
-              <div key={`a${i}`} className="intro-tile">
-                <img src={p.src} alt="" loading="eager" decoding="async" onError={hideBroken} />
-              </div>
-            ))}
-          </div>
-          <div className="intro-row" style={{ ["--dur" as string]: "6s" }}>
-            {rowBDoubled.map((p, i) => (
-              <div key={`b${i}`} className="intro-tile">
-                <img src={p.src} alt="" loading="eager" decoding="async" onError={hideBroken} />
-              </div>
-            ))}
-          </div>
+          {rows.map((row, r) => (
+            <div key={r} className="intro-row" style={{ ["--dur" as string]: `${ROW_SECONDS[r % ROW_SECONDS.length]}s` }}>
+              {[...row, ...row].map((src, i) => (
+                <div key={i} className="intro-tile">
+                  <img src={src} alt="" loading="eager" decoding="async" onError={hideBroken} />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
       <button type="button" className="intro-skip" onClick={() => skipRef.current?.()}>
