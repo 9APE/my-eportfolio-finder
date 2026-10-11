@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { handleAdmin, handleBeacon, runDailyDigest, trackVisit } from "./lib/visits";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -47,6 +48,10 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const special =
+        (await handleAdmin(request, env)) ?? (await handleBeacon(request, env, ctx as never));
+      if (special) return special;
+      trackVisit(request, env, ctx as never);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
@@ -57,5 +62,9 @@ export default {
         headers: { "content-type": "text/html; charset=utf-8" },
       });
     }
+  },
+  // Cloudflare Cron Trigger: e-mails the daily visitor digest.
+  async scheduled(_event: unknown, env: unknown, ctx: { waitUntil(p: Promise<unknown>): void }) {
+    ctx.waitUntil(runDailyDigest(env));
   },
 };

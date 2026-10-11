@@ -42,6 +42,10 @@ export function SiteFooter() {
           <Mail className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
           ariimoanapons@gmail.com
         </a>
+
+        <p className="max-w-md text-balance text-xs leading-relaxed text-muted-foreground">
+          {t.privacyNote}
+        </p>
       </div>
     </footer>
   );

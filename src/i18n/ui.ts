@@ -90,6 +90,7 @@ export type UiCopy = {
   // Feedback widget
   feedbackTrigger: string;
   feedbackNav: string;
+  privacyNote: string;
   feedbackTitle: string;
   feedbackSubtitle: string;
   feedbackDismissAria: string;
@@ -194,6 +195,8 @@ export const UI: Record<Lang, UiCopy> = {
 
     feedbackTrigger: "Feedback / get in contact",
     feedbackNav: "Feedback",
+    privacyNote:
+      "Privacy: I count visits using approximate location and device only. No cookies, no names, no IP addresses stored.",
     feedbackTitle: "Leave your thoughts & connect",
     feedbackSubtitle:
       "Any feedback is welcome, whether it's thoughts on the portfolio, project suggestions, or opportunities to connect.",
@@ -308,6 +311,8 @@ export const UI: Record<Lang, UiCopy> = {
 
     feedbackTrigger: "Avis / me contacter",
     feedbackNav: "Votre avis",
+    privacyNote:
+      "Confidentialité : je compte les visites à partir de la localisation approximative et de l'appareil uniquement. Pas de cookies, pas de noms, aucune adresse IP conservée.",
     feedbackTitle: "Laissez votre avis et restons en contact",
     feedbackSubtitle:
       "Tout retour est le bienvenu : impressions sur le portfolio, suggestions de projets ou simples occasions d'échanger.",
@@ -332,7 +337,8 @@ export const UI: Record<Lang, UiCopy> = {
     },
     feedbackIdentityLabel: "Votre nom, e-mail ou LinkedIn",
     feedbackIdentityPlaceholder: "ex. Aurelien Pons · aurelien.pons@example.com ou URL LinkedIn",
-    feedbackIdentityHint: "Laissez vos coordonnées pour que je puisse vous remercier ou vous recontacter.",
+    feedbackIdentityHint:
+      "Laissez vos coordonnées pour que je puisse vous remercier ou vous recontacter.",
     feedbackMessageLabel: "Votre retour",
     feedbackMessagePlaceholder: "Ce qui fonctionne, ce qui ne va pas, ce que vous changeriez...",
     feedbackError: "L'envoi a échoué. Votre message est conservé, vous pouvez réessayer.",
@@ -422,6 +428,8 @@ export const UI: Record<Lang, UiCopy> = {
 
     feedbackTrigger: "Feedback / Kontakt aufnehmen",
     feedbackNav: "Feedback",
+    privacyNote:
+      "Datenschutz: Ich zähle Besuche nur anhand des ungefähren Standorts und des Geräts. Keine Cookies, keine Namen, keine gespeicherten IP-Adressen.",
     feedbackTitle: "Feedback hinterlassen & vernetzen",
     feedbackSubtitle:
       "Jedes Feedback ist willkommen – Eindrücke zum Portfolio, Projektvorschläge oder einfach der Wunsch, sich auszutauschen.",
@@ -445,11 +453,14 @@ export const UI: Record<Lang, UiCopy> = {
       other: "Sonstiges",
     },
     feedbackIdentityLabel: "Ihr Name, E-Mail oder LinkedIn",
-    feedbackIdentityPlaceholder: "z. B. Aurelien Pons · aurelien.pons@example.com oder LinkedIn-URL",
-    feedbackIdentityHint: "Hinterlassen Sie Ihre Kontaktdaten, damit ich mich bedanken oder melden kann.",
+    feedbackIdentityPlaceholder:
+      "z. B. Aurelien Pons · aurelien.pons@example.com oder LinkedIn-URL",
+    feedbackIdentityHint:
+      "Hinterlassen Sie Ihre Kontaktdaten, damit ich mich bedanken oder melden kann.",
     feedbackMessageLabel: "Ihr Feedback",
     feedbackMessagePlaceholder: "Was gut funktioniert hat, was nicht, was Sie ändern würden...",
-    feedbackError: "Das hat nicht geklappt. Ihr Feedback ist noch da, Sie können es erneut versuchen.",
+    feedbackError:
+      "Das hat nicht geklappt. Ihr Feedback ist noch da, Sie können es erneut versuchen.",
     feedbackDismiss: "Schließen",
     feedbackSubmit: "Feedback senden 🏁",
     feedbackSending: "Wird gesendet...",
@@ -536,6 +547,8 @@ export const UI: Record<Lang, UiCopy> = {
 
     feedbackTrigger: "Feedback / contact opnemen",
     feedbackNav: "Feedback",
+    privacyNote:
+      "Privacy: ik tel bezoeken alleen op basis van een geschatte locatie en het apparaat. Geen cookies, geen namen, geen opgeslagen IP-adressen.",
     feedbackTitle: "Deel je gedachten & maak contact",
     feedbackSubtitle:
       "Alle feedback is welkom: gedachten over het portfolio, projectsuggesties of gewoon even contact leggen.",
@@ -560,10 +573,12 @@ export const UI: Record<Lang, UiCopy> = {
     },
     feedbackIdentityLabel: "Je naam, e-mail of LinkedIn",
     feedbackIdentityPlaceholder: "bijv. Aurelien Pons · aurelien.pons@example.com of LinkedIn-URL",
-    feedbackIdentityHint: "Laat je gegevens achter zodat ik je kan bedanken of contact kan opnemen.",
+    feedbackIdentityHint:
+      "Laat je gegevens achter zodat ik je kan bedanken of contact kan opnemen.",
     feedbackMessageLabel: "Je feedback",
     feedbackMessagePlaceholder: "Wat werkte, wat niet, wat je zou veranderen...",
-    feedbackError: "Dat is niet gelukt. Je feedback staat er nog, dus je kunt het opnieuw proberen.",
+    feedbackError:
+      "Dat is niet gelukt. Je feedback staat er nog, dus je kunt het opnieuw proberen.",
     feedbackDismiss: "Sluiten",
     feedbackSubmit: "Feedback versturen 🏁",
     feedbackSending: "Versturen...",
