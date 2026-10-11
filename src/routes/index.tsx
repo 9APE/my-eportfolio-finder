@@ -26,6 +26,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CvSection } from "@/components/CvSection";
 import { IntroSequence } from "@/components/IntroSequence";
 import { SiteHeader } from "@/components/SiteHeader";
+import { BackdropShift } from "@/components/BackdropShift";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
@@ -101,6 +102,7 @@ function Index() {
 
   return (
     <main className="site-bg min-h-screen text-foreground">
+      <BackdropShift />
       <IntroSequence />
       <SiteHeader activeProject={activeProject} total={projects.length} />
       {/* The header is fixed, so this keeps the page clear of it */}

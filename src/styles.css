@@ -401,47 +401,8 @@
   }
 }
 
-/* Hero showcase backdrop. It adds a little local light and a dot texture to the page-wide
-   backdrop, and it has no edge of its own: everything fades out well before the panel's left
-   side, so the introduction and the image sit on one continuous background. */
-.hero-stage::before,
-.hero-stage::after {
-  position: absolute;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-}
-.hero-stage::before {
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1.4px);
-  background-size: 24px 24px;
-  /* the radial mask frames the dots; the linear one fades them out toward the left edge */
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 34%),
-    radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
-  mask-image:
-    linear-gradient(90deg, transparent 0%, #000 34%),
-    radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  opacity: 0.55;
-}
-.hero-stage::after {
-  /* The light layer is larger than the panel, so as it drifts its own edge never comes into
-     view, and both glows are fully faded before they reach any side of the panel. */
-  inset: -12%;
-  background:
-    radial-gradient(26% 31% at 56.5% 40.3%, color-mix(in oklab, var(--chart-2) 15%, transparent), transparent 100%),
-    radial-gradient(16% 19.4% at 61.3% 62.9%, color-mix(in oklab, var(--chart-3) 11%, transparent), transparent 100%);
-  animation: stage-drift 22s ease-in-out infinite alternate;
-}
-@keyframes stage-drift {
-  from {
-    transform: translate3d(-3%, -2%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(3%, 3%, 0) scale(1.05);
-  }
-}
+/* The hero panel has no backdrop of its own: all background colour and texture live in the one
+   layer pinned to the screen (.site-bg and .backdrop-shift), so nothing slides away as you scroll. */
 
 /* The line between the introduction and the image: dark where it starts, fading away, like the
    rule under "Engineering Projects". Horizontal above the image on small screens. */
@@ -540,7 +501,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-stage::after,
   .hero-caption {
     animation: none;
   }
@@ -575,16 +535,13 @@
 }
 .site-bg::before {
   z-index: -2;
-  background:
-    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--chart-2) 16%, transparent), transparent 70%),
-    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--chart-3) 11%, transparent), transparent 70%),
-    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--chart-2) 13%, transparent), transparent 70%),
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--muted) 72%, var(--background)),
-      var(--background) 52%,
-      color-mix(in oklab, var(--muted) 62%, var(--background))
-    );
+  /* only the neutral tint lives here: all colour is in the shifting layers below */
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--muted) 72%, var(--background)),
+    var(--background) 52%,
+    color-mix(in oklab, var(--muted) 62%, var(--background))
+  );
 }
 .site-bg::after {
   z-index: -1;
@@ -844,4 +801,52 @@
   animation:
     intro-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) both,
     intro-failsafe 600ms 12s forwards;
+}
+
+/* ==========================================================================
+   Scrolling colour. Three palettes of soft glows sit in the same three spots of one layer pinned
+   to the screen. The spots never move; as you scroll, the page fades from one palette to the
+   next, so the colours travel through those spots (teal, deep blue and a cyan in between).
+   Only opacity changes, so it costs the browser almost nothing.
+   ========================================================================== */
+.backdrop-shift {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+.backdrop-layer {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}
+.backdrop-layer.l2,
+.backdrop-layer.l3 {
+  opacity: 0;
+}
+/* Three pastel tints, moved around the same three spots (top left, right, bottom):
+   teal, soft blue and seafoam. They are kept light and airy so the shifts read as a gentle wash
+   of colour rather than blobs. */
+.backdrop-shift {
+  --bs-teal: oklch(0.8 0.1 190);
+  --bs-blue: oklch(0.76 0.09 245);
+  --bs-sea: oklch(0.85 0.11 165);
+}
+.backdrop-layer.l1 {
+  background:
+    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-teal) 38%, transparent), transparent 70%),
+    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-blue) 28%, transparent), transparent 70%),
+    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-teal) 30%, transparent), transparent 70%);
+}
+.backdrop-layer.l2 {
+  background:
+    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-blue) 34%, transparent), transparent 70%),
+    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-teal) 34%, transparent), transparent 70%),
+    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-sea) 34%, transparent), transparent 70%);
+}
+.backdrop-layer.l3 {
+  background:
+    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-sea) 38%, transparent), transparent 70%),
+    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-teal) 30%, transparent), transparent 70%),
+    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-blue) 32%, transparent), transparent 70%);
 }
