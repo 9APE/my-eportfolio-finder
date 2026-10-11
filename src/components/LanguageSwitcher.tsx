@@ -5,7 +5,14 @@ import { LANGS, type Lang } from "@/i18n/config";
 import { useLanguage } from "@/i18n/context";
 
 /** Language dropdown. Closes on outside click, Escape, or selection. */
-export function LanguageSwitcher({ className = "" }: { className?: string }) {
+export function LanguageSwitcher({
+  className = "",
+  align = "right",
+}: {
+  className?: string;
+  /** Which edge of the button the menu lines up with: "right" opens leftwards, "left" opens rightwards. */
+  align?: "left" | "right";
+}) {
   const { lang, setLang, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -58,7 +65,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         <ul
           role="listbox"
           aria-label={t.language}
-          className="absolute right-0 z-50 mt-2 min-w-[11rem] overflow-hidden rounded-2xl border border-border/70 bg-background/90 shadow-[0_24px_48px_-20px_rgba(15,23,42,0.35)] backdrop-blur-xl"
+          className={`absolute ${align === "left" ? "left-0" : "right-0"} z-50 mt-2 min-w-[11rem] overflow-hidden rounded-2xl border border-border/70 bg-background/90 shadow-[0_24px_48px_-20px_rgba(15,23,42,0.35)] backdrop-blur-xl`}
         >
           {LANGS.map((option) => (
             <li key={option.code}>

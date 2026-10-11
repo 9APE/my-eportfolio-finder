@@ -19,7 +19,7 @@ type Zone = "top" | "projects" | "cv";
  * - Left: the Feedback button, then the name, which only appears once the big title in the
  *   hero has scrolled out of view (until then the name is already on screen, large).
  * - Centre: where you are: which project, or the CV.
- * - Right: Resume, email, LinkedIn and the language switcher.
+ * - Right: Resume, email, LinkedIn and the Feedback button.
  */
 export function SiteHeader({ activeProject, total }: { activeProject: number; total: number }) {
   const t = useT();
@@ -53,15 +53,7 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
     <header className="fixed inset-x-0 top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto] items-center gap-3 px-4 py-2 sm:px-10 md:grid-cols-[1fr_auto_1fr]">
         <div className="flex min-w-0 items-center gap-3">
-          <button
-            type="button"
-            onClick={openFeedback}
-            aria-label={t.feedbackNav}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-colors hover:border-chart-3"
-          >
-            <MessageSquare className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
-            <span className="hidden sm:inline">{t.feedbackNav}</span>
-          </button>
+          <LanguageSwitcher className="shrink-0" align="left" />
           <span
             aria-hidden={!nameVisible}
             className={`truncate text-sm font-bold tracking-tight transition-[opacity,transform,visibility] duration-300 ${
@@ -103,7 +95,15 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
             <Linkedin className="h-4 w-4 text-chart-3" aria-hidden="true" />
             <span className="hidden xl:inline">LinkedIn</span>
           </a>
-          <LanguageSwitcher className="shrink-0" />
+          <button
+            type="button"
+            onClick={openFeedback}
+            aria-label={t.feedbackNav}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-colors hover:border-chart-3"
+          >
+            <MessageSquare className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
+            <span className="hidden sm:inline">{t.feedbackNav}</span>
+          </button>
         </div>
       </div>
     </header>
