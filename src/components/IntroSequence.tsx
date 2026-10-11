@@ -1,33 +1,38 @@
 import { useEffect, useRef } from "react";
 
+import { projects } from "@/data/projects";
 import { useT } from "@/i18n/context";
 
 /** Timeline, in ms from the start of the intro. */
-const CURTAIN_UP = 1200; // phase 1 ends: the curtain lifts and the camera starts to pan
-const PAN_MS = 1600; // phase 2: glide down to the engineering projects
-const CARDS_AT = 1900; // project cards light up once they are coming into view
-const CARD_STEP = 110;
-const SKILLS_AT = 2800; // phase 3: the skill pills run a diagnostic pass
-const SKILL_STEP = 110;
-const END_AT = 4000;
+const WELCOME_MS = 3200; // the welcome line and the photos, then the curtain lifts
+const BEAT_MS = 500; // a moment on the CV before the page starts to move
+const TO_PROJECTS_MS = 1900; // glide up from the CV to the engineering projects
+const HOLD_MS = 1100; // pause on the projects
+const TO_TOP_MS = 1500; // glide up to the introduction
 const SEEN_KEY = "intro-seen";
 
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const INPUT_EVENTS = ["wheel", "touchstart", "keydown"] as const;
+
+/** A photo that fails to load leaves a plain tile rather than a broken-image icon. */
+const hideBroken = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  e.currentTarget.style.visibility = "hidden";
+};
 
 /**
- * A short, once-per-session opening sequence, told top to bottom:
- *   1. a dark telemetry curtain introduces the name and the headline numbers,
- *   2. the curtain lifts and the page glides down to the engineering projects, whose cards
- *      light up in turn,
- *   3. the skill pills light up one after another, ending on the default pill.
+ * A short, once-per-session opening, in the site's own look.
+ *   1. "Welcome to Aurélien's ePortfolio" over rows of project photos gliding left to right.
+ *   2. The curtain lifts on the CV at the foot of the page, which then scrolls up, pauses on the
+ *      engineering projects, and carries on up to the introduction.
  *
  * Whether it runs is decided before first paint by a script in the document head (the
- * `intro-pending` class), so the page never flashes behind the curtain. Any wheel, touch or key
- * press, or the Skip button, ends it at once and leaves the page where it is.
+ * `intro-pending` class), so the page never flashes behind the curtain. Scrolling, touching,
+ * pressing a key or the Skip button ends it at once.
  */
 export function IntroSequence() {
   const t = useT();
   const curtainRef = useRef<HTMLDivElement>(null);
+  const skipRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -35,118 +40,130 @@ export function IntroSequence() {
     try {
       sessionStorage.setItem(SEEN_KEY, "1");
     } catch {
-      /* the intro simply may run again on the next visit */
+      /* the intro may simply run again on the next visit */
     }
 
     const timers: number[] = [];
-    const highlighted: Element[] = [];
     let frame = 0;
     let done = false;
+
+    // Photos that failed before the page hydrated never fire onError, so sweep for them.
+    const sweepBroken = () =>
+      curtainRef.current?.querySelectorAll<HTMLImageElement>(".intro-tile img").forEach((img) => {
+        if (img.complete && img.naturalWidth === 0) img.style.visibility = "hidden";
+      });
+    sweepBroken();
+    timers.push(window.setTimeout(sweepBroken, 500), window.setTimeout(sweepBroken, 1500));
+    let curtainUp = false;
     let lastSet = window.scrollY;
 
-    const flash = (el: Element | undefined, cls: string, ms = 1300) => {
-      if (!el) return;
-      el.classList.add(cls);
-      highlighted.push(el);
-      timers.push(window.setTimeout(() => el.classList.remove(cls), ms));
+    const jump = (y: number) => {
+      lastSet = Math.round(y);
+      window.scrollTo({ top: lastSet, behavior: "instant" });
+    };
+    const docY = (id: string) => {
+      const el = document.getElementById(id);
+      return el ? Math.max(0, el.getBoundingClientRect().top + window.scrollY) : 0;
     };
 
-    const finish = () => {
+    const liftCurtain = () => {
+      curtainUp = true;
+      curtainRef.current?.classList.add("is-leaving");
+      // Once the page is showing, Skip moves out of the way of the sticky bar's links.
+      root.classList.add("intro-touring");
+    };
+
+    const finish = (how: "leave" | "top" = "leave") => {
       if (done) return;
       done = true;
       cancelAnimationFrame(frame);
       timers.forEach(clearTimeout);
-      for (const type of ["wheel", "touchstart", "keydown"]) window.removeEventListener(type, finish);
-      curtainRef.current?.classList.add("is-leaving");
-      // Let the curtain fade out before the intro layer is removed altogether.
-      window.setTimeout(() => root.classList.remove("intro-pending"), 700);
-      window.setTimeout(() => {
-        highlighted.forEach((el) => el.classList.remove("intro-hl", "intro-ping", "intro-settle"));
-      }, 1400);
+      for (const type of INPUT_EVENTS) window.removeEventListener(type, onInput);
+      if (!curtainUp) {
+        // The visitor never saw the page: it should open on the introduction.
+        jump(0);
+        liftCurtain();
+      } else if (how === "top") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      window.setTimeout(() => root.classList.remove("intro-pending", "intro-touring"), 900);
     };
-    (window as unknown as { __skipIntro?: () => void }).__skipIntro = finish;
+    const onInput = () => finish("leave");
+    skipRef.current = () => finish("top");
+    for (const type of INPUT_EVENTS) window.addEventListener(type, onInput, { passive: true });
 
-    for (const type of ["wheel", "touchstart", "keydown"]) {
-      window.addEventListener(type, finish, { passive: true });
-    }
+    // Glide the page to `to` over `ms`; hands over if anyone else moves the page.
+    const glide = (to: number, ms: number, then: () => void) => {
+      const from = window.scrollY;
+      const begin = performance.now();
+      const step = (now: number) => {
+        if (done) return;
+        if (Math.abs(window.scrollY - lastSet) > 3) return finish("leave");
+        const p = Math.min(1, (now - begin) / ms);
+        jump(from + (to - from) * easeInOutCubic(p));
+        if (p < 1) frame = requestAnimationFrame(step);
+        else then();
+      };
+      frame = requestAnimationFrame(step);
+    };
 
-    // Phase 2: lift the curtain and pan down to the projects.
+    // Behind the curtain, park the page on the CV so the first thing revealed is the CV.
+    const cvY = Math.max(0, docY("cv") - 72);
+    jump(cvY);
+
     timers.push(
       window.setTimeout(() => {
-        curtainRef.current?.classList.add("is-leaving");
-        const target = document.getElementById("projects");
-        if (!target) return;
-        const startY = window.scrollY;
-        const endY = Math.max(0, target.getBoundingClientRect().top + window.scrollY);
-        const begin = performance.now();
-        const step = (now: number) => {
-          if (done) return;
-          // The visitor (or the browser) moved the page: stop steering it.
-          if (Math.abs(window.scrollY - lastSet) > 3) return finish();
-          const p = Math.min(1, (now - begin) / PAN_MS);
-          lastSet = Math.round(startY + (endY - startY) * easeInOutCubic(p));
-          window.scrollTo({ top: lastSet, behavior: "instant" });
-          if (p < 1) frame = requestAnimationFrame(step);
-        };
-        frame = requestAnimationFrame(step);
-      }, CURTAIN_UP),
+        liftCurtain();
+        timers.push(
+          window.setTimeout(() => {
+            const projectsY = docY("projects");
+            glide(projectsY, TO_PROJECTS_MS, () => {
+              timers.push(window.setTimeout(() => glide(0, TO_TOP_MS, () => finish("leave")), HOLD_MS));
+            });
+          }, BEAT_MS),
+        );
+      }, WELCOME_MS),
     );
-
-    // Phase 2, continued: the project cards light up one by one.
-    const cards = Array.from(document.querySelectorAll("#projects article"));
-    cards.forEach((card, i) =>
-      timers.push(window.setTimeout(() => flash(card, "intro-hl"), CARDS_AT + i * CARD_STEP)),
-    );
-
-    // Phase 3: the skill pills run a diagnostic pass, then settle on the default one.
-    const pills = Array.from(document.querySelectorAll("[data-skill-id]"));
-    pills.forEach((pill, i) =>
-      timers.push(window.setTimeout(() => flash(pill, "intro-ping", 900), SKILLS_AT + i * SKILL_STEP)),
-    );
-    timers.push(
-      window.setTimeout(() => flash(pills[0], "intro-settle", 1400), SKILLS_AT + pills.length * SKILL_STEP + 60),
-    );
-
-    timers.push(window.setTimeout(finish, END_AT));
 
     return () => {
       done = true;
       cancelAnimationFrame(frame);
       timers.forEach(clearTimeout);
-      for (const type of ["wheel", "touchstart", "keydown"]) window.removeEventListener(type, finish);
-      root.classList.remove("intro-pending");
+      for (const type of INPUT_EVENTS) window.removeEventListener(type, onInput);
+      root.classList.remove("intro-pending", "intro-touring");
     };
   }, []);
 
-  const stats = [
-    { value: "13+", label: t.statProjects },
-    { value: "2nd", label: t.statRanking },
-    { value: "75%", label: t.statStiffness },
-    { value: "11%", label: t.statWing },
-  ];
+  // Two rows, each holding its photos twice so a half-row shift loops seamlessly.
+  const photos = projects.map((p) => ({ slug: p.slug, src: p.image }));
+  const rowA = [...photos, ...photos];
+  const rowB = [...photos.slice(3), ...photos.slice(0, 3)];
+  const rowBDoubled = [...rowB, ...rowB];
 
   return (
     <>
       <div ref={curtainRef} className="intro-curtain" aria-hidden="true">
-        <div className="intro-dots" />
-        <div className="intro-glow" />
-        <div className="intro-content">
-          <span className="intro-eyebrow">
-            <span className="intro-eyebrow-dot" />
-            {t.introEyebrow}
-          </span>
-          <div className="intro-title">{t.heroTitle}</div>
-          <ul className="intro-badges">
-            {stats.map((s, i) => (
-              <li key={s.label} className="intro-badge" style={{ animationDelay: `${420 + i * 110}ms` }}>
-                <span className="intro-badge-value">{s.value}</span>
-                <span className="intro-badge-label">{s.label}</span>
-              </li>
+        <div className="intro-title text-gradient text-5xl font-bold tracking-tight sm:text-7xl">
+          {t.introWelcome}
+        </div>
+        <div className="intro-marquee">
+          <div className="intro-row" style={{ ["--dur" as string]: "7.5s" }}>
+            {rowA.map((p, i) => (
+              <div key={`a${i}`} className="intro-tile">
+                <img src={p.src} alt="" loading="eager" decoding="async" onError={hideBroken} />
+              </div>
             ))}
-          </ul>
+          </div>
+          <div className="intro-row" style={{ ["--dur" as string]: "6s" }}>
+            {rowBDoubled.map((p, i) => (
+              <div key={`b${i}`} className="intro-tile">
+                <img src={p.src} alt="" loading="eager" decoding="async" onError={hideBroken} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <button type="button" className="intro-skip" onClick={() => (window as unknown as { __skipIntro?: () => void }).__skipIntro?.()}>
+      <button type="button" className="intro-skip" onClick={() => skipRef.current?.()}>
         {t.skipIntro}
       </button>
     </>
