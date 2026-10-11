@@ -40,6 +40,8 @@ export default function FeedbackWidget() {
   const [identity, setIdentity] = useState("");
   const [message, setMessage] = useState("");
   const [otherReason, setOtherReason] = useState("");
+  const [otherRole, setOtherRole] = useState("");
+  const otherRoleRef = useRef<HTMLInputElement | null>(null);
   const [showOther, setShowOther] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const firstFieldRef = useRef<HTMLSelectElement | null>(null);
@@ -72,6 +74,7 @@ export default function FeedbackWidget() {
     setIdentity("");
     setMessage("");
     setOtherReason("");
+    setOtherRole("");
     setShowOther(false);
     setRole("recruiter");
   }, [clearTimers]);
@@ -180,7 +183,7 @@ export default function FeedbackWidget() {
           from_name: trimmedIdentity || "Portfolio visitor",
           email: looksLikeEmail ? trimmedIdentity : "no-reply@eportfolioaurelien.today",
           message: [
-            `Visitor type: ${ROLE_VALUES[role]}`,
+            `Visitor type: ${ROLE_VALUES[role]}${role === "other" && otherRole.trim() ? ` (${otherRole.trim()})` : ""}`,
             `Identity: ${trimmedIdentity || "Not provided"}`,
             ...(otherReason.trim() ? [`Other reason: ${otherReason.trim()}`] : []),
             "",
@@ -264,9 +267,25 @@ export default function FeedbackWidget() {
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-role" className={label}>{t.feedbackWhoAreYou}</label>
-                <select id="feedback-role" ref={firstFieldRef} value={role} onChange={(event) => setRole(event.target.value as RoleKey)} className={field} disabled={status === "sending"}>
+                <select id="feedback-role" ref={firstFieldRef} value={role} onChange={(event) => { const next = event.target.value as RoleKey; setRole(next); if (next === "other") later(() => otherRoleRef.current?.focus(), 320); }} className={field} disabled={status === "sending"}>
                   {ROLE_KEYS.map((key) => <option key={key} value={key}>{t.feedbackRoles[key]}</option>)}
                 </select>
+                {/* Choosing "Other" opens a field underneath to say who you are */}
+                <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${role === "other" ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                  <div className="overflow-hidden">
+                    <input
+                      ref={otherRoleRef}
+                      value={otherRole}
+                      onChange={(event) => setOtherRole(event.target.value)}
+                      maxLength={80}
+                      placeholder={t.feedbackRoleOtherPlaceholder}
+                      aria-label={t.feedbackRoleOtherAria}
+                      tabIndex={role === "other" ? 0 : -1}
+                      className={`${field} mt-1.5`}
+                      disabled={status === "sending"}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="feedback-identity" className={label}>{t.feedbackIdentityLabel}</label>

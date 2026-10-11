@@ -401,13 +401,9 @@
   }
 }
 
-/* Hero showcase backdrop: a soft teal light and a fine dot texture that fades toward the
-   edges, instead of a hard graph-paper grid. The glow drifts very slowly. */
-.hero-stage {
-  background:
-    radial-gradient(58% 52% at 30% 34%, color-mix(in oklab, var(--chart-2) 16%, transparent), transparent 72%),
-    radial-gradient(52% 48% at 82% 80%, color-mix(in oklab, var(--chart-3) 11%, transparent), transparent 72%);
-}
+/* Hero showcase backdrop. It adds a little local light and a dot texture to the page-wide
+   backdrop, and it has no edge of its own: everything fades out well before the panel's left
+   side, so the introduction and the image sit on one continuous background. */
 .hero-stage::before,
 .hero-stage::after {
   position: absolute;
@@ -418,20 +414,54 @@
 .hero-stage::before {
   background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1.4px);
   background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
-  mask-image: radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
+  /* the radial mask frames the dots; the linear one fades them out toward the left edge */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 34%),
+    radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 34%),
+    radial-gradient(72% 70% at 50% 46%, #000 12%, transparent 78%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   opacity: 0.55;
 }
 .hero-stage::after {
-  background: radial-gradient(40% 40% at 50% 50%, color-mix(in oklab, var(--chart-2) 10%, transparent), transparent 70%);
+  /* The light layer is larger than the panel, so as it drifts its own edge never comes into
+     view, and both glows are fully faded before they reach any side of the panel. */
+  inset: -12%;
+  background:
+    radial-gradient(26% 31% at 56.5% 40.3%, color-mix(in oklab, var(--chart-2) 15%, transparent), transparent 100%),
+    radial-gradient(16% 19.4% at 61.3% 62.9%, color-mix(in oklab, var(--chart-3) 11%, transparent), transparent 100%);
   animation: stage-drift 22s ease-in-out infinite alternate;
 }
 @keyframes stage-drift {
   from {
-    transform: translate3d(-8%, -4%, 0) scale(1);
+    transform: translate3d(-3%, -2%, 0) scale(1);
   }
   to {
-    transform: translate3d(9%, 6%, 0) scale(1.15);
+    transform: translate3d(3%, 3%, 0) scale(1.05);
+  }
+}
+
+/* The line between the introduction and the image: dark where it starts, fading away, like the
+   rule under "Engineering Projects". Horizontal above the image on small screens. */
+.hero-divider {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--foreground), color-mix(in oklab, var(--foreground) 14%, transparent) 55%, transparent);
+}
+@media (min-width: 1024px) {
+  .hero-divider {
+    right: auto;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, var(--foreground), color-mix(in oklab, var(--foreground) 14%, transparent) 55%, transparent);
   }
 }
 

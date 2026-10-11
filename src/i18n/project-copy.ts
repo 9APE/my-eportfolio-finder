@@ -126,7 +126,7 @@ const fr: Translated = {
       "Le châssis de l'année précédente (EXO4) manquait de rigidité : le monocoque se comportait comme un troisième ressort non souhaité entre les trains avant et arrière. J'ai **pris la responsabilité** de l'objectif de rigidité à partir des premiers principes, en **apprenant en faisant** : j'ai appris le calcul éléments finis sous Altair HyperMesh et livré un résultat validé en quelques mois, **ouvert aux retours** du département suspension et des pilotes tout au long du projet.",
     how: [
       "Déduit l'objectif de rigidité en mettant en balance le gain au tour et la masse supplémentaire d'une structure plus rigide, en intégrant les retours du département suspension et des pilotes.",
-      "Une tolérance de 0,8 % sur l'équilibre mécanique a fixé l'objectif minimal de rigidité en torsion.",
+      "La tolérance d'équilibre mécanique fixe l'objectif minimal de rigidité en torsion.",
       "Construit le modèle éléments finis du monocoque sous Altair HyperMesh, appliqué le cas de charge en torsion et exploité la déformée pour calculer la rigidité.",
     ],
     result: [
@@ -135,7 +135,7 @@ const fr: Translated = {
       "Livré dans le respect de toutes les contraintes, dont l'objectif de masse de structure.",
     ],
     spec: [
-      { label: "Objectif", value: "Atteint (tolérance d'équilibre 0,8 %)" },
+      { label: "Objectif", value: "Tolérance d'équilibre mécanique" },
       { label: "Gain de rigidité", value: "+75 %" },
       { label: "Validation", value: "~2 % d'écart vs essai" },
       { label: "Masse de structure", value: "+35 %" },
@@ -348,7 +348,7 @@ const de: Translated = {
       "Das Chassis des Vorjahres (EXO4) war nicht steif genug – das Monocoque wirkte als ungewollte dritte Feder zwischen Vorder- und Hinterachse. Ich habe **Verantwortung** für das Steifigkeitsziel von Grund auf übernommen und **durch Machen gelernt**: Ich habe mir die FEM-Berechnung in Altair HyperMesh angeeignet und innerhalb weniger Monate ein validiertes Ergebnis geliefert – durchgehend **offen für Feedback** aus der Fahrwerksabteilung und von den Fahrern.",
     how: [
       "Das Steifigkeitsziel hergeleitet, indem Rundenzeitgewinn gegen die Mehrmasse einer steiferen Struktur abgewogen wurde – mit Input aus der Fahrwerksabteilung und von den Fahrern.",
-      "Eine Toleranz von 0,8 % auf die mechanische Balance legte die Mindest-Torsionssteifigkeit fest.",
+      "Die mechanische Balance-Toleranz legt die Mindest-Torsionssteifigkeit fest.",
       "Das FE-Modell des Monocoques in Altair HyperMesh aufgebaut, den Torsionslastfall aufgebracht und aus der Verformung die Steifigkeit bestimmt.",
     ],
     result: [
@@ -357,7 +357,7 @@ const de: Translated = {
       "Innerhalb aller Randbedingungen geliefert, inklusive der Zielmasse der Struktur.",
     ],
     spec: [
-      { label: "Ziel", value: "Erreicht (0,8 % Balance-Toleranz)" },
+      { label: "Ziel", value: "Mechanische Balance-Toleranz" },
       { label: "Steifigkeitsgewinn", value: "+75 %" },
       { label: "Validierung", value: "~2 % Abweichung zum Versuch" },
       { label: "Strukturmasse", value: "+35 %" },
@@ -570,7 +570,7 @@ const nl: Translated = {
       "Het chassis van het voorgaande jaar (EXO4) was niet stijf genoeg, waardoor het monocoque als een ongewenste derde veer tussen voor- en achterwielophanging werkte. Ik nam **verantwoordelijkheid** voor de stijfheidsdoelstelling vanaf de basis en leerde **door te doen**: ik maakte me FEA in Altair HyperMesh eigen en leverde binnen enkele maanden een gevalideerd resultaat, doorlopend **open voor feedback** van de ophangingsafdeling en de coureurs.",
     how: [
       "De stijfheidsdoelstelling afgeleid door rondetijdwinst af te wegen tegen de massatoename van een stijvere constructie, met input van de ophangingsafdeling en de coureurs.",
-      "Een tolerantie van 0,8% op de mechanische balans bepaalde de minimale torsiestijfheid.",
+      "De mechanische balanstolerantie bepaalt de minimale torsiestijfheid.",
       "Het EEM-model van het monocoque opgebouwd in Altair HyperMesh, het torsiebelastinggeval aangebracht en uit de vervorming de stijfheid berekend.",
     ],
     result: [
@@ -579,7 +579,7 @@ const nl: Translated = {
       "Geleverd binnen alle randvoorwaarden, inclusief het doel voor de framemassa.",
     ],
     spec: [
-      { label: "Doel", value: "Gehaald (0,8% balanstolerantie)" },
+      { label: "Doel", value: "Mechanische balanstolerantie" },
       { label: "Stijfheidswinst", value: "+75%" },
       { label: "Validatie", value: "~2% afwijking t.o.v. test" },
       { label: "Framemassa", value: "+35%" },

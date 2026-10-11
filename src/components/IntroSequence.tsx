@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 import { useT } from "@/i18n/context";
 
 /** Timeline, in ms from the start of the intro. */
-const WELCOME_MS = 4800; // the welcome line and every photo, then the curtain lifts
+const WELCOME_MS = 6800; // the welcome line and every photo, then the curtain lifts
 const TO_PROJECTS_MS = 1900; // glide up from the CV to the engineering projects
 const HOLD_MS = 2000; // the one pause: two seconds on the engineering projects
 const TO_TOP_MS = 1500; // glide up to the introduction
@@ -15,7 +15,7 @@ const INPUT_EVENTS = ["wheel", "touchstart", "keydown"] as const;
 
 /** Seconds per loop for each row. They differ for depth, and all are short enough that every
  *  photo in a row has crossed the screen by the time the welcome ends. */
-const ROW_SECONDS = [5.3, 4.9, 4.5];
+const ROW_SECONDS = [7.6, 7.0, 6.4];
 
 /**
  * Every photo of every project (the main photo and the whole gallery), once each, dealt out
