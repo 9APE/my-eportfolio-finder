@@ -216,7 +216,12 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
     <section className="relative">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
-          <h1 id="hero-title" className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl">{t.heroTitle}</h1>
+          <h1
+            id="hero-title"
+            className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl"
+          >
+            {t.heroTitle}
+          </h1>
           <p
             aria-live="polite"
             className="lens-intro mt-6 max-w-xl leading-relaxed text-muted-foreground"
@@ -265,7 +270,10 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
               ariimoanapons@gmail.com
             </a>
-            <a href="tel:+4915233570697" className="flex items-start gap-3 text-foreground hover:underline">
+            <a
+              href="tel:+4915233570697"
+              className="flex items-start gap-3 text-foreground hover:underline"
+            >
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
               +49 152 33570697
             </a>
@@ -376,8 +384,12 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
           {/* Which project is showing (top) and how long until the next (bottom), both kept
               clear of the centred scroll pill */}
           <div key={project.slug} className="hero-caption absolute inset-x-6 top-6 z-10 min-w-0">
-            <span className={`${label} tabular-nums`}>{t.showcaseCounter(index + 1, pool.length)}</span>
-            <div className="mt-1 truncate text-base font-semibold tracking-tight">{project.title}</div>
+            <span className={`${label} tabular-nums`}>
+              {t.showcaseCounter(index + 1, pool.length)}
+            </span>
+            <div className="mt-1 truncate text-base font-semibold tracking-tight">
+              {project.title}
+            </div>
           </div>
           <div className="absolute bottom-14 right-6 z-10 flex gap-1.5">
             {pool.map((p, i) => (
@@ -456,13 +468,13 @@ function ProjectIndex({
 
   return (
     <>
-      <section
-        id="projects"
-        className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10"
-      >
+      <section id="projects" className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
         <div className="section-rule flex items-end justify-between pb-4">
           <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
-            <ChevronDown className="h-5 w-5 shrink-0 animate-bounce text-chart-3" aria-hidden="true" />
+            <ChevronDown
+              className="h-5 w-5 shrink-0 animate-bounce text-chart-3"
+              aria-hidden="true"
+            />
             {t.engineeringProjects}
           </h2>
           <span className={label}>{t.entries(localized.length)}</span>
@@ -599,6 +611,11 @@ function ProjectCard({
   const { ref: cardRef, inView } = useInView<HTMLElement>(0.25);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [hovering, setHovering] = useState(false);
+  // Whole-card hover drives the second image and the thumbnail strip; `active` is the previewed thumbnail.
+  const [cardHover, setCardHover] = useState(false);
+  const [active, setActive] = useState<number | null>(null);
+  const images = [p.image, ...p.gallery.filter((g) => g !== p.image)];
+  const overlaySrc = active !== null ? images[active] : secondImage(p);
 
   const openProject = () => navigate({ to: "/projects/$slug", params: { slug: p.slug } });
 
@@ -620,6 +637,11 @@ function ProjectCard({
     <article
       ref={cardRef}
       className="glass-card relative flex h-full flex-col overflow-hidden rounded-2xl"
+      onMouseEnter={() => setCardHover(true)}
+      onMouseLeave={() => {
+        setCardHover(false);
+        setActive(null);
+      }}
     >
       {/* Accent line draws across the top as the card enters view */}
       <span
@@ -643,7 +665,9 @@ function ProjectCard({
             style={{ animation: `hero-progress ${HOVER_AUTO_OPEN_MS}ms linear forwards` }}
           />
         )}
-        <span className={`${label} absolute left-3 top-3 z-10 rounded-full border border-border/70 bg-background/80 px-2.5 py-1 tabular-nums backdrop-blur`}>
+        <span
+          className={`${label} absolute left-3 top-3 z-10 rounded-full border border-border/70 bg-background/80 px-2.5 py-1 tabular-nums backdrop-blur`}
+        >
           {pad(index + 1)} / {pad(projects.length)}
         </span>
 
@@ -671,18 +695,20 @@ function ProjectCard({
                 height={1104}
                 loading="lazy"
                 className={`h-full w-full object-contain p-6 transition-all duration-500 group-hover:scale-[1.03] ${
-                  p.hoverImage ? "group-hover:opacity-0" : ""
+                  cardHover && overlaySrc ? "opacity-0" : ""
                 }`}
               />
-              {p.hoverImage && (
+              {overlaySrc && (
                 <img
-                  src={p.hoverImage}
-                  alt={`${p.title} FEA`}
+                  src={overlaySrc}
+                  alt=""
                   width={1408}
                   height={1104}
                   loading="lazy"
                   aria-hidden="true"
-                  className="absolute inset-0 h-full w-full object-contain p-6 opacity-0 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                  className={`absolute inset-0 h-full w-full object-contain p-6 transition-all duration-500 motion-reduce:transition-none ${
+                    cardHover ? "scale-[1.03] opacity-100" : "opacity-0"
+                  }`}
                 />
               )}
             </span>
@@ -693,6 +719,42 @@ function ProjectCard({
           <span className="font-mono text-xs uppercase tracking-[0.15em]">{t.moreDetails}</span>
           <ArrowRight className="h-4 w-4" />
         </div>
+      </div>
+
+      {/* Thumbnail strip: space is always reserved so the card never jumps; hover a photo to preview it here. */}
+      <div
+        className={`flex h-[4.25rem] items-center gap-2 overflow-x-auto px-5 py-2 transition-opacity duration-200 pointer-coarse:opacity-100 motion-reduce:transition-none ${
+          cardHover ? "opacity-100" : "opacity-0"
+        }`}
+        onMouseEnter={cancelAutoOpen}
+      >
+        {images.map((img, i) => (
+          <button
+            key={img}
+            type="button"
+            onMouseEnter={() => setActive(i)}
+            onFocus={() => {
+              setCardHover(true);
+              setActive(i);
+            }}
+            onClick={() => onExpand(images, i)}
+            aria-label={t.previewImage(i + 1)}
+            className={`img-stage relative h-full aspect-[4/3] shrink-0 overflow-hidden rounded-lg border transition-all ${
+              (active ?? 0) === i && active !== null
+                ? "border-chart-3 shadow-[0_6px_16px_-8px_var(--chart-3)]"
+                : "border-border/70 hover:border-chart-3/60"
+            }`}
+          >
+            <img
+              src={img}
+              alt=""
+              width={160}
+              height={120}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </button>
+        ))}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-y border-border/60 px-5 py-3">
