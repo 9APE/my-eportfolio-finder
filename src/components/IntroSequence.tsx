@@ -4,11 +4,12 @@ import { projects } from "@/data/projects";
 import { useT } from "@/i18n/context";
 
 /** Timeline, in ms from the start of the intro. */
-const WELCOME_MS = 3000; // the welcome line and the photos, then the curtain lifts
+const WELCOME_MS = 4000; // the welcome line and the photos, then the curtain lifts
+const CV_HOLD_MS = 1000; // on the CV (with the glide below, the CV gets 2 seconds)
 const TO_PROJECTS_MS = 1000; // glide up from the CV to the engineering projects
-const HOLD_MS = 2000; // the one pause: two seconds on the engineering projects
+const HOLD_MS = 3000; // on the engineering projects (with the glide below, they get 4 seconds)
 const TO_TOP_MS = 1000; // glide up to the introduction
-const TOTAL_MS = WELCOME_MS + TO_PROJECTS_MS + HOLD_MS + TO_TOP_MS;
+const TOTAL_MS = WELCOME_MS + CV_HOLD_MS + TO_PROJECTS_MS + HOLD_MS + TO_TOP_MS; // 10 seconds
 const SEEN_KEY = "intro-seen";
 
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -50,7 +51,7 @@ const hideBroken = (e: React.SyntheticEvent<HTMLImageElement>) => {
  *   1. "Welcome to Aurélien's ePortfolio" over three rows holding every project photo, gliding
  *      left to right.
  *   2. The curtain lifts on the CV at the foot of the page, which then scrolls up, pauses on the
- *      engineering projects, and carries on up to the introduction.
+ *      engineering projects, and carries on up to the introduction (10 seconds in all).
  *
  * Whether it runs is decided before first paint by a script in the document head (the
  * `intro-pending` class), so the page never flashes behind the curtain. Scrolling, touching,
@@ -60,7 +61,8 @@ export function IntroSequence() {
   const t = useT();
   const curtainRef = useRef<HTMLDivElement>(null);
   const skipRef = useRef<(() => void) | null>(null);
-  const [secondsLeft, setSecondsLeft] = useState(Math.ceil(TOTAL_MS / 1000));
+  // Null until the intro's clock actually starts, so the number never sits frozen while the page loads.
+  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -147,10 +149,15 @@ export function IntroSequence() {
     timers.push(
       window.setTimeout(() => {
         liftCurtain();
-        // No pause on the CV: the page starts moving as soon as it is revealed.
-        glide(docY("projects"), TO_PROJECTS_MS, () => {
-          timers.push(window.setTimeout(() => glide(0, TO_TOP_MS, () => finish("leave")), HOLD_MS));
-        });
+        timers.push(
+          window.setTimeout(() => {
+            glide(docY("projects"), TO_PROJECTS_MS, () => {
+              timers.push(
+                window.setTimeout(() => glide(0, TO_TOP_MS, () => finish("leave")), HOLD_MS),
+              );
+            });
+          }, CV_HOLD_MS),
+        );
       }, WELCOME_MS),
     );
 
@@ -189,7 +196,7 @@ export function IntroSequence() {
         </div>
       </div>
       <div className="intro-skip">
-        <span className="intro-count" aria-hidden="true">
+        <span className="intro-count" aria-hidden="true" hidden={secondsLeft === null}>
           {secondsLeft}s
         </span>
         <button type="button" className="intro-skip-btn" onClick={() => skipRef.current?.()}>
