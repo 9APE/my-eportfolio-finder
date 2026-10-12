@@ -715,46 +715,47 @@ function ProjectCard({
           </TiltWrapper>
         </Link>
 
+        {/* Thumbnail strip: overlays the bottom of the image (above the "More details" bar), so no space is reserved. */}
+        <div
+          className={`absolute inset-x-0 bottom-[2.75rem] z-20 flex items-center gap-2 overflow-x-auto bg-gradient-to-t from-background/80 to-transparent px-3 pb-2 pt-6 transition-opacity duration-200 motion-reduce:transition-none pointer-coarse:pointer-events-auto pointer-coarse:opacity-100 ${
+            cardHover ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+          onMouseEnter={cancelAutoOpen}
+          onMouseLeave={startAutoOpen}
+        >
+          {images.map((img, i) => (
+            <button
+              key={img}
+              type="button"
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => {
+                setCardHover(true);
+                setActive(i);
+              }}
+              onClick={() => onExpand(images, i)}
+              aria-label={t.previewImage(i + 1)}
+              className={`img-stage relative aspect-[4/3] h-11 shrink-0 overflow-hidden rounded-lg border bg-background transition-all ${
+                active === i
+                  ? "border-chart-3 shadow-[0_6px_16px_-8px_var(--chart-3)]"
+                  : "border-border/70 hover:border-chart-3/60"
+              }`}
+            >
+              <img
+                src={img}
+                alt=""
+                width={160}
+                height={120}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-foreground/70 px-4 py-2.5 text-background opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
           <span className="font-mono text-xs uppercase tracking-[0.15em]">{t.moreDetails}</span>
           <ArrowRight className="h-4 w-4" />
         </div>
-      </div>
-
-      {/* Thumbnail strip: space is always reserved so the card never jumps; hover a photo to preview it here. */}
-      <div
-        className={`flex h-[4.25rem] items-center gap-2 overflow-x-auto px-5 py-2 transition-opacity duration-200 pointer-coarse:opacity-100 motion-reduce:transition-none ${
-          cardHover ? "opacity-100" : "opacity-0"
-        }`}
-        onMouseEnter={cancelAutoOpen}
-      >
-        {images.map((img, i) => (
-          <button
-            key={img}
-            type="button"
-            onMouseEnter={() => setActive(i)}
-            onFocus={() => {
-              setCardHover(true);
-              setActive(i);
-            }}
-            onClick={() => onExpand(images, i)}
-            aria-label={t.previewImage(i + 1)}
-            className={`img-stage relative h-full aspect-[4/3] shrink-0 overflow-hidden rounded-lg border transition-all ${
-              (active ?? 0) === i && active !== null
-                ? "border-chart-3 shadow-[0_6px_16px_-8px_var(--chart-3)]"
-                : "border-border/70 hover:border-chart-3/60"
-            }`}
-          >
-            <img
-              src={img}
-              alt=""
-              width={160}
-              height={120}
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </button>
-        ))}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-y border-border/60 px-5 py-3">
