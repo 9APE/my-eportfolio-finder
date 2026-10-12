@@ -77,7 +77,6 @@ export type UiCopy = {
   cvExperience: string;
   cvEducation: string;
   cvLanguages: string;
-  cvCitizenship: string;
   cvPresent: string;
   cvExpected: string;
   cvPdfHint: string;
@@ -183,7 +182,6 @@ export const UI: Record<Lang, UiCopy> = {
     cvExperience: "Professional experience",
     cvEducation: "Education",
     cvLanguages: "Languages",
-    cvCitizenship: "Citizenship",
     cvPresent: "Present",
     cvExpected: "Expected",
     cvPdfHint: "One page, PDF",
@@ -299,7 +297,6 @@ export const UI: Record<Lang, UiCopy> = {
     cvExperience: "Expérience professionnelle",
     cvEducation: "Formation",
     cvLanguages: "Langues",
-    cvCitizenship: "Nationalité",
     cvPresent: "Aujourd'hui",
     cvExpected: "Prévu",
     cvPdfHint: "Une page, PDF",
@@ -416,7 +413,6 @@ export const UI: Record<Lang, UiCopy> = {
     cvExperience: "Berufserfahrung",
     cvEducation: "Ausbildung",
     cvLanguages: "Sprachen",
-    cvCitizenship: "Staatsangehörigkeit",
     cvPresent: "Heute",
     cvExpected: "Voraussichtlich",
     cvPdfHint: "Eine Seite, PDF",
@@ -535,7 +531,6 @@ export const UI: Record<Lang, UiCopy> = {
     cvExperience: "Werkervaring",
     cvEducation: "Opleiding",
     cvLanguages: "Talen",
-    cvCitizenship: "Nationaliteit",
     cvPresent: "Heden",
     cvExpected: "Verwacht",
     cvPdfHint: "Eén pagina, PDF",

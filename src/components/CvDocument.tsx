@@ -60,11 +60,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function RoleDates({ role }: { role: { start: string; end: string | null } }) {
+function RoleDates({ role }: { role: { start: string; end: string | null; label?: string } }) {
   const t = useT();
   return (
     <span className={`${label} whitespace-nowrap tabular-nums`}>
-      {role.start} – {role.end ?? t.cvPresent}
+      {role.label ?? `${role.start} – ${role.end ?? t.cvPresent}`}
     </span>
   );
 }
@@ -109,7 +109,10 @@ function Timeline() {
                 <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-foreground/85">
                   {role.bullets.map((b) => (
                     <li key={b} className="flex gap-3">
-                      <span aria-hidden="true" className="mt-[0.6em] h-px w-3 shrink-0 bg-chart-3" />
+                      <span
+                        aria-hidden="true"
+                        className="mt-[0.6em] h-px w-3 shrink-0 bg-chart-3"
+                      />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -139,7 +142,10 @@ export function CvDocument() {
             <MapPin className="h-4 w-4 text-chart-3" aria-hidden="true" />
             {t.location}
           </span>
-          <a href={`tel:${cv.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 hover:text-chart-3">
+          <a
+            href={`tel:${cv.phone.replace(/\s/g, "")}`}
+            className="flex items-center gap-2 hover:text-chart-3"
+          >
             <Phone className="h-4 w-4 text-chart-3" aria-hidden="true" />
             {cv.phone}
           </a>
@@ -174,7 +180,9 @@ export function CvDocument() {
                 {copy.skills.map((s) => (
                   <div key={s.area}>
                     <dt className="text-sm font-bold">{s.area}</dt>
-                    <dd className="mt-0.5 text-sm leading-relaxed text-muted-foreground">{s.detail}</dd>
+                    <dd className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                      {s.detail}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -209,8 +217,6 @@ export function CvDocument() {
         <Reveal delay={100}>
           <Section title={t.cvLanguages}>
             <p className="text-sm leading-relaxed text-foreground/85">{copy.languages}</p>
-            <p className={`${label} mt-5`}>{t.cvCitizenship}</p>
-            <p className="mt-1 text-sm text-foreground/85">{copy.citizenship}</p>
           </Section>
         </Reveal>
       </div>
