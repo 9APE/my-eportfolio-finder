@@ -14,6 +14,7 @@ export const cv = {
     { start: "09.2025", end: null },
     { start: "09.2024", end: "02.2025" },
     { start: "06.2023", end: "03.2024" },
+    { start: "", end: null, label: "Warman Competition" },
     { start: "2023", end: null },
   ],
 
