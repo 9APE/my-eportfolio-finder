@@ -1,13 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { projects } from "@/data/projects";
 import { useT } from "@/i18n/context";
 
 /** Timeline, in ms from the start of the intro. */
-const WELCOME_MS = 6800; // the welcome line and every photo, then the curtain lifts
-const TO_PROJECTS_MS = 1900; // glide up from the CV to the engineering projects
+const WELCOME_MS = 3000; // the welcome line and the photos, then the curtain lifts
+const TO_PROJECTS_MS = 1000; // glide up from the CV to the engineering projects
 const HOLD_MS = 2000; // the one pause: two seconds on the engineering projects
-const TO_TOP_MS = 1500; // glide up to the introduction
+const TO_TOP_MS = 1000; // glide up to the introduction
+const TOTAL_MS = WELCOME_MS + TO_PROJECTS_MS + HOLD_MS + TO_TOP_MS;
 const SEEN_KEY = "intro-seen";
 
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -59,6 +60,7 @@ export function IntroSequence() {
   const t = useT();
   const curtainRef = useRef<HTMLDivElement>(null);
   const skipRef = useRef<(() => void) | null>(null);
+  const [secondsLeft, setSecondsLeft] = useState(Math.ceil(TOTAL_MS / 1000));
 
   useEffect(() => {
     const root = document.documentElement;
@@ -70,6 +72,12 @@ export function IntroSequence() {
     }
 
     const timers: number[] = [];
+    const startedAt = performance.now();
+    const tick = window.setInterval(
+      () =>
+        setSecondsLeft(Math.max(0, Math.ceil((TOTAL_MS - (performance.now() - startedAt)) / 1000))),
+      200,
+    );
     let frame = 0;
     let done = false;
 
@@ -95,13 +103,12 @@ export function IntroSequence() {
     const liftCurtain = () => {
       curtainUp = true;
       curtainRef.current?.classList.add("is-leaving");
-      // Once the page is showing, Skip moves out of the way of the sticky bar's links.
-      root.classList.add("intro-touring");
     };
 
     const finish = (how: "leave" | "top" = "leave") => {
       if (done) return;
       done = true;
+      clearInterval(tick);
       cancelAnimationFrame(frame);
       timers.forEach(clearTimeout);
       for (const type of INPUT_EVENTS) window.removeEventListener(type, onInput);
@@ -112,7 +119,7 @@ export function IntroSequence() {
       } else if (how === "top") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-      window.setTimeout(() => root.classList.remove("intro-pending", "intro-touring"), 900);
+      window.setTimeout(() => root.classList.remove("intro-pending"), 900);
     };
     const onInput = () => finish("leave");
     skipRef.current = () => finish("top");
@@ -149,10 +156,11 @@ export function IntroSequence() {
 
     return () => {
       done = true;
+      clearInterval(tick);
       cancelAnimationFrame(frame);
       timers.forEach(clearTimeout);
       for (const type of INPUT_EVENTS) window.removeEventListener(type, onInput);
-      root.classList.remove("intro-pending", "intro-touring");
+      root.classList.remove("intro-pending");
     };
   }, []);
 
@@ -166,7 +174,11 @@ export function IntroSequence() {
         </div>
         <div className="intro-marquee">
           {rows.map((row, r) => (
-            <div key={r} className="intro-row" style={{ ["--dur" as string]: `${ROW_SECONDS[r % ROW_SECONDS.length]}s` }}>
+            <div
+              key={r}
+              className="intro-row"
+              style={{ ["--dur" as string]: `${ROW_SECONDS[r % ROW_SECONDS.length]}s` }}
+            >
               {[...row, ...row].map((src, i) => (
                 <div key={i} className="intro-tile">
                   <img src={src} alt="" loading="eager" decoding="async" onError={hideBroken} />
@@ -176,9 +188,14 @@ export function IntroSequence() {
           ))}
         </div>
       </div>
-      <button type="button" className="intro-skip" onClick={() => skipRef.current?.()}>
-        {t.skipIntro}
-      </button>
+      <div className="intro-skip">
+        <span className="intro-count" aria-hidden="true">
+          {secondsLeft}s
+        </span>
+        <button type="button" className="intro-skip-btn" onClick={() => skipRef.current?.()}>
+          {t.skipIntro}
+        </button>
+      </div>
     </>
   );
 }
