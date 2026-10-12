@@ -657,8 +657,8 @@
       color-mix(in oklab, var(--muted) 62%, var(--background))
     );
   transition:
-    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
   /* If the script never takes over, the curtain still goes away on its own. */
   animation: intro-failsafe 600ms 12s forwards;
 }
@@ -679,11 +679,35 @@
   pointer-events: none;
 }
 
+/* Skip and the countdown live in one spot, bottom right, for the whole intro. */
 .intro-pending .intro-skip {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  right: 1.25rem;
+  bottom: 1.25rem;
   z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  animation:
+    intro-rise 500ms 200ms cubic-bezier(0.22, 1, 0.36, 1) both,
+    intro-failsafe 600ms 12s forwards;
+}
+.intro-count {
+  min-width: 2.6ch;
+  padding: 0.5rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  background: color-mix(in oklab, var(--background) 72%, transparent);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.intro-skip-btn {
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
@@ -702,15 +726,12 @@
   transition:
     border-color 200ms ease,
     transform 200ms ease;
-  animation:
-    intro-rise 700ms 400ms cubic-bezier(0.22, 1, 0.36, 1) both,
-    intro-failsafe 600ms 12s forwards;
 }
-.intro-skip:hover {
+.intro-skip-btn:hover {
   border-color: var(--chart-3);
   transform: translateY(-1px);
 }
-.intro-skip:focus-visible {
+.intro-skip-btn:focus-visible {
   outline: 2px solid var(--chart-3);
   outline-offset: 2px;
 }
@@ -721,7 +742,7 @@
   max-width: 62rem;
   padding: 0 1.5rem;
   text-align: center;
-  animation: intro-rise 1000ms 100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: intro-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Two rows of project photos, both gliding left to right across the screen. */
@@ -733,7 +754,7 @@
   gap: 0.75rem;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-  animation: intro-rise 900ms 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: intro-rise 600ms 150ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .intro-row {
   display: flex;
@@ -791,16 +812,6 @@
   .intro-skip {
     display: none !important;
   }
-}
-
-/* While the page tours, Skip sits bottom right, clear of the sticky bar's links. */
-.intro-pending.intro-touring .intro-skip {
-  top: auto;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  animation:
-    intro-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) both,
-    intro-failsafe 600ms 12s forwards;
 }
 
 /* ==========================================================================
