@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
+  ExternalLink,
   ChevronLeft,
   ChevronRight,
   ArrowUp,
@@ -795,6 +796,16 @@ function ProjectCard({
         >
           {t.moreDetails} <ArrowRight className="h-3.5 w-3.5" />
         </Link>
+        {p.link && (
+          <a
+            href={p.link.url}
+            target="_blank"
+            rel="noreferrer"
+            className={`${label} mt-2 inline-flex items-center gap-2 transition-colors hover:text-foreground`}
+          >
+            {t.openLiveSite} <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        )}
       </div>
     </article>
   );

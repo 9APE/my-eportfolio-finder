@@ -29,8 +29,7 @@ const fr: Translated = {
     title: "Conception CAO du monocoque et intégration",
     team: "University Racing Eindhoven · Pays-Bas",
     tags: ["Siemens NX", "Intégration", "RPC"],
-    what:
-      "Lors d'un stage de six mois chez University Racing Eindhoven, j'ai conçu la géométrie du monocoque sous Siemens NX et intégré chaque sous-système dans une seule surface de châssis cohérente.",
+    what: "Lors d'un stage de six mois chez University Racing Eindhoven, j'ai conçu la géométrie du monocoque sous Siemens NX et intégré chaque sous-système dans une seule surface de châssis cohérente.",
     how: [
       "Modélisé la géométrie du monocoque et réparti les volumes alloués à chaque sous-système.",
       "Négocié les exigences, contraintes et préférences (RPC) entre sous-systèmes pour garantir une intégration correcte.",
@@ -60,8 +59,7 @@ const fr: Translated = {
     title: "Ergonomie et poste de pilotage",
     team: "University Racing Eindhoven · Pays-Bas",
     tags: ["Ergonomie", "Poste de pilotage", "Validation"],
-    what:
-      "Définition du poste de pilotage — visibilité, allonge et réglage du pédalier — afin que chaque pilote de l'équipe soit correctement installé.",
+    what: "Définition du poste de pilotage — visibilité, allonge et réglage du pédalier — afin que chaque pilote de l'équipe soit correctement installé.",
     how: [
       "Construit le point de vue du pilote, la ligne de visée et les allonges sous Siemens NX pour dimensionner le cockpit.",
       "Réglé l'ajustabilité du pédalier et de l'assise pour couvrir toute la morphologie des pilotes de l'équipe.",
@@ -91,8 +89,7 @@ const fr: Translated = {
     title: "Conception CAO de l'outillage",
     team: "University Racing Eindhoven · Pays-Bas",
     tags: ["Siemens NX", "Outillage", "DFM"],
-    what:
-      "Conception des moules du monocoque selon leur propre cahier des charges, pour que la pièce cuite démoule proprement et que le châssis soit construit à la bonne géométrie. Une conception guidée par la réalité de la **fabrication**, en travaillant directement avec l'équipe qui usinait les modèles et en restant **ouvert aux retours** à chaque revue.",
+    what: "Conception des moules du monocoque selon leur propre cahier des charges, pour que la pièce cuite démoule proprement et que le châssis soit construit à la bonne géométrie. Une conception guidée par la réalité de la **fabrication**, en travaillant directement avec l'équipe qui usinait les modèles et en restant **ouvert aux retours** à chaque revue.",
     how: [
       "Conçu l'outillage sous Siemens NX avec un angle de dépouille minimal de 3° sur chaque face pour un démoulage propre.",
       "Aligné les plans de joint et les éléments de centrage pour que les demi-moules — et donc le châssis — se positionnent correctement.",
@@ -122,8 +119,7 @@ const fr: Translated = {
     title: "Simulation de rigidité en torsion du châssis",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEA", "Premiers principes"],
-    what:
-      "Le châssis de l'année précédente (EXO4) manquait de rigidité : le monocoque se comportait comme un troisième ressort non souhaité entre les trains avant et arrière. J'ai **pris la responsabilité** de l'objectif de rigidité à partir des premiers principes, en **apprenant en faisant** : j'ai appris le calcul éléments finis sous Altair HyperMesh et livré un résultat validé en quelques mois, **ouvert aux retours** du département suspension et des pilotes tout au long du projet.",
+    what: "Le châssis de l'année précédente (EXO4) manquait de rigidité : le monocoque se comportait comme un troisième ressort non souhaité entre les trains avant et arrière. J'ai **pris la responsabilité** de l'objectif de rigidité à partir des premiers principes, en **apprenant en faisant** : j'ai appris le calcul éléments finis sous Altair HyperMesh et livré un résultat validé en quelques mois, **ouvert aux retours** du département suspension et des pilotes tout au long du projet.",
     how: [
       "Déduit l'objectif de rigidité en mettant en balance le gain au tour et la masse supplémentaire d'une structure plus rigide, en intégrant les retours du département suspension et des pilotes.",
       "La tolérance d'équilibre mécanique fixe l'objectif minimal de rigidité en torsion.",
@@ -154,8 +150,7 @@ const fr: Translated = {
     title: "Simulation FEA des éléments aérodynamiques",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEA", "Drapage composite", "Conformité règlement"],
-    what:
-      "Chaque élément aérodynamique devait être léger, rigide et conforme au règlement structurel de Formula Student Germany (FSG). J'ai aligné la conception aérodynamique et la conception structurelle pour que chaque élément soit validé en calcul éléments finis sous les charges du règlement avant fabrication.",
+    what: "Chaque élément aérodynamique devait être léger, rigide et conforme au règlement structurel de Formula Student Germany (FSG). J'ai aligné la conception aérodynamique et la conception structurelle pour que chaque élément soit validé en calcul éléments finis sous les charges du règlement avant fabrication.",
     how: [
       "Appliqué les cas de charge FSG pour éléments aérodynamiques en calcul éléments finis : 200 N répartis sur ≥ 225 cm², et une charge ponctuelle de 50 N en tout point.",
       "Optimisé le drapage composite pour respecter les limites de déformation tout en retirant la matière ne reprenant aucun effort.",
@@ -185,8 +180,7 @@ const fr: Translated = {
     title: "Fabrication composite et simulation de drapabilité",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["Fibersim", "Drapabilité", "Livre de plis"],
-    what:
-      "Transformer la surface CAO du monocoque en une pièce carbone répétable et peu génératrice de chutes impliquait de simuler la drapabilité et de planifier chaque pli avant de toucher au moule. Un travail de **fabrication** concret en atelier, en **apprenant en faisant** aux côtés des camarades qui réalisaient le drapage.",
+    what: "Transformer la surface CAO du monocoque en une pièce carbone répétable et peu génératrice de chutes impliquait de simuler la drapabilité et de planifier chaque pli avant de toucher au moule. Un travail de **fabrication** concret en atelier, en **apprenant en faisant** aux côtés des camarades qui réalisaient le drapage.",
     how: [
       "Défini les zones de plis et les dégressions sur la surface du monocoque sous Siemens NX / Fibersim.",
       "Lancé la simulation de drapabilité pour vérifier l'orientation des fibres, puis imbriqué les plis afin de réduire les chutes et exporté les développés pour la découpe.",
@@ -198,7 +192,10 @@ const fr: Translated = {
       "Monocoque cuit propre, avec un écart minimal d'orientation des fibres.",
     ],
     spec: [
-      { label: "Méthode", value: "Simulation de drapabilité → imbrication des plis → export des développés" },
+      {
+        label: "Méthode",
+        value: "Simulation de drapabilité → imbrication des plis → export des développés",
+      },
       { label: "Livrable", value: "Livre de plis" },
       { label: "Résultat", value: "Écart minimal d'orientation des fibres" },
       { label: "Chutes", value: "Réduites par imbrication des plis" },
@@ -216,8 +213,7 @@ const fr: Translated = {
     title: "Robot Warman Challenge",
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mécatronique", "Impression 3D"],
-    what:
-      "Conception, prototypage et documentation complète d'un robot mobile chargé de récupérer et transporter des charges sur un parcours défini pour le Warman Challenge Australia. J'ai **pris la responsabilité** du mécanisme de bout en bout, en le faisant **évoluer** par le **prototypage** et les **essais** plutôt que sur le papier.",
+    what: "Conception, prototypage et documentation complète d'un robot mobile chargé de récupérer et transporter des charges sur un parcours défini pour le Warman Challenge Australia. J'ai **pris la responsabilité** du mécanisme de bout en bout, en le faisant **évoluer** par le **prototypage** et les **essais** plutôt que sur le papier.",
     how: [
       "Conçu un mécanisme d'actionnement linéaire entraîné par moteur pas à pas sur une base à roues mecanum, avec bras-tourelle rotatif et pince.",
       "Réalisé un **prototype** physique de la transmission et de la pince en PLA imprimé en 3D, puis fait évoluer la conception au fil des révisions selon ce que montraient les **essais**.",
@@ -243,6 +239,40 @@ const fr: Translated = {
       "Systèmes à moteur pas à pas",
     ],
   },
+  "nutri-ai-health-platform": {
+    category: "Génie logiciel / IA",
+    title: "Nutri AI : suivi santé gratuit",
+    team: "Projet personnel · À but non lucratif · nutriai.today",
+    tags: ["React", "TypeScript", "Supabase", "IA"],
+    what: "J'ai conçu et réalisé Nutri AI de bout en bout : une application web gratuite et à but non lucratif qui permet à chacun de noter ses repas, de poser des questions de nutrition et de suivre sa santé, au lieu de réserver cet accompagnement aux sportifs qui ont un nutritionniste personnel. J'ai pris la **responsabilité** du produit, du design, du front-end, du back-end et de la couche d'IA, puis je l'ai mise en ligne.",
+    how: [
+      "Développé l'application en React et TypeScript sur un back-end Supabase (base de données, authentification et 17 fonctions edge), déployée sur Vercel.",
+      "Ajouté la saisie des repas à la voix ou au texte : l'IA estime les calories et les nutriments, et pose une courte question lorsqu'un repas est trop vague pour être estimé.",
+      "Créé un coach Ask AI, des plans de repas sur 7 jours et des listes de courses avec l'API Anthropic Claude.",
+      "Gardé les alertes santé fondées sur des règles : un signal comme le dépassement de sodium vient d'un moteur de règles, pas d'un conseil libre du modèle.",
+    ],
+    result: [
+      "En ligne sur nutriai.today, gratuite, sans e-mail requis pour créer un compte.",
+      "Saisie vocale, chat IA, suivi des macronutriments et micronutriments, alertes et planification hebdomadaire réunis dans une seule application.",
+      "Durable par conception : un budget IA fixe aujourd'hui, avec des crédits financés par la publicité prévus si l'usage augmente.",
+    ],
+    spec: [
+      { label: "Plateforme", value: "Application web" },
+      { label: "Front-end", value: "React, TypeScript, Tailwind" },
+      { label: "Back-end", value: "Supabase, 17 fonctions edge" },
+      { label: "IA", value: "API Anthropic Claude" },
+      { label: "Coût pour les utilisateurs", value: "Gratuit" },
+      { label: "Statut", value: "En ligne" },
+    ],
+    skills: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "Intégration d'IA",
+      "Conception produit",
+      "Développement full-stack",
+    ],
+  },
 };
 
 const de: Translated = {
@@ -251,8 +281,7 @@ const de: Translated = {
     title: "CAD-Monocoque-Konstruktion & Package",
     team: "University Racing Eindhoven · Niederlande",
     tags: ["Siemens NX", "Package", "RPCs"],
-    what:
-      "Während eines sechsmonatigen Praktikums bei University Racing Eindhoven habe ich die Monocoque-Geometrie in Siemens NX konstruiert und sämtliche Subsysteme zu einer integrierten Chassis-Fläche zusammengeführt.",
+    what: "Während eines sechsmonatigen Praktikums bei University Racing Eindhoven habe ich die Monocoque-Geometrie in Siemens NX konstruiert und sämtliche Subsysteme zu einer integrierten Chassis-Fläche zusammengeführt.",
     how: [
       "Die Monocoque-Geometrie modelliert und die Bauräume der Subsysteme festgelegt.",
       "Anforderungen, Randbedingungen und Wünsche (RPCs) zwischen den Subsystemen abgestimmt, um die korrekte Integration sicherzustellen.",
@@ -282,8 +311,7 @@ const de: Translated = {
     title: "Ergonomie & Fahrerintegration",
     team: "University Racing Eindhoven · Niederlande",
     tags: ["Ergonomie", "Fahrerintegration", "Validierung"],
-    what:
-      "Festlegung des Fahrerpakets – Sichtlinie, Reichweite und Verstellbarkeit der Pedalerie –, damit jeder Fahrer der Zielgruppe korrekt im Fahrzeug sitzt.",
+    what: "Festlegung des Fahrerpakets – Sichtlinie, Reichweite und Verstellbarkeit der Pedalerie –, damit jeder Fahrer der Zielgruppe korrekt im Fahrzeug sitzt.",
     how: [
       "Augenpunkt, Sichtlinie und Reichweiten des Fahrers in Siemens NX aufgebaut, um das Cockpit auszulegen.",
       "Verstellbereich von Pedalerie und Sitzposition auf die gesamte Fahrerbandbreite des Teams ausgelegt.",
@@ -313,8 +341,7 @@ const de: Translated = {
     title: "CAD-Werkzeugkonstruktion",
     team: "University Racing Eindhoven · Niederlande",
     tags: ["Siemens NX", "Werkzeugbau", "DFM"],
-    what:
-      "Die Monocoque-Formen nach eigenen Anforderungen konstruiert, damit sich das ausgehärtete Bauteil sauber entformen lässt und das Chassis in der richtigen Geometrie entsteht. Die Konstruktion war an der **Fertigungsrealität** ausgerichtet – in direkter Abstimmung mit dem Team, das die Modelle gefräst hat, und **offen für Feedback** in jedem Review.",
+    what: "Die Monocoque-Formen nach eigenen Anforderungen konstruiert, damit sich das ausgehärtete Bauteil sauber entformen lässt und das Chassis in der richtigen Geometrie entsteht. Die Konstruktion war an der **Fertigungsrealität** ausgerichtet – in direkter Abstimmung mit dem Team, das die Modelle gefräst hat, und **offen für Feedback** in jedem Review.",
     how: [
       "Werkzeuge in Siemens NX mit mindestens 3° Entformungsschräge an jeder Fläche konstruiert.",
       "Trennebenen und Zentrierungen so abgestimmt, dass Formhälften – und damit das Chassis – korrekt zueinander liegen.",
@@ -344,8 +371,7 @@ const de: Translated = {
     title: "Simulation der Chassis-Torsionssteifigkeit",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEM", "First Principles"],
-    what:
-      "Das Chassis des Vorjahres (EXO4) war nicht steif genug – das Monocoque wirkte als ungewollte dritte Feder zwischen Vorder- und Hinterachse. Ich habe **Verantwortung** für das Steifigkeitsziel von Grund auf übernommen und **durch Machen gelernt**: Ich habe mir die FEM-Berechnung in Altair HyperMesh angeeignet und innerhalb weniger Monate ein validiertes Ergebnis geliefert – durchgehend **offen für Feedback** aus der Fahrwerksabteilung und von den Fahrern.",
+    what: "Das Chassis des Vorjahres (EXO4) war nicht steif genug – das Monocoque wirkte als ungewollte dritte Feder zwischen Vorder- und Hinterachse. Ich habe **Verantwortung** für das Steifigkeitsziel von Grund auf übernommen und **durch Machen gelernt**: Ich habe mir die FEM-Berechnung in Altair HyperMesh angeeignet und innerhalb weniger Monate ein validiertes Ergebnis geliefert – durchgehend **offen für Feedback** aus der Fahrwerksabteilung und von den Fahrern.",
     how: [
       "Das Steifigkeitsziel hergeleitet, indem Rundenzeitgewinn gegen die Mehrmasse einer steiferen Struktur abgewogen wurde – mit Input aus der Fahrwerksabteilung und von den Fahrern.",
       "Die mechanische Balance-Toleranz legt die Mindest-Torsionssteifigkeit fest.",
@@ -376,8 +402,7 @@ const de: Translated = {
     title: "FEM-Simulation der Aerodynamikbauteile",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEM", "Composite-Laminat", "Reglementkonformität"],
-    what:
-      "Jedes Aerodynamikbauteil musste leicht, steif und konform zum Strukturreglement von Formula Student Germany (FSG) sein. Ich habe die aerodynamische und die strukturelle Auslegung so verzahnt, dass jedes Bauteil vor der Fertigung unter den Reglementlasten per FEM validiert war.",
+    what: "Jedes Aerodynamikbauteil musste leicht, steif und konform zum Strukturreglement von Formula Student Germany (FSG) sein. Ich habe die aerodynamische und die strukturelle Auslegung so verzahnt, dass jedes Bauteil vor der Fertigung unter den Reglementlasten per FEM validiert war.",
     how: [
       "Die FSG-Lastfälle für Aerodynamikbauteile in der FEM aufgebracht: 200 N verteilt über ≥ 225 cm² sowie eine Punktlast von 50 N an beliebiger Stelle.",
       "Den Lagenaufbau optimiert, um die Verformungsgrenzen einzuhalten und zugleich Material ohne Lastanteil zu entfernen.",
@@ -407,8 +432,7 @@ const de: Translated = {
     title: "Composite-Fertigung & Drapiersimulation",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["Fibersim", "Drapierbarkeit", "Lagenbuch"],
-    what:
-      "Um die CAD-Fläche des Monocoques in ein wiederholbares, verschnittarmes Carbonbauteil zu überführen, musste die Drapierbarkeit simuliert und jede Lage geplant werden, bevor die Form angefasst wurde. Praktische **Fertigungsarbeit** in der Werkstatt – **learning by doing** gemeinsam mit den Kommilitonen, die die Bauteile laminiert haben.",
+    what: "Um die CAD-Fläche des Monocoques in ein wiederholbares, verschnittarmes Carbonbauteil zu überführen, musste die Drapierbarkeit simuliert und jede Lage geplant werden, bevor die Form angefasst wurde. Praktische **Fertigungsarbeit** in der Werkstatt – **learning by doing** gemeinsam mit den Kommilitonen, die die Bauteile laminiert haben.",
     how: [
       "Lagenbereiche und Lagenabstufungen auf der Monocoque-Fläche in Siemens NX / Fibersim definiert.",
       "Drapiersimulation durchgeführt, um die Faserorientierung zu prüfen, anschließend die Lagen verschachtelt, um Verschnitt zu reduzieren, und die Abwicklungen für den Zuschnitt exportiert.",
@@ -438,8 +462,7 @@ const de: Translated = {
     title: "Warman-Challenge-Roboter",
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronik", "3D-Druck"],
-    what:
-      "Konstruktion, Prototypenbau und vollständige Dokumentation eines mobilen Roboters, der Lasten über einen definierten Parcours der Warman Challenge Australia aufnimmt und transportiert. Ich habe **Verantwortung** für den Mechanismus von Anfang bis Ende übernommen und die Konstruktion durch **Prototyping** und **Testen** weiterentwickelt – nicht nur auf dem Papier.",
+    what: "Konstruktion, Prototypenbau und vollständige Dokumentation eines mobilen Roboters, der Lasten über einen definierten Parcours der Warman Challenge Australia aufnimmt und transportiert. Ich habe **Verantwortung** für den Mechanismus von Anfang bis Ende übernommen und die Konstruktion durch **Prototyping** und **Testen** weiterentwickelt – nicht nur auf dem Papier.",
     how: [
       "Einen schrittmotorgetriebenen Linearantrieb auf einer Mecanum-Radbasis konstruiert, mit drehbarem Turmarm und Greifer.",
       "Einen physischen **Prototyp** von Antrieb und Greifer aus 3D-gedrucktem PLA gebaut und die Konstruktion über mehrere Revisionen anhand der **Testergebnisse** weiterentwickelt.",
@@ -465,6 +488,40 @@ const de: Translated = {
       "Schrittmotorsysteme",
     ],
   },
+  "nutri-ai-health-platform": {
+    category: "Software-Engineering / KI",
+    title: "Nutri AI: kostenloses Gesundheits-Tracking",
+    team: "Einzelprojekt · Gemeinnützig · nutriai.today",
+    tags: ["React", "TypeScript", "Supabase", "KI"],
+    what: "Nutri AI von Anfang bis Ende entworfen und gebaut: eine kostenlose, gemeinnützige Web-App, mit der jede und jeder Mahlzeiten erfassen, Ernährungsfragen stellen und die eigene Gesundheit verfolgen kann, statt diese Unterstützung Sportlern mit eigenem Ernährungsberater zu überlassen. Ich habe **Verantwortung** für Produkt, Design, Frontend, Backend und die KI-Schicht übernommen und die App live geschaltet.",
+    how: [
+      "Die App in React und TypeScript auf einem Supabase-Backend (Datenbank, Authentifizierung und 17 Edge Functions) gebaut und auf Vercel bereitgestellt.",
+      "Mahlzeiten per Sprache und Text erfassbar gemacht: Die KI schätzt Kalorien und Nährstoffe und stellt eine kurze Rückfrage, wenn eine Mahlzeit zu vage für eine Schätzung ist.",
+      "Einen Ask-AI-Coach, 7-Tage-Mahlzeitenpläne und Einkaufslisten auf Basis der Anthropic-Claude-API entwickelt.",
+      "Gesundheitshinweise regelbasiert gehalten: Ein Hinweis wie die Überschreitung des Natriumlimits kommt aus einer Regel-Engine und nicht aus freier Modellberatung.",
+    ],
+    result: [
+      "Live unter nutriai.today, kostenlos nutzbar, ohne E-Mail-Adresse für die Kontoerstellung.",
+      "Spracherfassung, KI-Chat, Makro- und Mikronährstoff-Tracking, Hinweise und Wochenplanung in einer App.",
+      "Auf Nachhaltigkeit ausgelegt: heute ein festes KI-Budget, bei wachsender Nutzung sind werbefinanzierte Guthaben geplant.",
+    ],
+    spec: [
+      { label: "Plattform", value: "Web-App" },
+      { label: "Frontend", value: "React, TypeScript, Tailwind" },
+      { label: "Backend", value: "Supabase, 17 Edge Functions" },
+      { label: "KI", value: "Anthropic-Claude-API" },
+      { label: "Kosten für Nutzende", value: "Kostenlos" },
+      { label: "Status", value: "Live" },
+    ],
+    skills: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "KI-Integration",
+      "Produktdesign",
+      "Full-Stack-Entwicklung",
+    ],
+  },
 };
 
 const nl: Translated = {
@@ -473,8 +530,7 @@ const nl: Translated = {
     title: "CAD-monocoqueontwerp & package",
     team: "University Racing Eindhoven · Nederland",
     tags: ["Siemens NX", "Package", "RPC's"],
-    what:
-      "Tijdens een stage van zes maanden bij University Racing Eindhoven ontwierp ik de monocoquegeometrie in Siemens NX en bracht ik elk subsysteem samen in één geïntegreerd chassisoppervlak.",
+    what: "Tijdens een stage van zes maanden bij University Racing Eindhoven ontwierp ik de monocoquegeometrie in Siemens NX en bracht ik elk subsysteem samen in één geïntegreerd chassisoppervlak.",
     how: [
       "De monocoquegeometrie gemodelleerd en de bouwruimte per subsysteem toegewezen.",
       "Eisen, randvoorwaarden en voorkeuren (RPC's) tussen subsystemen afgestemd voor een correcte integratie.",
@@ -504,8 +560,7 @@ const nl: Translated = {
     title: "Ergonomie & coureurpassing",
     team: "University Racing Eindhoven · Nederland",
     tags: ["Ergonomie", "Coureurpassing", "Validatie"],
-    what:
-      "Het coureurpakket vastgelegd — zichtlijn, reikwijdte en verstelbaarheid van het pedaalstel — zodat elke beoogde coureur goed in de auto past.",
+    what: "Het coureurpakket vastgelegd — zichtlijn, reikwijdte en verstelbaarheid van het pedaalstel — zodat elke beoogde coureur goed in de auto past.",
     how: [
       "Oogpunt, zichtlijn en reikwijdte van de coureur in Siemens NX opgebouwd om de cockpit te dimensioneren.",
       "Verstelbaarheid van pedaalstel en stoel afgestemd op de volledige range aan teamcoureurs.",
@@ -535,8 +590,7 @@ const nl: Translated = {
     title: "CAD-matrijsontwerp",
     team: "University Racing Eindhoven · Nederland",
     tags: ["Siemens NX", "Matrijzen", "DFM"],
-    what:
-      "De monocoquematrijzen ontworpen volgens hun eigen eisen, zodat het uitgeharde deel schoon lost en het chassis in de juiste geometrie wordt gebouwd. Het ontwerp werd gestuurd door de **productiepraktijk**, in direct overleg met het team dat de modellen freesde en **open voor feedback** bij elke review.",
+    what: "De monocoquematrijzen ontworpen volgens hun eigen eisen, zodat het uitgeharde deel schoon lost en het chassis in de juiste geometrie wordt gebouwd. Het ontwerp werd gestuurd door de **productiepraktijk**, in direct overleg met het team dat de modellen freesde en **open voor feedback** bij elke review.",
     how: [
       "Matrijzen ontworpen in Siemens NX met minimaal 3° lossingshoek op elk vlak voor schoon lossen.",
       "Deelvlakken en centreringen op elkaar afgestemd zodat matrijshelften — en dus het chassis — correct passen.",
@@ -553,21 +607,14 @@ const nl: Translated = {
       { label: "Productie", value: "CNC-gefreesde balsamodellen" },
       { label: "Resultaat", value: "Schoon, herhaalbaar lossen" },
     ],
-    skills: [
-      "Siemens NX",
-      "Matrijsontwerp",
-      "DFM",
-      "Matrijzenbouw",
-      "Productiecoördinatie",
-    ],
+    skills: ["Siemens NX", "Matrijsontwerp", "DFM", "Matrijzenbouw", "Productiecoördinatie"],
   },
   "chassis-torsional-stiffness": {
     category: "Constructieve simulatie",
     title: "Simulatie torsiestijfheid chassis",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["HyperMesh", "FEA", "First principles"],
-    what:
-      "Het chassis van het voorgaande jaar (EXO4) was niet stijf genoeg, waardoor het monocoque als een ongewenste derde veer tussen voor- en achterwielophanging werkte. Ik nam **verantwoordelijkheid** voor de stijfheidsdoelstelling vanaf de basis en leerde **door te doen**: ik maakte me FEA in Altair HyperMesh eigen en leverde binnen enkele maanden een gevalideerd resultaat, doorlopend **open voor feedback** van de ophangingsafdeling en de coureurs.",
+    what: "Het chassis van het voorgaande jaar (EXO4) was niet stijf genoeg, waardoor het monocoque als een ongewenste derde veer tussen voor- en achterwielophanging werkte. Ik nam **verantwoordelijkheid** voor de stijfheidsdoelstelling vanaf de basis en leerde **door te doen**: ik maakte me FEA in Altair HyperMesh eigen en leverde binnen enkele maanden een gevalideerd resultaat, doorlopend **open voor feedback** van de ophangingsafdeling en de coureurs.",
     how: [
       "De stijfheidsdoelstelling afgeleid door rondetijdwinst af te wegen tegen de massatoename van een stijvere constructie, met input van de ophangingsafdeling en de coureurs.",
       "De mechanische balanstolerantie bepaalt de minimale torsiestijfheid.",
@@ -598,8 +645,7 @@ const nl: Translated = {
     title: "FEA-simulatie aerodynamische delen",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["FEA", "Composietlaminaat", "Reglementconformiteit"],
-    what:
-      "Elk aerodynamisch onderdeel moest licht, stijf en conform het constructiereglement van Formula Student Germany (FSG) zijn. Ik stemde het aerodynamische en het constructieve ontwerpproces op elkaar af, zodat elk onderdeel vóór productie met FEA tegen de reglementbelastingen was gevalideerd.",
+    what: "Elk aerodynamisch onderdeel moest licht, stijf en conform het constructiereglement van Formula Student Germany (FSG) zijn. Ik stemde het aerodynamische en het constructieve ontwerpproces op elkaar af, zodat elk onderdeel vóór productie met FEA tegen de reglementbelastingen was gevalideerd.",
     how: [
       "De FSG-belastinggevallen voor aerodynamische delen toegepast in FEA: 200 N verdeeld over ≥ 225 cm², en een puntlast van 50 N op elke positie.",
       "Het composietlaminaat geoptimaliseerd om binnen de vervormingsgrenzen te blijven en materiaal zonder belasting te verwijderen.",
@@ -629,8 +675,7 @@ const nl: Translated = {
     title: "Composietproductie & drapeersimulatie",
     team: "Écurie Aix · RWTH Aachen Formula Student",
     tags: ["Fibersim", "Drapeerbaarheid", "Laminaatboek"],
-    what:
-      "Het CAD-oppervlak van het monocoque omzetten in een herhaalbaar koolstofvezeldeel met weinig afval betekende drapeerbaarheid simuleren en elke laag plannen vóór de matrijs werd aangeraakt. Praktisch **productiewerk** op de werkvloer, **learning by doing** samen met de medestudenten die de delen lamineerden.",
+    what: "Het CAD-oppervlak van het monocoque omzetten in een herhaalbaar koolstofvezeldeel met weinig afval betekende drapeerbaarheid simuleren en elke laag plannen vóór de matrijs werd aangeraakt. Praktisch **productiewerk** op de werkvloer, **learning by doing** samen met de medestudenten die de delen lamineerden.",
     how: [
       "Laagzones en laagafbouw op het monocoqueoppervlak gedefinieerd in Siemens NX / Fibersim.",
       "Drapeersimulatie uitgevoerd om de vezelrichting te controleren, lagen genest om afval te beperken en uitslagen geëxporteerd voor het snijden.",
@@ -647,21 +692,14 @@ const nl: Translated = {
       { label: "Kwaliteit", value: "Minimale afwijking vezelrichting" },
       { label: "Afval", value: "Beperkt door geneste lagen" },
     ],
-    skills: [
-      "Siemens Fibersim",
-      "Drapeersimulatie",
-      "Lagen nesten",
-      "Composietproductie",
-      "DFM",
-    ],
+    skills: ["Siemens Fibersim", "Drapeersimulatie", "Lagen nesten", "Composietproductie", "DFM"],
   },
   "warman-challenge-robot": {
     category: "Mechatronica / 3D-print",
     title: "Warman Challenge-robot",
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronica", "3D-printen"],
-    what:
-      "Een mobiele robot ontworpen, geprototypet en volledig gedocumenteerd om ladingen op te pakken en te vervoeren over een vastgelegd parcours voor de Warman Challenge Australia. Ik nam **verantwoordelijkheid** voor het mechanisme van begin tot eind en liet het ontwerp **groeien** via **prototypen** en **testen** in plaats van alleen op papier.",
+    what: "Een mobiele robot ontworpen, geprototypet en volledig gedocumenteerd om ladingen op te pakken en te vervoeren over een vastgelegd parcours voor de Warman Challenge Australia. Ik nam **verantwoordelijkheid** voor het mechanisme van begin tot eind en liet het ontwerp **groeien** via **prototypen** en **testen** in plaats van alleen op papier.",
     how: [
       "Een lineair aandrijfmechanisme met stappenmotor ontworpen op een mecanumwielbasis, met roterende torenarm en grijper.",
       "Een fysiek **prototype** van de aandrijving en grijper gebouwd in 3D-geprint PLA en het ontwerp via opeenvolgende revisies doorontwikkeld op basis van wat de **tests** lieten zien.",
@@ -685,6 +723,40 @@ const nl: Translated = {
       "GD&T",
       "Technische tekeningen",
       "Stappenmotorsystemen",
+    ],
+  },
+  "nutri-ai-health-platform": {
+    category: "Software-engineering / AI",
+    title: "Nutri AI: gratis gezondheidstracking",
+    team: "Soloproject · Non-profit · nutriai.today",
+    tags: ["React", "TypeScript", "Supabase", "KI"],
+    what: "Nutri AI van begin tot eind ontworpen en gebouwd: een gratis, non-profit webapp waarmee iedereen maaltijden kan loggen, voedingsvragen kan stellen en de eigen gezondheid kan volgen, in plaats van die ondersteuning over te laten aan sporters met een persoonlijke voedingsdeskundige. Ik nam de **verantwoordelijkheid** voor product, ontwerp, front-end, back-end en de AI-laag en bracht de app live.",
+    how: [
+      "De app gebouwd in React en TypeScript op een Supabase-backend (database, authenticatie en 17 edge functions), gehost op Vercel.",
+      "Maaltijden loggen per spraak en tekst toegevoegd: de AI schat calorieën en voedingsstoffen en stelt één korte vraag als een maaltijd te vaag is om te schatten.",
+      "Een Ask AI-coach, weekmenu's voor 7 dagen en boodschappenlijsten gebouwd op de Anthropic Claude API.",
+      "Gezondheidsmeldingen regelgebaseerd gehouden: een signaal zoals een overschreden natriumlimiet komt uit een regelmotor, niet uit vrij modeladvies.",
+    ],
+    result: [
+      "Live op nutriai.today, gratis te gebruiken, zonder e-mailadres om een account aan te maken.",
+      "Spraaklogging, AI-chat, tracking van macro's en micronutriënten, meldingen en weekplanning in één app.",
+      "Duurzaam ontworpen: nu een vast AI-budget, met door advertenties gefinancierde tegoeden gepland als het gebruik groeit.",
+    ],
+    spec: [
+      { label: "Platform", value: "Webapp" },
+      { label: "Front-end", value: "React, TypeScript, Tailwind" },
+      { label: "Back-end", value: "Supabase, 17 edge functions" },
+      { label: "AI", value: "Anthropic Claude API" },
+      { label: "Kosten voor gebruikers", value: "Gratis" },
+      { label: "Status", value: "Live" },
+    ],
+    skills: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "AI-integratie",
+      "Productontwerp",
+      "Full-stackontwikkeling",
     ],
   },
 };
