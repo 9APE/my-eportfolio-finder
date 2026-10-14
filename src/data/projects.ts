@@ -439,9 +439,9 @@ export const projects: Project[] = [
     },
     link: { url: "https://nutriai.today" },
     demo: {
-      url: "https://nutriaitracker.lovable.app/demo",
-      title: "Nutri AI demo",
-      live: false,
+      url: "https://nutriai.today/showcase",
+      title: "Nutri AI feature showcase",
+      live: true,
     },
   },
 ];

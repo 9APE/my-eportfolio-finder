@@ -237,9 +237,8 @@ function ProjectPage() {
                 src={project.demo.url}
                 title={project.demo.title}
                 loading="lazy"
-                allow="autoplay"
                 sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                className="mx-auto mt-4 block h-[640px] w-full max-w-[480px] rounded-2xl border border-border/70 bg-black"
+                className="mt-4 block h-[760px] w-full rounded-2xl border-0 bg-black sm:h-[820px] lg:h-[880px]"
               />
             </div>
           </Reveal>
