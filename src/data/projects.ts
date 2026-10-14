@@ -435,7 +435,7 @@ export const projects: Project[] = [
       testing: 1,
       teamwork: 0,
     },
-    link: { url: "https://nutriai.today/auth" },
+    link: { url: "https://nutriai.today/demo" },
   },
 ];
 
