@@ -71,6 +71,8 @@ export type Project = {
   relevance: Relevance;
   /** A live demo for software projects: shown as a button on the project page and card. */
   link?: { url: string };
+  /** An embeddable live demo. When live, it replaces the image gallery on the project page. */
+  demo?: { url: string; title: string; live: boolean };
 };
 
 export const projects: Project[] = [
@@ -436,6 +438,7 @@ export const projects: Project[] = [
       teamwork: 0,
     },
     link: { url: "https://nutriai.today/demo" },
+    demo: { url: "https://nutriai.today/demo", title: "Nutri AI live demo", live: true },
   },
 ];
 
