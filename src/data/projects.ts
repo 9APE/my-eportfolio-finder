@@ -43,17 +43,36 @@ import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
 
 import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
 
+import nutriVoice from "@/assets/nutri-voice.jpg";
+import nutriAsk from "@/assets/nutri-ask.jpg";
+import nutriTracking from "@/assets/nutri-tracking.jpg";
+import nutriAlerts from "@/assets/nutri-alerts.jpg";
+import nutriPlan from "@/assets/nutri-plan.jpg";
+
 import type { SkillCategoryId } from "./skillCategories";
 
 /** Relevance of a project to each skill lens: 0 = not relevant, 3 = primary focus. */
 export type Relevance = Record<SkillCategoryId, number>;
 
 export type Project = {
-  slug: string; category: string; title: string; team: string;
-  tags: string[]; image: string; hoverImage?: string; gallery: string[];
-  what: string; how: string[]; result: string[];
-  spec: { label: string; value: string }[]; skills: string[];
+  slug: string;
+  category: string;
+  title: string;
+  team: string;
+  tags: string[];
+  image: string;
+  hoverImage?: string;
+  gallery: string[];
+  what: string;
+  how: string[];
+  result: string[];
+  spec: { label: string; value: string }[];
+  skills: string[];
   relevance: Relevance;
+  /** A live site for software projects: shown as a button on the project page and card. */
+  link?: { url: string };
+  /** An embeddable live demo. Set `live` to true only once the page is published. */
+  demo?: { url: string; title: string; live: boolean };
 };
 
 export const projects: Project[] = [
@@ -168,13 +187,7 @@ export const projects: Project[] = [
       { label: "Manufacturing", value: "CNC-milled balsa plugs" },
       { label: "Outcome", value: "Clean, repeatable demoulding" },
     ],
-    skills: [
-      "Siemens NX",
-      "Tooling Design",
-      "DFM",
-      "Mould Design",
-      "Manufacturing Coordination",
-    ],
+    skills: ["Siemens NX", "Tooling Design", "DFM", "Mould Design", "Manufacturing Coordination"],
     relevance: {
       "structural-analysis": 1,
       fea: 0,
@@ -194,7 +207,15 @@ export const projects: Project[] = [
     tags: ["HyperMesh", "FEA", "First Principles"],
     image: monoFeaHero,
     hoverImage: carIsometric.url,
-    gallery: [carIsometric.url, monoFea3, monoFea4, monoFea5, monoFea6, monoFeaMeshTop.url, monoFeaStiffnessCalc.url],
+    gallery: [
+      carIsometric.url,
+      monoFea3,
+      monoFea4,
+      monoFea5,
+      monoFea6,
+      monoFeaMeshTop.url,
+      monoFeaStiffnessCalc.url,
+    ],
     what: "The previous-year chassis (EXO4) wasn't stiff enough, causing the monocoque to act as an unintended third spring between the front and rear suspension. I took **ownership** of the stiffness target from first principles, **learning by doing**: I picked up FEA in Altair HyperMesh and delivered a validated result within a matter of months, **open to feedback** from the suspension department and drivers throughout.",
     how: [
       "Derived the stiffness target by weighing lap-time gains against the mass penalty of a stiffer structure, informed by suspension-department and driver feedback.",
@@ -325,7 +346,15 @@ export const projects: Project[] = [
     team: "University of Technology Sydney",
     tags: ["SolidWorks", "Mechatronics", "3D Print"],
     image: warmanCadRender.url,
-    gallery: [warmanCadRender.url, warmanPrototypeFront.url, warmanPrototypeSide.url, mdfs1, mdfs2, mdfs3, mdfs4],
+    gallery: [
+      warmanCadRender.url,
+      warmanPrototypeFront.url,
+      warmanPrototypeSide.url,
+      mdfs1,
+      mdfs2,
+      mdfs3,
+      mdfs4,
+    ],
     what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
     how: [
       "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
@@ -360,6 +389,59 @@ export const projects: Project[] = [
       prototyping: 3,
       testing: 2,
       teamwork: 0,
+    },
+  },
+  {
+    slug: "nutri-ai-health-platform",
+    category: "Software Engineering / AI",
+    title: "Nutri AI: Free Health Tracking",
+    team: "Solo project · Nonprofit · nutriai.today",
+    tags: ["React", "TypeScript", "Supabase", "AI"],
+    image: nutriVoice,
+    gallery: [nutriAsk, nutriTracking, nutriAlerts, nutriPlan],
+    what: "Designed and built Nutri AI end to end: a free, nonprofit web app that lets anyone log meals, ask nutrition questions and track their health, instead of leaving that support to athletes with a personal nutritionist. I took **ownership** of product, design, front end, back end and the AI layer, and shipped it live.",
+    how: [
+      "Built the app in React and TypeScript on a Supabase back end (database, auth and 17 edge functions), deployed on Vercel.",
+      "Added voice and text meal logging: the AI estimates calories and nutrients, and asks one short question when a meal is too vague to estimate.",
+      "Built an Ask AI coach, 7-day meal plans and grocery lists on the Anthropic Claude API.",
+      "Kept health alerts rule-based, so a flag such as a sodium limit comes from a rule engine, not from free-form model advice.",
+    ],
+    result: [
+      "Live at nutriai.today, free to use, with no email needed to create an account.",
+      "Voice logging, AI chat, macro and micronutrient tracking, alerts and weekly planning in one app.",
+      "Sustainable by design: a fixed AI budget today, with ad-funded credits planned if usage grows.",
+    ],
+    spec: [
+      { label: "Platform", value: "Web app" },
+      { label: "Front end", value: "React, TypeScript, Tailwind" },
+      { label: "Back end", value: "Supabase, 17 edge functions" },
+      { label: "AI", value: "Anthropic Claude API" },
+      { label: "Cost to users", value: "Free" },
+      { label: "Status", value: "Live" },
+    ],
+    skills: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "AI Integration",
+      "Product Design",
+      "Full-Stack Development",
+    ],
+    relevance: {
+      "structural-analysis": 0,
+      fea: 0,
+      cad: 0,
+      manufacturing: 0,
+      ownership: 3,
+      prototyping: 2,
+      testing: 1,
+      teamwork: 0,
+    },
+    link: { url: "https://nutriai.today" },
+    demo: {
+      url: "https://nutriaitracker.lovable.app/demo",
+      title: "Nutri AI demo",
+      live: false,
     },
   },
 ];
