@@ -69,10 +69,8 @@ export type Project = {
   spec: { label: string; value: string }[];
   skills: string[];
   relevance: Relevance;
-  /** A live site for software projects: shown as a button on the project page and card. */
+  /** A live demo for software projects: shown as a button on the project page and card. */
   link?: { url: string };
-  /** An embeddable live demo. Set `live` to true only once the page is published. */
-  demo?: { url: string; title: string; live: boolean };
 };
 
 export const projects: Project[] = [
@@ -437,12 +435,7 @@ export const projects: Project[] = [
       testing: 1,
       teamwork: 0,
     },
-    link: { url: "https://nutriai.today" },
-    demo: {
-      url: "https://nutriai.today/showcase",
-      title: "Nutri AI feature showcase",
-      live: true,
-    },
+    link: { url: "https://nutriai.today/auth" },
   },
 ];
 

@@ -227,23 +227,6 @@ function ProjectPage() {
           </div>
         </Reveal>
 
-        {/* Live demo: an embedded, self-contained page (only once it is published) */}
-        {project.demo?.live && (
-          <Reveal className="mt-6">
-            <div className="glass-panel overflow-hidden rounded-2xl p-4 sm:p-5">
-              <div className={sectionHeading}>{t.liveDemo}</div>
-              <p className="mt-1 text-sm text-muted-foreground">{t.liveDemoHint}</p>
-              <iframe
-                src={project.demo.url}
-                title={project.demo.title}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                className="mt-4 block h-[760px] w-full rounded-2xl border-0 bg-black sm:h-[820px] lg:h-[880px]"
-              />
-            </div>
-          </Reveal>
-        )}
-
         {/* How / Result + a separate Technical Specification box, tight under the images */}
         <Reveal delay={150}>
           <div ref={sectionsRef} className="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">

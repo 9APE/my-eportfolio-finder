@@ -42,8 +42,6 @@ export type UiCopy = {
   backToIndex: string;
   viewPdf: string;
   openLiveSite: string;
-  liveDemo: string;
-  liveDemoHint: string;
   sectionWhat: string;
   sectionHow: string;
   sectionResult: string;
@@ -153,9 +151,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     backToIndex: "Back to index",
     viewPdf: "View full engineering process (PDF)",
-    openLiveSite: "Open the live site",
-    liveDemo: "Live demo",
-    liveDemoHint: "A quick tour of the app. Open the live site to use it.",
+    openLiveSite: "Try the live demo",
     sectionWhat: "What",
     sectionHow: "How",
     sectionResult: "Result",
@@ -271,9 +267,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     backToIndex: "Retour à l'index",
     viewPdf: "Voir le dossier d'ingénierie complet (PDF)",
-    openLiveSite: "Ouvrir le site en ligne",
-    liveDemo: "Démo en direct",
-    liveDemoHint: "Un tour rapide de l'application. Ouvrez le site en ligne pour l'utiliser.",
+    openLiveSite: "Essayer la démo en direct",
     sectionWhat: "Quoi",
     sectionHow: "Comment",
     sectionResult: "Résultat",
@@ -390,9 +384,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     backToIndex: "Zurück zur Übersicht",
     viewPdf: "Vollständige Engineering-Dokumentation ansehen (PDF)",
-    openLiveSite: "Live-Seite öffnen",
-    liveDemo: "Live-Demo",
-    liveDemoHint: "Ein kurzer Rundgang durch die App. Öffnen Sie die Live-Seite, um sie zu nutzen.",
+    openLiveSite: "Live-Demo ausprobieren",
     sectionWhat: "Was",
     sectionHow: "Wie",
     sectionResult: "Ergebnis",
@@ -511,9 +503,7 @@ export const UI: Record<Lang, UiCopy> = {
 
     backToIndex: "Terug naar overzicht",
     viewPdf: "Volledig engineeringproces bekijken (pdf)",
-    openLiveSite: "Live site openen",
-    liveDemo: "Live demo",
-    liveDemoHint: "Een korte rondleiding door de app. Open de live site om hem te gebruiken.",
+    openLiveSite: "Live demo uitproberen",
     sectionWhat: "Wat",
     sectionHow: "Hoe",
     sectionResult: "Resultaat",
