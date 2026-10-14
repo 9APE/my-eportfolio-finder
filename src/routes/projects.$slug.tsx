@@ -174,58 +174,73 @@ function ProjectPage() {
           </div>
         </Reveal>
 
-        {/* Images — thumbnail rail (hover to preview, height-matched to the main image) + main image */}
-        <Reveal className="mt-6" delay={100}>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
-            <div className="flex gap-3 overflow-x-auto lg:h-full lg:flex-col lg:overflow-hidden">
-              {fullGallery.map((img, i) => (
+        {/* Live demo: when a project has one, it is shown instead of the image gallery */}
+        {project.demo?.live ? (
+          <Reveal className="mt-6" delay={100}>
+            <iframe
+              src={project.demo.url}
+              title={project.demo.title}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              className="glass-panel block h-[760px] w-full rounded-2xl border-0 bg-black sm:h-[820px] lg:h-[880px]"
+            />
+          </Reveal>
+        ) : (
+          <>
+            {/* Images — thumbnail rail (hover to preview, height-matched to the main image) + main image */}
+            <Reveal className="mt-6" delay={100}>
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-[88px_1fr]">
+                <div className="flex gap-3 overflow-x-auto lg:h-full lg:flex-col lg:overflow-hidden">
+                  {fullGallery.map((img, i) => (
+                    <button
+                      key={img}
+                      type="button"
+                      onMouseEnter={() => setActiveImage(i)}
+                      onFocus={() => setActiveImage(i)}
+                      onClick={() => setLightbox(i)}
+                      aria-label={t.previewImage(i + 1)}
+                      className={`img-stage relative aspect-square w-16 shrink-0 overflow-hidden rounded-xl border transition-all lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
+                        i === activeImage
+                          ? "border-chart-3 shadow-[0_8px_20px_-10px_var(--chart-3)]"
+                          : "border-border/70 hover:border-chart-3/60"
+                      }`}
+                    >
+                      <img
+                        src={img}
+                        alt={t.thumbnailAlt(project.title, i + 1)}
+                        width={200}
+                        height={200}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+
                 <button
-                  key={img}
                   type="button"
-                  onMouseEnter={() => setActiveImage(i)}
-                  onFocus={() => setActiveImage(i)}
-                  onClick={() => setLightbox(i)}
-                  aria-label={t.previewImage(i + 1)}
-                  className={`img-stage relative aspect-square w-16 shrink-0 overflow-hidden rounded-xl border transition-all lg:aspect-auto lg:w-full lg:min-h-0 lg:flex-1 ${
-                    i === activeImage
-                      ? "border-chart-3 shadow-[0_8px_20px_-10px_var(--chart-3)]"
-                      : "border-border/70 hover:border-chart-3/60"
-                  }`}
+                  onClick={() => setLightbox(activeImage)}
+                  aria-label={t.expandMainImage}
+                  className="img-stage group relative block aspect-[16/7] w-full overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-30px_rgba(15,23,42,0.3)]"
                 >
                   <img
-                    src={img}
-                    alt={t.thumbnailAlt(project.title, i + 1)}
-                    width={200}
-                    height={200}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
+                    src={fullGallery[activeImage]}
+                    alt={project.title}
+                    width={1408}
+                    height={1104}
+                    loading="eager"
+                    className="relative z-[1] h-full w-full object-contain p-4"
                   />
+                  <span className="absolute inset-0 z-[2] flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/90">
+                      <Expand className="h-4 w-4" />
+                    </span>
+                  </span>
                 </button>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setLightbox(activeImage)}
-              aria-label={t.expandMainImage}
-              className="img-stage group relative block aspect-[16/7] w-full overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-30px_rgba(15,23,42,0.3)]"
-            >
-              <img
-                src={fullGallery[activeImage]}
-                alt={project.title}
-                width={1408}
-                height={1104}
-                loading="eager"
-                className="relative z-[1] h-full w-full object-contain p-4"
-              />
-              <span className="absolute inset-0 z-[2] flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity group-hover:bg-foreground/10 group-hover:opacity-100">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background/90">
-                  <Expand className="h-4 w-4" />
-                </span>
-              </span>
-            </button>
-          </div>
-        </Reveal>
+              </div>
+            </Reveal>
+          </>
+        )}
 
         {/* How / Result + a separate Technical Specification box, tight under the images */}
         <Reveal delay={150}>
