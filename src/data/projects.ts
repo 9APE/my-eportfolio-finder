@@ -43,6 +43,11 @@ import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
 
 import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
 
+import cfdStreamlines from "@/assets/cfd-streamlines.jpg";
+import cfdHotOutlet from "@/assets/cfd-hot-outlet.jpg";
+import cfdColdOutlet from "@/assets/cfd-cold-outlet.jpg";
+import cfdResiduals from "@/assets/cfd-residuals.jpg";
+import cfdMeshQuality from "@/assets/cfd-mesh-quality.jpg";
 import nutriVoice from "@/assets/nutri-voice.jpg";
 import nutriAsk from "@/assets/nutri-ask.jpg";
 import nutriTracking from "@/assets/nutri-tracking.jpg";
@@ -439,6 +444,45 @@ export const projects: Project[] = [
     },
     link: { url: "https://nutriai.today/demo" },
     demo: { url: "https://nutriai.today/demo", title: "Nutri AI live demo", live: true },
+  },
+  {
+    slug: "heat-exchanger-ansys-cfd",
+    category: "CFD / Thermofluids",
+    title: "Heat Exchanger CFD Model in ANSYS",
+    team: "Thermofluids B · University coursework",
+    tags: ["ANSYS", "CFD", "Heat Transfer"],
+    image: cfdStreamlines,
+    gallery: [cfdHotOutlet, cfdColdOutlet, cfdResiduals, cfdMeshQuality],
+    what: "Modelled a double-pipe heat exchanger in ANSYS to see how far a hot stream cools and a cold stream warms as they pass each other through the pipe wall. I took **ownership** of the whole model, from the zones and mesh to the solution and the checks that proved it had settled.",
+    how: [
+      "Built the four zones of the model: the hot fluid, the cold fluid, and the inner and outer pipe walls.",
+      "Meshed with hex and mixed cells, then checked orthogonal quality and aspect ratio zone by zone before solving.",
+      "Solved flow and energy together with a turbulence model, tracking every residual as the solution developed.",
+      "Monitored the hot and cold outlet temperatures until both settled, rather than trusting the residuals alone.",
+    ],
+    result: [
+      "Successfully measured the outlet temperature of both streams and showed each settling to a steady value.",
+      "From those outlet temperatures, derived how far the hot stream cooled and the cold stream warmed.",
+      "Reached convergence with every residual meeting its criterion, on a mesh that passed the quality checks.",
+    ],
+    spec: [
+      { label: "Software", value: "ANSYS 2024 R1" },
+      { label: "Zones", value: "Hot fluid, cold fluid, inner and outer pipe" },
+      { label: "Mesh", value: "Hex and mixed cells, quality checked" },
+      { label: "Solver", value: "Flow + energy, two-equation (k, epsilon) turbulence" },
+      { label: "Convergence", value: "All residuals within criteria" },
+    ],
+    skills: ["ANSYS", "CFD", "Heat Transfer", "Meshing", "Mesh Quality Checks", "Post-processing"],
+    relevance: {
+      "structural-analysis": 0,
+      fea: 1,
+      cad: 1,
+      manufacturing: 0,
+      ownership: 2,
+      prototyping: 0,
+      testing: 1,
+      teamwork: 0,
+    },
   },
 ];
 

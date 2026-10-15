@@ -273,6 +273,39 @@ const fr: Translated = {
       "Développement full-stack",
     ],
   },
+  "heat-exchanger-ansys-cfd": {
+    category: "CFD / Thermofluides",
+    title: "Modèle CFD d'un échangeur de chaleur sous ANSYS",
+    team: "Thermofluids B · Projet universitaire",
+    tags: ["ANSYS", "CFD", "Transfert thermique"],
+    what: "J'ai modélisé sous ANSYS un échangeur de chaleur à double tube pour voir de combien un flux chaud se refroidit et un flux froid se réchauffe lorsqu'ils se croisent à travers la paroi du tube. J'ai pris la **responsabilité** de tout le modèle, des zones et du maillage jusqu'à la solution et aux vérifications qui prouvent qu'elle s'est stabilisée.",
+    how: [
+      "Construit les quatre zones du modèle : le fluide chaud, le fluide froid, et les parois interne et externe du tube.",
+      "Maillé avec des cellules hexaédriques et mixtes, puis vérifié la qualité orthogonale et le rapport d'aspect zone par zone avant de résoudre.",
+      "Résolu l'écoulement et l'énergie ensemble avec un modèle de turbulence, en suivant chaque résidu au fil de la solution.",
+      "Suivi les températures de sortie chaude et froide jusqu'à leur stabilisation, au lieu de se fier aux seuls résidus.",
+    ],
+    result: [
+      "Mesuré avec succès la température de sortie des deux flux, et montré que chacune se stabilise à une valeur constante.",
+      "À partir de ces températures de sortie, déduit de combien le flux chaud s'est refroidi et le flux froid réchauffé.",
+      "Atteint la convergence, chaque résidu respectant son critère, sur un maillage ayant passé les contrôles de qualité.",
+    ],
+    spec: [
+      { label: "Logiciel", value: "ANSYS 2024 R1" },
+      { label: "Zones", value: "Fluide chaud, fluide froid, tube interne et externe" },
+      { label: "Maillage", value: "Cellules hexaédriques et mixtes, qualité contrôlée" },
+      { label: "Solveur", value: "Écoulement + énergie, turbulence à deux équations (k, epsilon)" },
+      { label: "Convergence", value: "Tous les résidus dans les critères" },
+    ],
+    skills: [
+      "ANSYS",
+      "CFD",
+      "Transfert thermique",
+      "Maillage",
+      "Contrôle de la qualité du maillage",
+      "Post-traitement",
+    ],
+  },
 };
 
 const de: Translated = {
@@ -522,6 +555,39 @@ const de: Translated = {
       "Full-Stack-Entwicklung",
     ],
   },
+  "heat-exchanger-ansys-cfd": {
+    category: "CFD / Thermofluide",
+    title: "CFD-Modell eines Wärmeübertragers in ANSYS",
+    team: "Thermofluids B · Studienprojekt",
+    tags: ["ANSYS", "CFD", "Wärmeübertragung"],
+    what: "Einen Doppelrohr-Wärmeübertrager in ANSYS modelliert, um zu sehen, wie weit sich ein heißer Strom abkühlt und ein kalter Strom erwärmt, wenn beide durch die Rohrwand aneinander vorbeiströmen. Ich habe **Verantwortung** für das ganze Modell übernommen, von den Zonen und dem Netz bis zur Lösung und den Prüfungen, die zeigten, dass sie sich eingeschwungen hatte.",
+    how: [
+      "Die vier Zonen des Modells aufgebaut: heißes Fluid, kaltes Fluid sowie Innen- und Außenwand des Rohrs.",
+      "Mit Hexaeder- und gemischten Zellen vernetzt und vor dem Lösen die orthogonale Qualität und das Seitenverhältnis zonenweise geprüft.",
+      "Strömung und Energie gemeinsam mit einem Turbulenzmodell gelöst und dabei jedes Residuum über den Lösungsverlauf verfolgt.",
+      "Die Austrittstemperaturen von heißem und kaltem Strom beobachtet, bis beide sich eingeschwungen hatten, statt sich nur auf die Residuen zu verlassen.",
+    ],
+    result: [
+      "Die Austrittstemperatur beider Ströme erfolgreich gemessen und gezeigt, dass sich jede auf einen stabilen Wert einstellt.",
+      "Aus diesen Austrittstemperaturen abgeleitet, wie weit sich der heiße Strom abgekühlt und der kalte Strom erwärmt hat.",
+      "Konvergenz erreicht, wobei jedes Residuum sein Kriterium erfüllte, auf einem Netz, das die Qualitätsprüfungen bestand.",
+    ],
+    spec: [
+      { label: "Software", value: "ANSYS 2024 R1" },
+      { label: "Zonen", value: "Heißes Fluid, kaltes Fluid, Innen- und Außenrohr" },
+      { label: "Netz", value: "Hexaeder- und gemischte Zellen, Qualität geprüft" },
+      { label: "Löser", value: "Strömung + Energie, Zweigleichungs-Turbulenz (k, epsilon)" },
+      { label: "Konvergenz", value: "Alle Residuen innerhalb der Kriterien" },
+    ],
+    skills: [
+      "ANSYS",
+      "CFD",
+      "Wärmeübertragung",
+      "Vernetzung",
+      "Netzqualitätsprüfung",
+      "Postprocessing",
+    ],
+  },
 };
 
 const nl: Translated = {
@@ -757,6 +823,39 @@ const nl: Translated = {
       "AI-integratie",
       "Productontwerp",
       "Full-stackontwikkeling",
+    ],
+  },
+  "heat-exchanger-ansys-cfd": {
+    category: "CFD / Thermofluïdica",
+    title: "CFD-model van een warmtewisselaar in ANSYS",
+    team: "Thermofluids B · Studieproject",
+    tags: ["ANSYS", "CFD", "Warmteoverdracht"],
+    what: "Een dubbelpijps-warmtewisselaar gemodelleerd in ANSYS om te zien hoe ver een warme stroom afkoelt en een koude stroom opwarmt als ze elkaar via de pijpwand passeren. Ik nam de **verantwoordelijkheid** voor het hele model, van de zones en het grid tot de oplossing en de controles die lieten zien dat die was uitgekristalliseerd.",
+    how: [
+      "De vier zones van het model opgebouwd: de warme vloeistof, de koude vloeistof en de binnen- en buitenwand van de pijp.",
+      "Gemeshed met hex- en gemengde cellen en vóór het oplossen de orthogonale kwaliteit en aspectverhouding per zone gecontroleerd.",
+      "Stroming en energie samen opgelost met een turbulentiemodel, waarbij ik elk residu volgde terwijl de oplossing zich ontwikkelde.",
+      "De uitlaattemperaturen van de warme en koude stroom bewaakt tot beide stabiel waren, in plaats van alleen op de residuen te vertrouwen.",
+    ],
+    result: [
+      "De uitlaattemperatuur van beide stromen succesvol gemeten en laten zien dat elk naar een stabiele waarde toe gaat.",
+      "Uit die uitlaattemperaturen afgeleid hoe ver de warme stroom afkoelde en de koude stroom opwarmde.",
+      "Convergentie bereikt, waarbij elk residu aan zijn criterium voldeed, op een mesh die de kwaliteitscontroles doorstond.",
+    ],
+    spec: [
+      { label: "Software", value: "ANSYS 2024 R1" },
+      { label: "Zones", value: "Warme vloeistof, koude vloeistof, binnen- en buitenpijp" },
+      { label: "Mesh", value: "Hex- en gemengde cellen, kwaliteit gecontroleerd" },
+      { label: "Solver", value: "Stroming + energie, tweevergelijkings-turbulentie (k, epsilon)" },
+      { label: "Convergentie", value: "Alle residuen binnen de criteria" },
+    ],
+    skills: [
+      "ANSYS",
+      "CFD",
+      "Warmteoverdracht",
+      "Meshen",
+      "Meshkwaliteitscontrole",
+      "Postprocessing",
     ],
   },
 };
