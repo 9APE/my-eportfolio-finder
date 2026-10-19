@@ -11,8 +11,8 @@ export type UiCopy = {
   heroIntro: string;
   heroClosing: string;
   statProjects: string;
-  statRanking: string;
-  statRankingDenominator: string;
+  statSoftSkills: string;
+  softSkills: [string, string, string];
   statStiffness: string;
   statWing: string;
   statLinkTitle: string;
@@ -124,8 +124,8 @@ export const UI: Record<Lang, UiCopy> = {
     heroClosing:
       "Motivated engineer eager to tackle real-world technical challenges within established companies. Focused on continuous **learning**, **growing** by staying **open to feedback**, and delivering impactful results.",
     statProjects: "Self-Driven Engineering & Technical Projects",
-    statRanking: "Formula Student World Rankings 2026",
-    statRankingDenominator: "/400+ teams",
+    statSoftSkills: "Soft skills",
+    softSkills: ["Communication", "Cross-cultural teamwork", "Ownership & initiative"],
     statStiffness: "Chassis torsional rigidity increase",
     statWing: "Rear-wing weight decrease",
     statLinkTitle: "View the project behind this result",
@@ -240,8 +240,12 @@ export const UI: Record<Lang, UiCopy> = {
     heroClosing:
       "Ingénieur motivé, désireux de relever de vrais défis techniques au sein d'entreprises établies. Orienté vers l'**apprentissage** continu, la **progression** en restant **ouvert aux retours**, et des résultats concrets.",
     statProjects: "Projets d'ingénierie et techniques menés en autonomie",
-    statRanking: "Classement mondial Formula Student 2026",
-    statRankingDenominator: "/400+ équipes",
+    statSoftSkills: "Compétences comportementales",
+    softSkills: [
+      "Communication",
+      "Travail en équipe interculturel",
+      "Initiative et responsabilité",
+    ],
     statStiffness: "Gain de rigidité en torsion du châssis",
     statWing: "Réduction de masse de l'aileron arrière",
     statLinkTitle: "Voir le projet à l'origine de ce résultat",
@@ -357,8 +361,12 @@ export const UI: Record<Lang, UiCopy> = {
     heroClosing:
       "Motivierter Ingenieur, der reale technische Herausforderungen in etablierten Unternehmen angehen möchte. Fokus auf kontinuierliches **Lernen**, **Weiterentwicklung** durch **Offenheit für Feedback** und wirkungsvolle Ergebnisse.",
     statProjects: "Eigenständig vorangetriebene Engineering- und Technikprojekte",
-    statRanking: "Formula Student Weltrangliste 2026",
-    statRankingDenominator: "/400+ Teams",
+    statSoftSkills: "Soft Skills",
+    softSkills: [
+      "Kommunikation",
+      "Interkulturelle Teamarbeit",
+      "Eigeninitiative und Verantwortung",
+    ],
     statStiffness: "Steigerung der Torsionssteifigkeit des Chassis",
     statWing: "Gewichtsreduktion des Heckflügels",
     statLinkTitle: "Das Projekt hinter diesem Ergebnis ansehen",
@@ -476,8 +484,8 @@ export const UI: Record<Lang, UiCopy> = {
     heroClosing:
       "Gemotiveerde ingenieur die graag echte technische uitdagingen aangaat bij gevestigde bedrijven. Gericht op continu **leren**, **groeien** door **open te staan voor feedback** en resultaten die ertoe doen.",
     statProjects: "Zelfstandig opgezette engineering- en techniekprojecten",
-    statRanking: "Formula Student wereldranglijst 2026",
-    statRankingDenominator: "/400+ teams",
+    statSoftSkills: "Soft skills",
+    softSkills: ["Communicatie", "Interculturele samenwerking", "Initiatief en eigenaarschap"],
     statStiffness: "Toename torsiestijfheid chassis",
     statWing: "Gewichtsreductie achtervleugel",
     statLinkTitle: "Bekijk het project achter dit resultaat",
