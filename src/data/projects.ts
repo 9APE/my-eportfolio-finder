@@ -410,6 +410,7 @@ export const projects: Project[] = [
       "Added voice and text meal logging: the AI estimates calories and nutrients, and asks one short question when a meal is too vague to estimate.",
       "Built an Ask AI coach, 7-day meal plans and grocery lists on the Anthropic Claude API.",
       "Kept health alerts rule-based, so a flag such as a sodium limit comes from a rule engine, not from free-form model advice.",
+      "Managed the code in GitHub repositories with Git, from branches and commits to pull requests and releases to production.",
     ],
     result: [
       "Live at nutriai.today, free to use, with no email needed to create an account.",
@@ -422,6 +423,7 @@ export const projects: Project[] = [
       { label: "Back end", value: "Supabase, 17 edge functions" },
       { label: "AI", value: "Anthropic Claude API" },
       { label: "Cost to users", value: "Free" },
+      { label: "Version control", value: "Git, GitHub" },
       { label: "Status", value: "Live" },
     ],
     skills: [
@@ -431,6 +433,7 @@ export const projects: Project[] = [
       "AI Integration",
       "Product Design",
       "Full-Stack Development",
+      "GitHub & Git",
     ],
     relevance: {
       "structural-analysis": 0,

@@ -234,13 +234,6 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             {[
               { value: 13, prefix: "", suffix: "+", t: t.statProjects },
               {
-                value: 2,
-                prefix: "",
-                suffix: "nd",
-                denominator: t.statRankingDenominator,
-                t: t.statRanking,
-              },
-              {
                 value: 75,
                 prefix: "",
                 suffix: "%",
@@ -257,6 +250,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             ].map((s) => (
               <StatCell key={s.t} {...s} />
             ))}
+            <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
           </div>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -515,6 +509,25 @@ function ProjectIndex({
         </div>
       </section>
     </>
+  );
+}
+
+/** The last box of the stat strip: a short list of soft skills instead of a number. */
+function SoftSkillsCell({ title, skills }: { title: string; skills: readonly string[] }) {
+  return (
+    <div className="border-r border-border last:border-r-0">
+      <div className="h-full p-5">
+        <div className={`${label} leading-snug`}>{title}</div>
+        <ul className="mt-2 space-y-1 text-sm font-semibold leading-snug">
+          {skills.map((skill) => (
+            <li key={skill} className="flex gap-2">
+              <span aria-hidden="true" className="mt-[0.6em] h-px w-2.5 shrink-0 bg-chart-3" />
+              <span>{skill}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 

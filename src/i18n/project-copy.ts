@@ -250,6 +250,7 @@ const fr: Translated = {
       "Ajouté la saisie des repas à la voix ou au texte : l'IA estime les calories et les nutriments, et pose une courte question lorsqu'un repas est trop vague pour être estimé.",
       "Créé un coach Ask AI, des plans de repas sur 7 jours et des listes de courses avec l'API Anthropic Claude.",
       "Gardé les alertes santé fondées sur des règles : un signal comme le dépassement de sodium vient d'un moteur de règles, pas d'un conseil libre du modèle.",
+      "Géré le code dans des dépôts GitHub avec Git, des branches et commits jusqu'aux pull requests et à la mise en production.",
     ],
     result: [
       "En ligne sur nutriai.today, gratuite, sans e-mail requis pour créer un compte.",
@@ -262,6 +263,7 @@ const fr: Translated = {
       { label: "Back-end", value: "Supabase, 17 fonctions edge" },
       { label: "IA", value: "API Anthropic Claude" },
       { label: "Coût pour les utilisateurs", value: "Gratuit" },
+      { label: "Gestion de versions", value: "Git, GitHub" },
       { label: "Statut", value: "En ligne" },
     ],
     skills: [
@@ -271,6 +273,7 @@ const fr: Translated = {
       "Intégration d'IA",
       "Conception produit",
       "Développement full-stack",
+      "GitHub et Git",
     ],
   },
   "heat-exchanger-ansys-cfd": {
@@ -532,6 +535,7 @@ const de: Translated = {
       "Mahlzeiten per Sprache und Text erfassbar gemacht: Die KI schätzt Kalorien und Nährstoffe und stellt eine kurze Rückfrage, wenn eine Mahlzeit zu vage für eine Schätzung ist.",
       "Einen Ask-AI-Coach, 7-Tage-Mahlzeitenpläne und Einkaufslisten auf Basis der Anthropic-Claude-API entwickelt.",
       "Gesundheitshinweise regelbasiert gehalten: Ein Hinweis wie die Überschreitung des Natriumlimits kommt aus einer Regel-Engine und nicht aus freier Modellberatung.",
+      "Den Code in GitHub-Repositories mit Git verwaltet, von Branches und Commits über Pull Requests bis zur Veröffentlichung in Produktion.",
     ],
     result: [
       "Live unter nutriai.today, kostenlos nutzbar, ohne E-Mail-Adresse für die Kontoerstellung.",
@@ -544,6 +548,7 @@ const de: Translated = {
       { label: "Backend", value: "Supabase, 17 Edge Functions" },
       { label: "KI", value: "Anthropic-Claude-API" },
       { label: "Kosten für Nutzende", value: "Kostenlos" },
+      { label: "Versionsverwaltung", value: "Git, GitHub" },
       { label: "Status", value: "Live" },
     ],
     skills: [
@@ -553,6 +558,7 @@ const de: Translated = {
       "KI-Integration",
       "Produktdesign",
       "Full-Stack-Entwicklung",
+      "GitHub und Git",
     ],
   },
   "heat-exchanger-ansys-cfd": {
@@ -802,6 +808,7 @@ const nl: Translated = {
       "Maaltijden loggen per spraak en tekst toegevoegd: de AI schat calorieën en voedingsstoffen en stelt één korte vraag als een maaltijd te vaag is om te schatten.",
       "Een Ask AI-coach, weekmenu's voor 7 dagen en boodschappenlijsten gebouwd op de Anthropic Claude API.",
       "Gezondheidsmeldingen regelgebaseerd gehouden: een signaal zoals een overschreden natriumlimiet komt uit een regelmotor, niet uit vrij modeladvies.",
+      "De code beheerd in GitHub-repositories met Git, van branches en commits tot pull requests en releases naar productie.",
     ],
     result: [
       "Live op nutriai.today, gratis te gebruiken, zonder e-mailadres om een account aan te maken.",
@@ -814,6 +821,7 @@ const nl: Translated = {
       { label: "Back-end", value: "Supabase, 17 edge functions" },
       { label: "AI", value: "Anthropic Claude API" },
       { label: "Kosten voor gebruikers", value: "Gratis" },
+      { label: "Versiebeheer", value: "Git, GitHub" },
       { label: "Status", value: "Live" },
     ],
     skills: [
@@ -823,6 +831,7 @@ const nl: Translated = {
       "AI-integratie",
       "Productontwerp",
       "Full-stackontwikkeling",
+      "GitHub en Git",
     ],
   },
   "heat-exchanger-ansys-cfd": {
