@@ -253,9 +253,6 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
           </div>
 
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            <RichText text={t.heroClosing} />
-          </p>
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a
