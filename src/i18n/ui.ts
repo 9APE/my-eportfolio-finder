@@ -9,7 +9,6 @@ export type UiCopy = {
   // Hero
   heroTitle: string;
   heroIntro: string;
-  heroClosing: string;
   statProjects: string;
   statSoftSkills: string;
   softSkills: [string, string, string];
@@ -121,8 +120,6 @@ export const UI: Record<Lang, UiCopy> = {
     heroTitle: "Aurélien Pons' ePortfolio",
     heroIntro:
       "Final-year Mechanical Engineering student who worked across the full design-analysis-validation cycle in Formula Student. I designed and packaged a chassis geometry in Siemens NX, validated structures through FEA in Altair HyperMesh, and took parts from first-principles requirements to **manufactured** carbon-fibre assemblies. I **took ownership** of subsystems end to end, ensuring transparency and proper engineering process throughout, from **prototyping** and **testing** to in-house or outsourced manufacturing. **Learning by doing** is something I'm comfortable with, and as a student I value learning from others and adapting to feedback.",
-    heroClosing:
-      "Motivated engineer eager to tackle real-world technical challenges within established companies. Focused on continuous **learning**, **growing** by staying **open to feedback**, and delivering impactful results.",
     statProjects: "Self-Driven Engineering & Technical Projects",
     statSoftSkills: "Soft skills",
     softSkills: ["Communication", "Cross-cultural teamwork", "Ownership & initiative"],
@@ -237,8 +234,6 @@ export const UI: Record<Lang, UiCopy> = {
     heroTitle: "ePortfolio d'Aurélien Pons",
     heroIntro:
       "Étudiant en dernière année de génie mécanique, j'ai couvert l'ensemble du cycle conception–analyse–validation en Formula Student. J'ai conçu et intégré la géométrie d'un châssis sous Siemens NX, validé des structures par calcul éléments finis dans Altair HyperMesh, et mené des pièces des exigences fondamentales jusqu'à des assemblages en fibre de carbone **fabriqués**. J'ai **pris la responsabilité** de sous-systèmes de bout en bout, en assurant la transparence et une démarche d'ingénierie rigoureuse, du **prototypage** et des **essais** jusqu'à la fabrication interne ou sous-traitée. **Apprendre en faisant** est une approche dans laquelle je suis à l'aise et, en tant qu'étudiant, je tiens à apprendre des autres et à tenir compte des retours.",
-    heroClosing:
-      "Ingénieur motivé, désireux de relever de vrais défis techniques au sein d'entreprises établies. Orienté vers l'**apprentissage** continu, la **progression** en restant **ouvert aux retours**, et des résultats concrets.",
     statProjects: "Projets d'ingénierie et techniques menés en autonomie",
     statSoftSkills: "Compétences comportementales",
     softSkills: [
@@ -358,8 +353,6 @@ export const UI: Record<Lang, UiCopy> = {
     heroTitle: "Aurélien Pons' ePortfolio",
     heroIntro:
       "Maschinenbaustudent im letzten Studienjahr, der bei Formula Student den gesamten Zyklus aus Konstruktion, Berechnung und Validierung durchlaufen hat. Ich habe eine Chassis-Geometrie in Siemens NX konstruiert und das Package aufgebaut, Strukturen mittels FEM in Altair HyperMesh validiert und Bauteile von den Grundanforderungen bis zu **gefertigten** Baugruppen aus Kohlefaser gebracht. Ich habe **Verantwortung** für Subsysteme von Anfang bis Ende übernommen und dabei Transparenz und einen sauberen Entwicklungsprozess sichergestellt – vom **Prototyping** und **Testen** bis zur Fertigung im Haus oder beim Zulieferer. **Learning by doing** liegt mir, und als Student lege ich Wert darauf, von anderen zu lernen und Feedback aufzunehmen.",
-    heroClosing:
-      "Motivierter Ingenieur, der reale technische Herausforderungen in etablierten Unternehmen angehen möchte. Fokus auf kontinuierliches **Lernen**, **Weiterentwicklung** durch **Offenheit für Feedback** und wirkungsvolle Ergebnisse.",
     statProjects: "Eigenständig vorangetriebene Engineering- und Technikprojekte",
     statSoftSkills: "Soft Skills",
     softSkills: [
@@ -481,8 +474,6 @@ export const UI: Record<Lang, UiCopy> = {
     heroTitle: "ePortfolio van Aurélien Pons",
     heroIntro:
       "Laatstejaarsstudent werktuigbouwkunde die bij Formula Student de volledige cyclus van ontwerp, analyse en validatie heeft doorlopen. Ik ontwierp een chassisgeometrie in Siemens NX en bracht alle subsystemen samen in één package, valideerde constructies met FEA in Altair HyperMesh en bracht onderdelen van de basiseisen tot **gefabriceerde** koolstofvezelassemblages. Ik nam **verantwoordelijkheid** voor subsystemen van begin tot eind, met transparantie en een degelijk engineeringproces, van **prototypen** en **testen** tot productie in eigen huis of uitbesteed. **Learning by doing** ligt mij, en als student vind ik het belangrijk om van anderen te leren en feedback mee te nemen.",
-    heroClosing:
-      "Gemotiveerde ingenieur die graag echte technische uitdagingen aangaat bij gevestigde bedrijven. Gericht op continu **leren**, **groeien** door **open te staan voor feedback** en resultaten die ertoe doen.",
     statProjects: "Zelfstandig opgezette engineering- en techniekprojecten",
     statSoftSkills: "Soft skills",
     softSkills: ["Communicatie", "Interculturele samenwerking", "Initiatief en eigenaarschap"],
