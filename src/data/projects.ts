@@ -39,6 +39,8 @@ import rearWingPhoto from "@/assets/rear-wing-photo.jpg.asset.json";
 import warmanPrototypeFront from "@/assets/warman-prototype-front.png.asset.json";
 import warmanPrototypeSide from "@/assets/warman-prototype-side.png.asset.json";
 import warmanCadRender from "@/assets/warman-cad-render.png.asset.json";
+import warmanCompetition from "@/assets/warman-competition.jpg";
+import warmanElectronics from "@/assets/warman-electronics.jpg";
 import monoFeaMeshTop from "@/assets/mono-fea-mesh-top.png.asset.json";
 
 import monoFeaStiffnessCalc from "@/assets/mono-fea-stiffness-calc.png.asset.json";
@@ -346,12 +348,14 @@ export const projects: Project[] = [
   },
   {
     slug: "warman-challenge-robot",
-    category: "Mechatronics / 3D Print",
-    title: "Warman Challenge Robot",
-    team: "University of Technology Sydney",
-    tags: ["SolidWorks", "Mechatronics", "3D Print"],
+    category: "Electronics and Mechatronics",
+    title: "Payload Retrieving Robots",
+    team: "University of Technology Sydney · Mechatronics Design Fundamentals",
+    tags: ["Electronics", "Mechatronics", "SolidWorks", "3D Print"],
     image: warmanCadRender.url,
     gallery: [
+      warmanCompetition,
+      warmanElectronics,
       warmanCadRender.url,
       warmanPrototypeFront.url,
       warmanPrototypeSide.url,
@@ -360,30 +364,34 @@ export const projects: Project[] = [
       mdfs3,
       mdfs4,
     ],
-    what: "Designed, prototyped and fully documented a mobile robot to retrieve and transport payloads across a defined course for Warman Challenge Australia. I took **ownership** of the mechanism end to end, **growing** the design through **prototyping** and **testing** rather than on paper alone.",
+    what: "Built a robot to retrieve and carry payloads across a defined course for Warman Challenge Australia, as part of Mechatronics Design Fundamentals. As **team lead** I split the workload, designed the mechanism in SolidWorks, wired the electronics and wrote the C++ code, taking **ownership** of the robot from CAD to competition.",
     how: [
-      "Designed a stepper-driven linear actuation mechanism on a mecanum-wheel base, with a rotating turret arm and gripper.",
-      "Built a physical **prototype** of the drive and gripper in 3D-printed PLA, then developed it through successive revisions based on what the **testing** showed.",
-      "Iterated the CAD through five revisions (REV A–E), detailing 3D-printed PLA parts with slide-fit vs. interference-fit tolerances.",
-      "Produced a full engineering drawing pack, assembly and component-level.",
+      "Designed the vertical and horizontal actuation mechanism in SolidWorks, with a gripper on a mecanum drive base.",
+      "Wired the electronics and wrote the C++ code: an Arduino and L298N motor driver boards on low voltage DC, with spindle motors for accurate telescopic actuation and DC motors for the mecanum drive.",
+      "3D printed the actuation mechanism and developed it through five CAD revisions (REV A to E), guided by what **testing** showed.",
+      "Wrote the engineering documentation for the height variation mechanism: a decision matrix, lead screw and power calculations, and a full drawing pack.",
     ],
     result: [
-      "Fully integrated drive, actuation, and end-effector in one machine.",
-      "Complete, manufacturable drawing set.",
-      "100% grade on engineering documentation.",
+      "The robot met its design requirements: precise, fast and actuated by a single switch.",
+      "Mechanics, electronics and code working together in one machine.",
+      "The engineering documentation, including reporting, scored 100% in Mechatronics Design Fundamentals.",
     ],
     spec: [
-      { label: "CAD iterations", value: "REV A–E" },
-      { label: "Tolerancing", value: "Slide-fit / interference-fit" },
-      { label: "Output", value: "Full assembly + component drawing pack" },
+      { label: "Course", value: "Mechatronics Design Fundamentals, UTS" },
+      { label: "Role", value: "Team lead" },
+      { label: "Electronics", value: "Arduino, L298N drivers, low voltage DC" },
+      { label: "Actuation", value: "Spindle motors (telescopic), DC motors (mecanum drive)" },
+      { label: "Code", value: "C++" },
+      { label: "Documentation", value: "100% grade" },
     ],
     skills: [
       "SolidWorks",
+      "Electronics",
       "Mechatronics",
+      "Arduino",
+      "C++",
       "3D Printing",
-      "GD&T",
-      "Engineering Drawings",
-      "Stepper Motor Systems",
+      "Engineering Documentation",
     ],
     relevance: {
       "structural-analysis": 1,
@@ -393,7 +401,7 @@ export const projects: Project[] = [
       ownership: 3,
       prototyping: 3,
       testing: 2,
-      teamwork: 0,
+      teamwork: 2,
     },
   },
   {
