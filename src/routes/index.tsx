@@ -43,6 +43,9 @@ import {
 
 import { prefersReducedMotion, useInView } from "@/hooks/use-in-view";
 
+/** Social share preview (1200 by 627), served from public/. */
+const OG_IMAGE = "https://eportfolioaurelien.today/og-image.jpg";
+
 export const Route = createFileRoute("/")({
   // ?skills=fea,vehicle-integration — selection lives in the URL so a filtered view is
   // shareable and survives a refresh.
@@ -65,7 +68,17 @@ export const Route = createFileRoute("/")({
           "Formula Student monocoque design and validation, composite manufacturing DFM, and a mecanum-drive Warman Challenge robot.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://eportfolioaurelien.today/" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "627" },
+      {
+        property: "og:image:alt",
+        content:
+          "Aurélien Pons, Mechanical Engineering Portfolio, with a structural simulation of a rear wing",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
   }),
   component: Index,
@@ -252,7 +265,6 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             ))}
             <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
           </div>
-
 
           <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <a
