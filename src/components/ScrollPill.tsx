@@ -1,10 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { projects } from "@/data/projects";
+import { useEffect, useRef } from "react";
 import { prefersReducedMotion } from "@/hooks/use-in-view";
-import { useT } from "@/i18n/context";
-
-const pad = (n: number) => String(n).padStart(2, "0");
 
 /** How long the page must sit still before it offers a nudge. */
 const IDLE_MS = 5000;
@@ -41,10 +36,13 @@ const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2
 function nudge(onDone: () => void): () => void {
   const startY = window.scrollY;
   const NUDGE_PX = nudgeDistance();
-  const down = 800;
-  const hold = 350;
-  const up = 950;
-  const total = down + hold + up;
+  const down = 1100;
+  const hold = 600;
+  const up = 1300;
+  const bounces = 2;
+  const gap = 500;
+  const one = down + hold + up + gap;
+  const total = one * bounces - gap;
   const begin = performance.now();
   let frame = 0;
   let lastSet = startY;
@@ -66,11 +64,12 @@ function nudge(onDone: () => void): () => void {
     if (Math.abs(window.scrollY - lastSet) > 2) return finish();
     const elapsed = now - begin;
     let y = startY;
-    if (elapsed < down) y = startY + NUDGE_PX * easeOutCubic(elapsed / down);
-    else if (elapsed < down + hold) y = startY + NUDGE_PX;
-    else if (elapsed < total)
-      y = startY + NUDGE_PX * (1 - easeInOutCubic((elapsed - down - hold) / up));
-    else y = startY;
+    const t = elapsed % one;
+    if (elapsed >= total) y = startY;
+    else if (t < down) y = startY + NUDGE_PX * easeOutCubic(t / down);
+    else if (t < down + hold) y = startY + NUDGE_PX;
+    else if (t < down + hold + up)
+      y = startY + NUDGE_PX * (1 - easeInOutCubic((t - down - hold) / up));
     lastSet = Math.round(y);
     window.scrollTo({ top: lastSet, behavior: "instant" });
     if (elapsed >= total) return finish();
@@ -111,25 +110,16 @@ const markSeen = (key: string) => {
 };
 
 /**
- * Floating scroll hint pill. Each hint is shown at most once per visit.
- * - Top: hidden for the first 4s, then slides up and points at the projects. If the visitor
- *   hasn't scrolled after 5s the page gives a small nudge down and back. Once they scroll
- *   away from the top it never returns, even if they scroll back up.
- * - Projects: after 10s spent in the project index it appears as "Next: Curriculum Vitae"
- *   (with one more nudge if they are still), and a click jumps to the CV. Once they leave
- *   the projects, or click, it is gone for good.
- * - Hover or focus expands either one into a plain-language prompt.
+ * Scroll hint, with no visible UI: the page itself scrolls a little and back, twice.
+ * - Top: after 5s of stillness on every page load, to show the projects below.
+ * - Projects: once per visit, after 10s in the index, to show the CV below.
+ * It gives way the moment the visitor touches anything.
  */
 export function ScrollPill() {
-  const copy = useT();
-  const [pill, setPill] = useState<"top" | "cv" | "none">("none");
-  const [hovered, setHovered] = useState(false);
-
   const lastInput = useRef(0);
   const cancelNudge = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    let appeared = false;
     let topNudged = false;
     let dwell = 0;
     let cvShown = false;
@@ -141,7 +131,7 @@ export function ScrollPill() {
       if (!nudging && window.scrollY > 80) markSeen("top-done");
 
       let next: "top" | "cv" | "none" = "none";
-      if (zone === "top" && appeared && !seen("top-done")) next = "top";
+
       if (zone === "cv") {
         if (dwell >= CV_DWELL_MS && !seen("cv-done")) {
           next = "cv";
@@ -151,14 +141,8 @@ export function ScrollPill() {
         // They have been shown the CV prompt and moved on: that is the one showing.
         markSeen("cv-done");
       }
-      setPill(next);
       return { zone, next };
     };
-
-    const appear = setTimeout(() => {
-      appeared = true;
-      evaluate();
-    }, 4000);
 
     // Scrolling the visitor does counts as activity. The nudge's own scrolling does not.
     const onScroll = () => {
@@ -199,7 +183,6 @@ export function ScrollPill() {
       window.addEventListener(type, onInput, { passive: true });
     }
     return () => {
-      clearTimeout(appear);
       clearInterval(tick);
       cancelNudge.current?.();
       window.removeEventListener("scroll", onScroll);
@@ -209,55 +192,6 @@ export function ScrollPill() {
     };
   }, []);
 
-  // While fading out ("none"), keep the wording it had so the text doesn't flip mid-fade.
-  const labelMode = useRef<"top" | "cv">("top");
-  if (pill !== "none") labelMode.current = pill;
-  const toCv = labelMode.current === "cv";
-  const visible = pill !== "none";
-
-  const go = () => {
-    if (toCv) {
-      markSeen("cv-done");
-      setPill("none");
-    }
-    document.getElementById(toCv ? "cv" : "projects")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <div
-      className={`fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-all duration-500 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
-      }`}
-    >
-      <button
-        type="button"
-        onClick={go}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onFocus={() => setHovered(true)}
-        onBlur={() => setHovered(false)}
-        aria-label={toCv ? copy.scrollToCv : copy.scrollToProjects}
-        tabIndex={visible ? 0 : -1}
-        className="flex items-center gap-2.5 rounded-full border border-black/30 bg-white/90 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-black shadow-lg backdrop-blur-md transition-all duration-300 tabular-nums hover:-translate-y-0.5 hover:scale-105 hover:bg-foreground hover:shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
-      >
-        <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 motion-reduce:animate-none" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-        </span>
-        <span className="whitespace-nowrap">
-          {toCv
-            ? hovered
-              ? copy.cvPillHover
-              : copy.cvPill
-            : hovered
-              ? copy.explorePortfolio
-              : copy.showcaseCounter(1, projects.length)}
-        </span>
-        <ChevronDown
-          className="h-3.5 w-3.5 shrink-0 animate-[cue-pulse_1.6s_ease-in-out_infinite] motion-reduce:animate-none"
-          aria-hidden="true"
-        />
-      </button>
-    </div>
-  );
+  // Hint only: the page itself moves, there is nothing to render.
+  return null;
 }
