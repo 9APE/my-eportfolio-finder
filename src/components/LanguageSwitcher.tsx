@@ -65,7 +65,7 @@ export function LanguageSwitcher({
         <ul
           role="listbox"
           aria-label={t.language}
-          className={`absolute ${align === "left" ? "left-0" : "right-0"} z-50 mt-2 min-w-[11rem] overflow-hidden rounded-2xl border border-border/70 bg-background/90 shadow-[0_24px_48px_-20px_rgba(15,23,42,0.35)] backdrop-blur-xl`}
+          className={`absolute ${align === "left" ? "left-0" : "right-0"} z-50 mt-2 min-w-[11rem] overflow-hidden rounded-2xl border border-border/70 bg-popover shadow-[0_24px_48px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl`}
         >
           {LANGS.map((option) => (
             <li key={option.code}>
