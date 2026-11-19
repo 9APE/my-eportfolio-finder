@@ -227,71 +227,73 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
   return (
     <section className="relative">
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1fr_0.95fr]">
-        <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
-          <h1
-            id="hero-title"
-            className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
-          >
-            {t.heroTitle}
-          </h1>
-          <p
-            aria-live="polite"
-            className="lens-intro mt-6 max-w-[38rem] leading-relaxed text-muted-foreground lg:mt-[clamp(0.625rem,2vh,1.5rem)] lg:text-[clamp(0.8125rem,1.8vh,1rem)]"
-          >
-            {lensIntro ?? <RichText text={t.heroIntro} />}
-          </p>
+        <div className="flex flex-col items-center justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
+          <div className="w-full max-w-[44rem]">
+            <h1
+              id="hero-title"
+              className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
+            >
+              {t.heroTitle}
+            </h1>
+            <p
+              aria-live="polite"
+              className="lens-intro mt-6 max-w-[38rem] leading-relaxed text-muted-foreground lg:mt-[clamp(0.625rem,2vh,1.5rem)] lg:text-[clamp(0.8125rem,1.8vh,1rem)]"
+            >
+              {lensIntro ?? <RichText text={t.heroIntro} />}
+            </p>
 
-          <div className="glass-panel mt-8 grid max-w-3xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-4 lg:mt-[clamp(0.75rem,3vh,2.5rem)]">
-            {[
-              { value: 13, prefix: "", suffix: "+", t: t.statProjects },
-              {
-                value: 75,
-                prefix: "",
-                suffix: "%",
-                t: t.statStiffness,
-                slug: "chassis-torsional-stiffness",
-              },
-              {
-                value: 11,
-                prefix: "",
-                suffix: "%",
-                t: t.statWing,
-                slug: "aero-devices-fea",
-              },
-            ].map((s) => (
-              <StatCell key={s.t} {...s} />
-            ))}
-            <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
-          </div>
+            <div className="glass-panel mt-8 grid max-w-3xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-4 lg:mt-[clamp(0.75rem,3vh,2.5rem)]">
+              {[
+                { value: 13, prefix: "", suffix: "+", t: t.statProjects },
+                {
+                  value: 75,
+                  prefix: "",
+                  suffix: "%",
+                  t: t.statStiffness,
+                  slug: "chassis-torsional-stiffness",
+                },
+                {
+                  value: 11,
+                  prefix: "",
+                  suffix: "%",
+                  t: t.statWing,
+                  slug: "aero-devices-fea",
+                },
+              ].map((s) => (
+                <StatCell key={s.t} {...s} />
+              ))}
+              <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
+            </div>
 
-          <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:mt-[clamp(0.625rem,2.8vh,2.5rem)] lg:gap-y-[clamp(0.25rem,1.2vh,1rem)]">
-            <a
-              href="mailto:ariimoanapons@gmail.com"
-              className="flex items-start gap-3 text-foreground hover:underline"
-            >
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              ariimoanapons@gmail.com
-            </a>
-            <a
-              href="tel:+4915233570697"
-              className="flex items-start gap-3 text-foreground hover:underline"
-            >
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              +49 152 33570697
-            </a>
-            <span className="flex items-start gap-3 text-foreground">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              {t.location}
-            </span>
-            <a
-              href="https://linkedin.com/in/aurelienpons2004"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-start gap-3 text-foreground hover:underline"
-            >
-              <Linkedin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
-              linkedin.com/in/aurelienpons2004
-            </a>
+            <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:mt-[clamp(0.625rem,2.8vh,2.5rem)] lg:gap-y-[clamp(0.25rem,1.2vh,1rem)]">
+              <a
+                href="mailto:ariimoanapons@gmail.com"
+                className="flex items-start gap-3 text-foreground hover:underline"
+              >
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+                ariimoanapons@gmail.com
+              </a>
+              <a
+                href="tel:+4915233570697"
+                className="flex items-start gap-3 text-foreground hover:underline"
+              >
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+                +49 152 33570697
+              </a>
+              <span className="flex items-start gap-3 text-foreground">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+                {t.location}
+              </span>
+              <a
+                href="https://linkedin.com/in/aurelienpons2004"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-start gap-3 text-foreground hover:underline"
+              >
+                <Linkedin className="mt-0.5 h-4 w-4 shrink-0 text-chart-3" />
+                linkedin.com/in/aurelienpons2004
+              </a>
+            </div>
           </div>
         </div>
 
@@ -314,7 +316,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
           {/* The line between the introduction and the image, fading like the project index rule */}
           <span aria-hidden="true" className="hero-divider" />
           <TiltWrapper
-            className="relative z-[1] flex h-full w-full items-center justify-center py-14 [container-type:size]"
+            className="relative z-[1] flex h-full w-full items-center justify-center py-6 [container-type:size]"
             maxTilt={4}
           >
             {pool.map((p, i) => {
@@ -334,7 +336,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                     width={1408}
                     height={1104}
                     loading={i === 0 ? "eager" : "lazy"}
-                    className={`block max-h-[58cqh] max-w-[78cqw] object-contain transition-opacity duration-500 ${
+                    className={`block max-h-[74cqh] max-w-[90cqw] object-contain transition-opacity duration-500 ${
                       second ? "group-hover/slide:opacity-0" : ""
                     }`}
                   />
@@ -657,7 +659,7 @@ function ProjectCard({
   return (
     <article
       ref={cardRef}
-      className="glass-card relative flex h-full flex-col overflow-hidden rounded-2xl"
+      className="glass-card light relative flex h-full flex-col overflow-hidden rounded-2xl text-foreground"
       onMouseEnter={() => setCardHover(true)}
       onMouseLeave={() => {
         setCardHover(false);
