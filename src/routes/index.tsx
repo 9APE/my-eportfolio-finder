@@ -26,7 +26,6 @@ import { SkillFilterBar } from "@/components/SkillFilterBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CvSection } from "@/components/CvSection";
 import { SiteHeader } from "@/components/SiteHeader";
-import { BackdropShift } from "@/components/BackdropShift";
 import type { SkillCategoryId } from "@/data/skillCategories";
 import { boldKeywords } from "@/lib/bold-keywords";
 import {
@@ -114,11 +113,10 @@ function Index() {
   }, [selectionKey]);
 
   return (
-    <main className="site-bg min-h-screen text-foreground">
-      <BackdropShift />
+    <main className="min-h-screen bg-background text-foreground">
       <SiteHeader activeProject={activeProject} total={projects.length} />
       {/* The header is fixed, so this keeps the page clear of it */}
-      <div aria-hidden="true" className="h-14" />
+      <div aria-hidden="true" className="h-16" />
 
       <div key={selectionKey} className="page-enter">
         <Hero selected={selected} />
@@ -132,7 +130,9 @@ function Index() {
 
       <CvSection />
 
-      <SiteFooter />
+      <div className="dark bg-background text-foreground">
+        <SiteFooter />
+      </div>
       <ScrollPill />
       {lightbox && (
         <Lightbox
@@ -469,7 +469,7 @@ function ProjectIndex({
   }, [onActiveProject]);
 
   return (
-    <>
+    <div className="dark bg-background text-foreground">
       <section id="projects" className="relative mx-auto max-w-[1400px] px-6 py-16 sm:px-10">
         <div className="section-rule flex items-end justify-between pb-4">
           <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
@@ -515,7 +515,7 @@ function ProjectIndex({
           </button>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

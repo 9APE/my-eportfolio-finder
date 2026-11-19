@@ -24,10 +24,10 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-xl: calc(var(--radius) + 2px);
+  --radius-2xl: calc(var(--radius) + 2px);
+  --radius-3xl: calc(var(--radius) + 4px);
+  --radius-4xl: calc(var(--radius) + 6px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -66,78 +66,79 @@
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 0.125rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.1 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.1 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.1 0 0);
+  --primary: oklch(0.1 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.1 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --feedback: oklch(0.52 0.108 184.704);
-  --feedback-foreground: oklch(0.984 0.003 247.858);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.88 0 0);
+  --input: oklch(0.88 0 0);
+  --ring: oklch(0.1 0 0);
+  --feedback: oklch(0.1 0 0);
+  --feedback-foreground: oklch(1 0 0);
+  --chart-1: oklch(0.1 0 0);
+  --chart-2: oklch(0.35 0 0);
+  --chart-3: oklch(0.1 0 0);
+  --chart-4: oklch(0.55 0 0);
+  --chart-5: oklch(0.75 0 0);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.1 0 0);
+  --sidebar-primary: oklch(0.1 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.1 0 0);
+  --sidebar-border: oklch(0.88 0 0);
+  --sidebar-ring: oklch(0.1 0 0);
 }
 
+/* Black sections: the same tokens, inverted. Wrap a section in .dark to make it black. */
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.1 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent: oklch(0.2 0 0);
+  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --feedback: oklch(0.696 0.17 162.48);
-  --feedback-foreground: oklch(0.129 0.042 264.695);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 16%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.985 0 0);
+  --feedback: oklch(0.985 0 0);
+  --feedback-foreground: oklch(0.1 0 0);
+  --chart-1: oklch(0.985 0 0);
+  --chart-2: oklch(0.85 0 0);
+  --chart-3: oklch(0.985 0 0);
+  --chart-4: oklch(0.65 0 0);
+  --chart-5: oklch(0.45 0 0);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 16%);
+  --sidebar-ring: oklch(0.985 0 0);
 }
 
 @keyframes hero-progress {
@@ -430,10 +431,7 @@
    softly out of focus, while the outgoing one drifts away the other way. --dir is 1 or -1. */
 .hero-slide {
   opacity: 0;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.06),
-    0 14px 28px -10px rgba(15, 23, 42, 0.14),
-    0 44px 90px -30px rgba(15, 23, 42, 0.32);
+  border: 1px solid var(--border);
   will-change: transform, opacity, filter;
 }
 .hero-slide.is-active {
@@ -485,19 +483,10 @@
    and renders sit on a surface rather than on flat grey. */
 .img-stage {
   position: relative;
-  background: radial-gradient(120% 90% at 50% 0%, var(--background), color-mix(in oklab, var(--muted) 85%, var(--background)));
+  background: oklch(1 0 0);
 }
 .img-stage::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  content: "";
-  pointer-events: none;
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 14%, transparent) 1px, transparent 1.4px);
-  background-size: 20px 20px;
-  -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000 10%, transparent 80%);
-  mask-image: radial-gradient(70% 70% at 50% 50%, #000 10%, transparent 80%);
-  opacity: 0.5;
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -519,66 +508,23 @@
    Site-wide look. One ambient backdrop, frosted surfaces, soft rules.
    ========================================================================== */
 
-/* Ambient backdrop shared by every page: the same teal light and fading dot texture as the
-   hero showcase, fixed to the viewport so it stays put while the content scrolls over it. */
-.site-bg {
-  position: relative;
-  isolation: isolate;
-  background: var(--background);
-}
-.site-bg::before,
-.site-bg::after {
-  position: fixed;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-}
-.site-bg::before {
-  z-index: -2;
-  /* only the neutral tint lives here: all colour is in the shifting layers below */
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--muted) 72%, var(--background)),
-    var(--background) 52%,
-    color-mix(in oklab, var(--muted) 62%, var(--background))
-  );
-}
-.site-bg::after {
-  z-index: -1;
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 16%, transparent) 1px, transparent 1.4px);
-  background-size: 26px 26px;
-  -webkit-mask-image: radial-gradient(90% 80% at 50% 40%, #000 8%, transparent 82%);
-  mask-image: radial-gradient(90% 80% at 50% 40%, #000 8%, transparent 82%);
-  opacity: 0.42;
-}
-
-/* Frosted surfaces: panels and cards sit on the backdrop instead of cutting it with hard boxes. */
+/* Flat surfaces: a thin border, no blur, no shadow. Black on white, white on black. */
 .glass-panel,
 .glass-card {
-  background: color-mix(in oklab, var(--background) 74%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(1.35);
-  backdrop-filter: blur(16px) saturate(1.35);
-  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 24px 48px -30px rgba(15, 23, 42, 0.24);
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 .glass-card {
   transition:
-    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 300ms ease;
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 250ms ease;
 }
 .glass-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in oklab, var(--chart-3) 38%, var(--border));
-  box-shadow:
-    0 2px 4px rgba(15, 23, 42, 0.05),
-    0 34px 60px -28px rgba(15, 23, 42, 0.34),
-    0 0 0 1px color-mix(in oklab, var(--chart-3) 10%, transparent);
+  transform: translateY(-3px);
+  border-color: color-mix(in oklab, var(--foreground) 55%, transparent);
 }
 
-/* Section rules fade out to the right instead of ending in a hard line. */
+/* Section rules: one clean hairline. */
 .section-rule,
 .section-rule-top {
   position: relative;
@@ -590,7 +536,7 @@
   right: 0;
   height: 1px;
   content: "";
-  background: linear-gradient(90deg, var(--foreground), color-mix(in oklab, var(--foreground) 14%, transparent) 55%, transparent);
+  background: color-mix(in oklab, var(--foreground) 35%, transparent);
 }
 .section-rule::after {
   bottom: 0;
@@ -599,13 +545,10 @@
   top: 0;
 }
 
-/* Headline: ink to deep teal, so the title has some depth without a loud colour. */
+/* Headline: plain ink, no gradient. */
 .text-gradient {
   padding-bottom: 0.08em;
-  background: linear-gradient(115deg, var(--foreground) 30%, var(--chart-3) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--foreground);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -625,50 +568,3 @@
   pointer-events: none;
 }
 
-/* ==========================================================================
-   Scrolling colour. Three palettes of soft glows sit in the same three spots of one layer pinned
-   to the screen. The spots never move; as you scroll, the page fades from one palette to the
-   next, so the colours travel through those spots (teal, deep blue and a cyan in between).
-   Only opacity changes, so it costs the browser almost nothing.
-   ========================================================================== */
-.backdrop-shift {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-}
-.backdrop-layer {
-  position: absolute;
-  inset: 0;
-  will-change: opacity;
-}
-.backdrop-layer.l2,
-.backdrop-layer.l3 {
-  opacity: 0;
-}
-/* Three pastel tints, moved around the same three spots (top left, right, bottom):
-   teal, soft blue and seafoam. They are kept light and airy so the shifts read as a gentle wash
-   of colour rather than blobs. */
-.backdrop-shift {
-  --bs-teal: oklch(0.8 0.1 190);
-  --bs-blue: oklch(0.76 0.09 245);
-  --bs-sea: oklch(0.85 0.11 165);
-}
-.backdrop-layer.l1 {
-  background:
-    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-teal) 38%, transparent), transparent 70%),
-    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-blue) 28%, transparent), transparent 70%),
-    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-teal) 30%, transparent), transparent 70%);
-}
-.backdrop-layer.l2 {
-  background:
-    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-blue) 34%, transparent), transparent 70%),
-    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-teal) 34%, transparent), transparent 70%),
-    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-sea) 34%, transparent), transparent 70%);
-}
-.backdrop-layer.l3 {
-  background:
-    radial-gradient(52% 46% at 6% 2%, color-mix(in oklab, var(--bs-sea) 38%, transparent), transparent 70%),
-    radial-gradient(46% 42% at 98% 24%, color-mix(in oklab, var(--bs-teal) 30%, transparent), transparent 70%),
-    radial-gradient(62% 50% at 30% 106%, color-mix(in oklab, var(--bs-blue) 32%, transparent), transparent 70%);
-}

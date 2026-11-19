@@ -16,7 +16,6 @@ import { Lightbox } from "@/components/Lightbox";
 import { Reveal } from "@/components/Reveal";
 import { RichText, stripMarks } from "@/components/RichText";
 import { SiteFooter } from "@/components/SiteFooter";
-import { BackdropShift } from "@/components/BackdropShift";
 import { useLanguage, localizeProject, localizeProjects } from "@/i18n/context";
 
 export const Route = createFileRoute("/projects/$slug")({
@@ -89,8 +88,7 @@ function ProjectPage() {
   };
 
   return (
-    <main className="site-bg min-h-screen text-foreground">
-      <BackdropShift />
+    <main className="dark min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-4">
