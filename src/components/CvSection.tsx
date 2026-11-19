@@ -16,7 +16,7 @@ export function CvSection() {
   const { ref: sheetRef, inView } = useInView<HTMLDivElement>(0.08);
 
   return (
-    <section id="cv" className="mx-auto max-w-[1400px] scroll-mt-16 px-6 pb-20 sm:px-10">
+    <section id="cv" className="mx-auto max-w-[1400px] scroll-mt-16 px-6 pb-20 pt-16 sm:px-10">
       <div className="section-rule flex items-end justify-between pb-4">
         <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
           <ChevronDown className="h-5 w-5 shrink-0 text-chart-3" aria-hidden="true" />
@@ -31,16 +31,17 @@ export function CvSection() {
           className="group inline-flex items-center gap-2 rounded-full border border-chart-3 bg-chart-3 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-background transition-all hover:-translate-y-px hover:shadow-[0_6px_18px_-8px_var(--chart-3)]"
         >
           {t.cvOpenFull}
-          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          <ArrowRight
+            className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </Link>
         <CvDownloadLink />
       </div>
 
       <div
         ref={sheetRef}
-        className={`cv-sheet glass-panel mt-10 rounded-3xl p-6 sm:p-12 ${
-          inView ? "is-in" : ""
-        }`}
+        className={`cv-sheet glass-panel mt-10 rounded-3xl p-6 sm:p-12 ${inView ? "is-in" : ""}`}
       >
         <CvDocument />
       </div>

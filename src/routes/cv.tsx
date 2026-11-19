@@ -3,7 +3,6 @@ import { ArrowLeft } from "lucide-react";
 
 import { CvDocument, CvDownloadLink } from "@/components/CvDocument";
 import { SiteFooter } from "@/components/SiteFooter";
-import { BackdropShift } from "@/components/BackdropShift";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useT } from "@/i18n/context";
 
@@ -29,8 +28,7 @@ function CvPage() {
   const t = useT();
 
   return (
-    <main className="cv-page site-bg min-h-screen text-foreground">
-      <BackdropShift />
+    <main className="cv-page min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-4">
@@ -64,7 +62,9 @@ function CvPage() {
           </Link>
         </div>
       </div>
-      <SiteFooter />
+      <div className="dark bg-background text-foreground">
+        <SiteFooter />
+      </div>
     </main>
   );
 }

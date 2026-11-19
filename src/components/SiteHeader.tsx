@@ -6,11 +6,11 @@ import { useFeedback } from "@/components/feedback-context";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useT } from "@/i18n/context";
 
-const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground";
+const label = "font-mono text-[11px] uppercase tracking-[0.18em] text-black/60";
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /** Height of the header in px: where the big title counts as scrolled past. */
-const HEADER_PX = 56;
+const HEADER_PX = 72;
 
 type Zone = "top" | "projects" | "cv";
 
@@ -30,7 +30,9 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
   useEffect(() => {
     const update = () => {
       const title = document.getElementById("hero-title");
-      setNameVisible(title ? title.getBoundingClientRect().bottom < HEADER_PX : window.scrollY > 200);
+      setNameVisible(
+        title ? title.getBoundingClientRect().bottom < HEADER_PX : window.scrollY > 200,
+      );
 
       const vh = window.innerHeight;
       const top = (id: string) => document.getElementById(id)?.getBoundingClientRect().top;
@@ -50,14 +52,16 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto] items-center gap-3 px-4 py-2 sm:px-10 md:grid-cols-[1fr_auto_1fr]">
+    <header className="fixed inset-x-3 top-3 z-40 bg-[#e9e9e9]/80 text-black backdrop-blur-md sm:inset-x-6 lg:inset-x-10">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto] items-center gap-3 px-4 py-2.5 sm:px-6 md:grid-cols-[1fr_auto_1fr]">
         <div className="flex min-w-0 items-center gap-3">
           <LanguageSwitcher className="shrink-0" align="left" />
           <span
             aria-hidden={!nameVisible}
             className={`truncate text-sm font-bold tracking-tight transition-[opacity,transform,visibility] duration-300 ${
-              nameVisible ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
+              nameVisible
+                ? "visible translate-y-0 opacity-100"
+                : "invisible -translate-y-1 opacity-0"
             }`}
           >
             Aurélien Pons
@@ -73,16 +77,20 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
         </span>
 
         <div className="flex items-center justify-end gap-3 sm:gap-4">
-          <Link to="/cv" aria-label={t.resume} className="flex items-center gap-2 text-sm hover:text-chart-3">
-            <FileText className="h-4 w-4 text-chart-3" aria-hidden="true" />
+          <Link
+            to="/cv"
+            aria-label={t.resume}
+            className="flex items-center gap-2 text-sm hover:opacity-60"
+          >
+            <FileText className="h-4 w-4 text-black" aria-hidden="true" />
             <span className="hidden lg:inline">{t.resume}</span>
           </Link>
           <a
             href="mailto:ariimoanapons@gmail.com"
             aria-label={t.emailAria}
-            className="flex items-center gap-2 text-sm hover:text-chart-3"
+            className="flex items-center gap-2 text-sm hover:opacity-60"
           >
-            <Mail className="h-4 w-4 text-chart-3" aria-hidden="true" />
+            <Mail className="h-4 w-4 text-black" aria-hidden="true" />
             <span className="hidden xl:inline">ariimoanapons@gmail.com</span>
           </a>
           <a
@@ -90,18 +98,18 @@ export function SiteHeader({ activeProject, total }: { activeProject: number; to
             target="_blank"
             rel="noreferrer"
             aria-label={t.linkedinAria}
-            className="flex items-center gap-2 text-sm hover:text-chart-3"
+            className="flex items-center gap-2 text-sm hover:opacity-60"
           >
-            <Linkedin className="h-4 w-4 text-chart-3" aria-hidden="true" />
+            <Linkedin className="h-4 w-4 text-black" aria-hidden="true" />
             <span className="hidden xl:inline">LinkedIn</span>
           </a>
           <button
             type="button"
             onClick={openFeedback}
             aria-label={t.feedbackNav}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-colors hover:border-chart-3"
+            className="inline-flex shrink-0 items-center gap-2 border border-black/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-black transition-colors hover:bg-black hover:text-white"
           >
-            <MessageSquare className="h-3.5 w-3.5 text-chart-3" aria-hidden="true" />
+            <MessageSquare className="h-3.5 w-3.5 text-black" aria-hidden="true" />
             <span className="hidden sm:inline">{t.feedbackNav}</span>
           </button>
         </div>

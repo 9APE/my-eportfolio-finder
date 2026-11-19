@@ -67,7 +67,8 @@ function nudge(onDone: () => void): () => void {
     let y = startY;
     if (elapsed < down) y = startY + NUDGE_PX * easeOutCubic(elapsed / down);
     else if (elapsed < down + hold) y = startY + NUDGE_PX;
-    else if (elapsed < total) y = startY + NUDGE_PX * (1 - easeInOutCubic((elapsed - down - hold) / up));
+    else if (elapsed < total)
+      y = startY + NUDGE_PX * (1 - easeInOutCubic((elapsed - down - hold) / up));
     else y = startY;
     lastSet = Math.round(y);
     window.scrollTo({ top: lastSet, behavior: "instant" });
@@ -228,7 +229,7 @@ export function ScrollPill() {
         onBlur={() => setHovered(false)}
         aria-label={toCv ? copy.scrollToCv : copy.scrollToProjects}
         tabIndex={visible ? 0 : -1}
-        className="flex items-center gap-2.5 rounded-full border border-background/20 bg-foreground/85 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-background shadow-lg backdrop-blur-md transition-all duration-300 tabular-nums hover:-translate-y-0.5 hover:scale-105 hover:bg-foreground hover:shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+        className="flex items-center gap-2.5 rounded-full border border-black/30 bg-white/90 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-black shadow-lg backdrop-blur-md transition-all duration-300 tabular-nums hover:-translate-y-0.5 hover:scale-105 hover:bg-foreground hover:shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
       >
         <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 motion-reduce:animate-none" />
