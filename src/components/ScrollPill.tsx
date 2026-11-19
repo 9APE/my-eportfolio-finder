@@ -8,8 +8,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 /** How long the page must sit still before it offers a nudge. */
 const IDLE_MS = 5000;
-/** Distance of the nudge. Kept under the 80px at which the top pill fades away. */
-const NUDGE_PX = 56;
+/** Size of the nudge: far enough to peek at the black projects band below the introduction. */
+const nudgeDistance = () => Math.round(Math.min(150, Math.max(90, window.innerHeight * 0.15)));
 
 type Mode = "top" | "cv" | "none";
 
@@ -40,9 +40,10 @@ const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2
  */
 function nudge(onDone: () => void): () => void {
   const startY = window.scrollY;
-  const down = 650;
-  const hold = 220;
-  const up = 800;
+  const NUDGE_PX = nudgeDistance();
+  const down = 800;
+  const hold = 350;
+  const up = 950;
   const total = down + hold + up;
   const begin = performance.now();
   let frame = 0;
@@ -129,13 +130,15 @@ export function ScrollPill() {
 
   useEffect(() => {
     let appeared = false;
+    let topNudged = false;
     let dwell = 0;
     let cvShown = false;
     lastInput.current = performance.now();
 
     const evaluate = () => {
-      const zone = readMode();
-      if (window.scrollY > 80) markSeen("top-done");
+      const nudging = !!cancelNudge.current;
+      const zone = nudging ? "top" : readMode();
+      if (!nudging && window.scrollY > 80) markSeen("top-done");
 
       let next: "top" | "cv" | "none" = "none";
       if (zone === "top" && appeared && !seen("top-done")) next = "top";
@@ -173,10 +176,16 @@ export function ScrollPill() {
 
       if (cancelNudge.current || prefersReducedMotion()) return;
       if (performance.now() - lastInput.current < IDLE_MS) return;
-      // A nudge only goes with a hint that is on screen, and only ever once per hint.
-      const context = next === "top" ? "top" : next === "cv" ? "cv" : null;
-      if (!context || seen(`nudge-${context}`)) return;
-      markSeen(`nudge-${context}`);
+      // At the top of the page the nudge runs on every page load (after the visitor has sat
+      // still for 5s), whether or not the pill is showing. The CV nudge goes with its pill,
+      // once per visit.
+      if (zone === "top" && window.scrollY <= 80) {
+        if (topNudged) return;
+        topNudged = true;
+      } else {
+        if (next !== "cv" || seen("nudge-cv")) return;
+        markSeen("nudge-cv");
+      }
       cancelNudge.current = nudge(() => {
         cancelNudge.current = null;
         lastInput.current = performance.now();
