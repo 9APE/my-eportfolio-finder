@@ -226,22 +226,22 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
 
   return (
     <section className="relative">
-      <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-[1fr_0.95fr]">
-        <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:py-16">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1fr_0.95fr]">
+        <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
           <h1
             id="hero-title"
-            className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl"
+            className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
           >
             {t.heroTitle}
           </h1>
           <p
             aria-live="polite"
-            className="lens-intro mt-6 max-w-xl leading-relaxed text-muted-foreground"
+            className="lens-intro mt-6 max-w-[38rem] leading-relaxed text-muted-foreground lg:mt-[clamp(0.625rem,2vh,1.5rem)] lg:text-[clamp(0.8125rem,1.8vh,1rem)]"
           >
             {lensIntro ?? <RichText text={t.heroIntro} />}
           </p>
 
-          <div className="glass-panel mt-10 grid max-w-3xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-4">
+          <div className="glass-panel mt-8 grid max-w-3xl grid-cols-2 overflow-hidden rounded-2xl sm:grid-cols-4 lg:mt-[clamp(0.75rem,3vh,2.5rem)]">
             {[
               { value: 13, prefix: "", suffix: "+", t: t.statProjects },
               {
@@ -264,7 +264,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
             <SoftSkillsCell title={t.statSoftSkills} skills={t.softSkills} />
           </div>
 
-          <div className="mt-10 grid max-w-2xl grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+          <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:mt-[clamp(0.625rem,2.8vh,2.5rem)] lg:gap-y-[clamp(0.25rem,1.2vh,1rem)]">
             <a
               href="mailto:ariimoanapons@gmail.com"
               className="flex items-start gap-3 text-foreground hover:underline"
@@ -368,7 +368,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 type="button"
                 onClick={goPrev}
                 aria-label={t.previousProject}
-                className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-0 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
+                className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-100 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -376,7 +376,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 type="button"
                 onClick={goNext}
                 aria-label={t.nextProject}
-                className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-0 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
+                className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/70 opacity-100 shadow-sm backdrop-blur transition-all hover:scale-105 hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -406,7 +406,7 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                 }}
                 className="group/seg relative h-4 w-7 sm:w-9"
               >
-                <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-foreground/15 transition-colors group-hover/seg:bg-foreground/30">
+                <span className="absolute inset-x-0 top-1/2 h-[4px] -translate-y-1/2 overflow-hidden rounded-full bg-foreground/20 transition-colors group-hover/seg:bg-foreground/30">
                   {i === index && (
                     <span
                       key={`${index}-${cycle}`}
@@ -523,7 +523,7 @@ function ProjectIndex({
 function SoftSkillsCell({ title, skills }: { title: string; skills: readonly string[] }) {
   return (
     <div className="border-r border-border last:border-r-0">
-      <div className="h-full p-5">
+      <div className="h-full p-4 lg:p-[clamp(0.625rem,1.9vh,1.25rem)]">
         <div className={`${label} leading-snug`}>{title}</div>
         <ul className="mt-2 space-y-1 text-sm font-semibold leading-snug">
           {skills.map((skill) => (
@@ -599,7 +599,7 @@ function StatCell({
           to="/projects/$slug"
           params={{ slug }}
           title={copy.statLinkTitle}
-          className="group relative block h-full p-5 transition-colors hover:bg-muted/60 focus-visible:bg-muted/60"
+          className="group relative block h-full p-4 transition-colors lg:p-[clamp(0.625rem,1.9vh,1.25rem)] hover:bg-muted/60 focus-visible:bg-muted/60"
         >
           <ArrowUpRight
             aria-hidden="true"
@@ -608,7 +608,7 @@ function StatCell({
           {content}
         </Link>
       ) : (
-        <div className="p-5">{content}</div>
+        <div className="p-4 lg:p-[clamp(0.625rem,1.9vh,1.25rem)]">{content}</div>
       )}
     </div>
   );
