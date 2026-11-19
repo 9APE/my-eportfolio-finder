@@ -88,7 +88,7 @@ function ProjectPage() {
   };
 
   return (
-    <main className="dark min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1400px] px-6 py-6 sm:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-start gap-4">
@@ -315,49 +315,51 @@ function ProjectPage() {
         </Reveal>
       </div>
 
-      {/* Other Projects — horizontal scroll strip */}
-      <section className="section-rule-top">
-        <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">{t.moreEngineeringProjects}</h2>
+      {/* Other Projects: a black band with a clean white to black edge, running into the footer */}
+      <div className="dark bg-background text-foreground">
+        <section>
+          <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10">
+            <div className="flex items-end justify-between">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight">{t.moreEngineeringProjects}</h2>
+              </div>
+              <span className={`${label} hidden sm:inline-flex items-center gap-2`}>
+                {t.scroll} <ArrowRight className="h-3.5 w-3.5" />
+              </span>
             </div>
-            <span className={`${label} hidden sm:inline-flex items-center gap-2`}>
-              {t.scroll} <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </div>
 
-          <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
-            {otherProjects.map((p) => (
-              <Link
-                key={p.slug}
-                to="/projects/$slug"
-                params={{ slug: p.slug }}
-                className="glass-card group block w-60 shrink-0 overflow-hidden rounded-2xl"
-              >
-                <div className="img-stage relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    width={640}
-                    height={480}
-                    loading="lazy"
-                    className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.04]"
-                  />
-                </div>
-                <div className="border-t border-border p-3">
-                  <span className={label}>{p.category}</span>
-                  <div className="mt-1 text-sm font-bold leading-snug tracking-tight group-hover:underline">
-                    {p.title}
+            <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
+              {otherProjects.map((p) => (
+                <Link
+                  key={p.slug}
+                  to="/projects/$slug"
+                  params={{ slug: p.slug }}
+                  className="glass-card group block w-60 shrink-0 overflow-hidden rounded-2xl"
+                >
+                  <div className="img-stage relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      width={640}
+                      height={480}
+                      loading="lazy"
+                      className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
                   </div>
-                </div>
-              </Link>
-            ))}
+                  <div className="border-t border-border p-3">
+                    <span className={label}>{p.category}</span>
+                    <div className="mt-1 text-sm font-bold leading-snug tracking-tight group-hover:underline">
+                      {p.title}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <SiteFooter />
+        <SiteFooter />
+      </div>
 
       {/* Peek bar — previews the sections below the fold, then slides away once they're reached */}
       <nav
