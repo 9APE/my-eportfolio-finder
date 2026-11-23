@@ -22,6 +22,7 @@ import { Reveal } from "@/components/Reveal";
 import { ScrollPill } from "@/components/ScrollPill";
 import { RichText, stripMarks } from "@/components/RichText";
 import { useLanguage, useT, localizeProjects } from "@/i18n/context";
+import profilePhoto from "@/assets/aurelien-profile.jpg";
 import { SkillFilterBar } from "@/components/SkillFilterBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CvSection } from "@/components/CvSection";
@@ -229,6 +230,13 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col items-center justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
           <div className="w-full max-w-[44rem]">
+            <img
+              src={profilePhoto}
+              alt="Aurélien Pons"
+              width={400}
+              height={400}
+              className="mb-4 h-16 w-16 rounded-full object-cover ring-1 ring-foreground/20 sm:h-20 sm:w-20 lg:mb-[clamp(0.5rem,1.6vh,1rem)] lg:h-[clamp(3.5rem,9vh,5rem)] lg:w-[clamp(3.5rem,9vh,5rem)]"
+            />
             <h1
               id="hero-title"
               className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
