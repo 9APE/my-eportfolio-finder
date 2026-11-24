@@ -231,12 +231,6 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
         <div className="flex flex-col items-center justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
           <div className="w-full max-w-[44rem]">
             <div className="flex items-center gap-4 sm:gap-5">
-              <h1
-                id="hero-title"
-                className="text-gradient min-w-0 text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
-              >
-                {t.heroTitle}
-              </h1>
               <a
                 href="https://linkedin.com/in/aurelienpons2004"
                 target="_blank"
@@ -250,9 +244,15 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
                   alt="Aurélien Pons"
                   width={400}
                   height={400}
-                  className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24 lg:h-[clamp(4.25rem,10.5vh,5.75rem)] lg:w-[clamp(4.25rem,10.5vh,5.75rem)]"
+                  className="h-24 w-24 rounded-full object-cover sm:h-28 sm:w-28 lg:h-[clamp(5rem,12vh,7rem)] lg:w-[clamp(5rem,12vh,7rem)]"
                 />
               </a>
+              <h1
+                id="hero-title"
+                className="text-gradient min-w-0 text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
+              >
+                {t.heroTitle}
+              </h1>
             </div>
             <p
               aria-live="polite"
