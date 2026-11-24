@@ -230,19 +230,30 @@ function Hero({ selected }: { selected: SkillCategoryId[] }) {
       <div className="mx-auto grid max-w-[1600px] grid-cols-1 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col items-center justify-center px-6 py-10 sm:px-10 lg:py-[clamp(1rem,3.5vh,4rem)]">
           <div className="w-full max-w-[44rem]">
-            <img
-              src={profilePhoto}
-              alt="Aurélien Pons"
-              width={400}
-              height={400}
-              className="mb-4 h-16 w-16 rounded-full object-cover ring-1 ring-foreground/20 sm:h-20 sm:w-20 lg:mb-[clamp(0.5rem,1.6vh,1rem)] lg:h-[clamp(3.5rem,9vh,5rem)] lg:w-[clamp(3.5rem,9vh,5rem)]"
-            />
-            <h1
-              id="hero-title"
-              className="text-gradient text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
-            >
-              {t.heroTitle}
-            </h1>
+            <div className="flex items-center gap-4 sm:gap-5">
+              <h1
+                id="hero-title"
+                className="text-gradient min-w-0 text-5xl font-bold tracking-tight sm:text-7xl lg:text-[clamp(2.25rem,min(7.6vh,5vw),4.5rem)]"
+              >
+                {t.heroTitle}
+              </h1>
+              <a
+                href="https://linkedin.com/in/aurelienpons2004"
+                target="_blank"
+                rel="noreferrer"
+                aria-label={t.linkedinAria}
+                title={t.linkedinAria}
+                className="group/photo shrink-0 rounded-full ring-1 ring-foreground/20 transition-transform duration-300 hover:scale-105 hover:ring-chart-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chart-3"
+              >
+                <img
+                  src={profilePhoto}
+                  alt="Aurélien Pons"
+                  width={400}
+                  height={400}
+                  className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24 lg:h-[clamp(4.25rem,10.5vh,5.75rem)] lg:w-[clamp(4.25rem,10.5vh,5.75rem)]"
+                />
+              </a>
+            </div>
             <p
               aria-live="polite"
               className="lens-intro mt-6 max-w-[38rem] leading-relaxed text-muted-foreground lg:mt-[clamp(0.625rem,2vh,1.5rem)] lg:text-[clamp(0.8125rem,1.8vh,1rem)]"
